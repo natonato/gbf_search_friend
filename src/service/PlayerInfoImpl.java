@@ -1,5 +1,6 @@
 package service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import userinfo.UserInfo;
+
 
 public class PlayerInfoImpl {
 	//singleton
@@ -24,11 +27,14 @@ public class PlayerInfoImpl {
 	private static WebDriver driver;
 	private static WebDriverWait wait;
 	
-	private static String twitterID = "topgun0234+05@gmail.com";
-	private static String twitterPW = "topgun9371!";
+	private static String twitterID = UserInfo.getInstance().getTwitterID();
+	private static String twitterPW = UserInfo.getInstance().getTwitterPW();
+	
 	
 	private PlayerInfoImpl() {
-		System.setProperty("webdriver.chrome.driver", "C:\\SSAFY\\gbf\\chromedriver_win32\\chromedriver.exe");
+		File f = new File(".");
+		System.out.println(f.getAbsolutePath());
+		System.setProperty("webdriver.chrome.driver", "WebContent/WEB-INF/chromedriver_win32/chromedriver.exe");
 		driver = new ChromeDriver();
 		
 		wait = new WebDriverWait(driver, 20);
