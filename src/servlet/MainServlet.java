@@ -17,7 +17,7 @@ import service.PlayerInfoImpl;
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doService(request,response);
 	}
@@ -37,11 +37,22 @@ public class MainServlet extends HttpServlet {
 		case "twitterTest":
 			twitterTest(request,response);
 			break;
-
+		case "twitterCookieTest":
+			twitterCookieTest(request,response);
+			break;
 		default:
 			break;
 		}
 		
+	}
+
+	private void twitterCookieTest(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		try {
+			PlayerInfoImpl.getInstance().twitterCookieTest();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void twitterTest(HttpServletRequest request, HttpServletResponse response) {

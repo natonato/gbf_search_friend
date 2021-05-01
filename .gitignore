@@ -1,2 +1,5 @@
 build/classes/userinfo/UserInfo.class
 src/userinfo/UserInfo.java
+src/userinfo/UserInfo_temp.java
+build/classes/userinfo/UserInfo_temp.class
+*.data

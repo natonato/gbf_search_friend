@@ -1,6 +1,6 @@
 package userinfo;
 
-public class UserInfo {
+public class UserInfo_temp {
 	private String twitterID="twitterID";;
 	private String twitterPW="twitterPW";;
 	
@@ -14,11 +14,11 @@ public class UserInfo {
 		return twitterPW;
 	}
 
-	private static UserInfo instance;
-	private UserInfo() {}
+	private static UserInfo_temp instance;
+	private UserInfo_temp() {}
 	
-	public static UserInfo getInstance() {
-		if(instance==null)instance=new UserInfo();
+	public static UserInfo_temp getInstance() {
+		if(instance==null)instance=new UserInfo_temp();
 		return instance;
 	}
 }

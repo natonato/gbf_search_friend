@@ -1,13 +1,25 @@
 package service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 import org.apache.tomcat.jni.Time;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +29,8 @@ import org.openqa.selenium.interactions.PointerInput.MouseButton;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.sun.org.apache.xml.internal.serializer.utils.StringToIntTable;
 
 import userinfo.UserInfo;
 
@@ -31,19 +45,112 @@ public class PlayerInfoImpl {
 	private static String twitterPW = UserInfo.getInstance().getTwitterPW();
 	
 	
-	private PlayerInfoImpl() {
+	private PlayerInfoImpl() throws IOException {
 		File f = new File(".");
 		System.out.println(f.getAbsolutePath());
 		System.setProperty("webdriver.chrome.driver", "WebContent/WEB-INF/chromedriver_win32/chromedriver.exe");
-		driver = new ChromeDriver();
 		
+		driver = new ChromeDriver();
 		wait = new WebDriverWait(driver, 20);
 	}
 	
-	public static PlayerInfoImpl getInstance() {
+	public static PlayerInfoImpl getInstance() throws IOException {
 		if(instance==null)instance=new PlayerInfoImpl();
 		return instance;
 	}
+	
+	public void twitterCookieTest() throws InterruptedException, IOException, ParseException {
+
+		driver.get("https://twitter.com/");
+		
+		File file = new File("Twitter.data");
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		
+		String readLine;
+		while((readLine = br.readLine())!=null) {
+			StringTokenizer st = new StringTokenizer(readLine,";");
+			String name = st.nextToken();
+			String value = st.nextToken();
+			String domain = st.nextToken();
+			String path = st.nextToken();
+			Date expiry = null;
+			
+			String val;
+			if(!(val = st.nextToken()).equals("null")){
+				System.out.println(val);
+				SimpleDateFormat format =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+				expiry = format.parse(val);
+			}
+			Boolean isSecure = new Boolean(st.nextToken()).booleanValue();
+			Cookie cookie = new Cookie(name, value, domain, path, expiry, isSecure);
+			System.out.println(cookie);
+			driver.manage().addCookie(cookie);
+		}
+		br.close();
+		
+		
+		driver.get("https://twitter.com/");
+		
+		gbfCookieTest();
+//		gbfTest();
+	}
+	
+	public void gbfCookieTest() throws InterruptedException, IOException, ParseException {
+		driver.get("https://connect.mobage.jp/");
+		
+		File file = new File("mobage.data");
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		
+		String readLine;
+		while((readLine = br.readLine())!=null) {
+			StringTokenizer st = new StringTokenizer(readLine,";");
+			String name = st.nextToken();
+			String value = st.nextToken();
+			String domain = st.nextToken();
+			String path = st.nextToken();
+			Date expiry = null;
+			
+			String val;
+			if(!(val = st.nextToken()).equals("null")){
+				System.out.println(val);
+				SimpleDateFormat format =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+				expiry = format.parse(val);
+			}
+			Boolean isSecure = new Boolean(st.nextToken()).booleanValue();
+			Cookie cookie = new Cookie(name, value, domain, path, expiry, isSecure);
+			System.out.println(cookie);
+			driver.manage().addCookie(cookie);
+		}
+		br.close();
+		
+
+		driver.get("http://game.granbluefantasy.jp/#authentication");
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"mobage-login\"]")));
+		WebElement login = driver.findElement(By.xpath("//*[@id=\"mobage-login\"]"));
+		
+		((JavascriptExecutor)driver).executeScript("arguments[0].click();", login);
+		
+		Thread.sleep(500);
+		
+		String currentTab = driver.getWindowHandle();
+		Iterator<String> it = driver.getWindowHandles().iterator();
+		
+		for (;it.hasNext();) {
+			String nextTab = it.next();
+			if(!nextTab.equals(currentTab)) {
+				driver.switchTo().window(nextTab);
+				
+				
+				login = driver.findElement(By.xpath("//*[@id=\"notify-response-button\"]"));
+				((JavascriptExecutor)driver).executeScript("arguments[0].click();", login);
+				
+			}
+		}
+		driver.switchTo().window(currentTab);
+	}
+	
+	
+	
 	
 	public void twitterTest() throws InterruptedException, IOException {
 		driver.get("https://twitter.com/");
@@ -62,42 +169,96 @@ public class PlayerInfoImpl {
 		WebElement login = driver.findElement(By.xpath("//*[@id=\"react-root\"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[3]/div"));
 		login.click();
 		Thread.sleep(500);
-		gbfTest();
+		
+		
+		File file = new File("Twitter.data");
+		try {
+			file.createNewFile();
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+			for(Cookie cookie : driver.manage().getCookies()) {
+				bw.write((cookie.getName() + ";" + cookie.getValue() + ";"
+			+cookie.getDomain() + ";" + cookie.getPath() + ";"
+			+ cookie.getExpiry() + ";" + cookie.isSecure()));
+				
+				bw.newLine();
+			}
+			bw.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+//		gbfTest();
 	}
 	
-	public void gbfTest() {
-		driver.get("https://connect.mobage.jp/login?post_login_redirect_uri=https%3A%2F%2Fconnect.mobage.jp%2Fconnect%2F1.0%2Fservices%2Fauthorize%3Fclient_id%3D12016007-2%26response_type%3Dcode%2520token%26scope%3Dopenid%2520common_api%26redirect_uri%3Dhttp%253A%252F%252Fgame.granbluefantasy.jp%252Fauthentication%26state%3Dmobage-connect_60897ed3d36446.25222421%26prompt%3Dconsent%26theme%3Ddefault%26client_origin_uri%3Dhttp%253A%252F%252Fgame.granbluefantasy.jp%26sdk_name%3Dmobage-jssdk%26sdk_version%3D3.7.9%26custom_theme%3Dgrbl%26appearance_version%3D1%26display%3Dpage&post_cancel_redirect_uri=https%3A%2F%2Fconnect.mobage.jp%2Fconnect%2F1.0%2Fclients%2F12016007-2%2Fjssdk%2Fredirect%3Fclient_origin_uri%3Dhttp%253A%252F%252Fgame.granbluefantasy.jp%26sdk_version%3D3.7.9%26sdk_name%3Dmobage-jssdk%23client_origin_uri%3Dhttp%253A%252F%252Fgame.granbluefantasy.jp%26error%3Daccess_denied%26error_description%3DAccess%2Bdenied%2Bby%2Bthe%2Bresource%2Bowner%2Bor%2Bthe%2Bauthorization%2Bserver%26sdk_name%3Dmobage-jssdk%26sdk_version%3D3.7.9%26state%3Dmobage-connect_60897ed3d36446.25222421%26topic%3Dauthorization_error_response&client_origin_uri=http%3A%2F%2Fgame.granbluefantasy.jp&client_id=12016007-2&sig=973ebfd8e7ccd74ccbb4aabe1f84f1d96f58f224&iat=1619623639&seed=y5cgK8hY&theme=default&display=page&custom_theme=grbl&appearance_version=1&sdk_name=mobage-jssdk");
+	public void gbfTest() throws InterruptedException {
+		driver.get("https://connect.mobage.jp/login");
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"mobage-connect-analytics\"]/div[1]/ul/li[2]/a")));
 		
 		WebElement login=driver.findElement(By.xpath("//*[@id=\"mobage-connect-analytics\"]/div[1]/ul/li[2]/a"));
 		login.click();
-		//여기서부턴 트위터 연동
 		
 		driver.get("http://game.granbluefantasy.jp/#authentication");
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"mobage-login\"]")));
 		login = driver.findElement(By.xpath("//*[@id=\"mobage-login\"]"));
 		
 		((JavascriptExecutor)driver).executeScript("arguments[0].click();", login);
-		//login.click();
-		//*[@id="notify-response-button"]
+		
+		Thread.sleep(500);
 		
 		String currentTab = driver.getWindowHandle();
-		System.out.println(currentTab);
-		for (String nextTab : driver.getWindowHandles()) {
+		Iterator<String> it = driver.getWindowHandles().iterator();
+		
+		for (;it.hasNext();) {
+			String nextTab = it.next();
 			if(!nextTab.equals(currentTab)) {
-				System.out.println(nextTab);
 				driver.switchTo().window(nextTab);
-				//로그인 종료
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/*[@id=\"notify-response-button\"]")));
+				
+
+				File file = new File("mobage.data");
+				try {
+					file.createNewFile();
+					BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+					for(Cookie cookie : driver.manage().getCookies()) {
+						bw.write((cookie.getName() + ";" + cookie.getValue() + ";"
+					+cookie.getDomain() + ";" + cookie.getPath() + ";"
+					+ cookie.getExpiry() + ";" + cookie.isSecure()));
+						
+						bw.newLine();
+					}
+					bw.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				login = driver.findElement(By.xpath("//*[@id=\"notify-response-button\"]"));
 				((JavascriptExecutor)driver).executeScript("arguments[0].click();", login);
 				
 			}
 		}
+		driver.switchTo().window(currentTab);
+		//로그인 성공!!
 		
+//		driver.get("http://game.granbluefantasy.jp/#mypage");
+		driver.get("https://www.mbga.jp/");
+		Thread.sleep(5000);
 		
-		
-		
+		File file = new File("mbga.data");
+		try {
+			file.createNewFile();
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+			for(Cookie cookie : driver.manage().getCookies()) {
+				bw.write((cookie.getName() + ";" + cookie.getValue() + ";"
+			+cookie.getDomain() + ";" + cookie.getPath() + ";"
+			+ cookie.getExpiry() + ";" + cookie.isSecure()));
+				
+				bw.newLine();
+			}
+			bw.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 //		driver.get("http://game.granbluefantasy.jp/#profile");
 //

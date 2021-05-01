@@ -24,5 +24,10 @@
 		<button type="submit" value="search">트위터테스트</button>
 		
 	</form>
+	<form method="post" action="${root}/main" id="test">
+		<input type="hidden" name="act" value="twitterCookieTest">
+		<button type="submit" value="search">트위터쿠키테스트</button>
+		
+	</form>
 </body>
 </html>
