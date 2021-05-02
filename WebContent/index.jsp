@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="root" value="${pageContext.request.contextPath}" />
@@ -7,26 +7,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	©╛╣© ев╫╨ф╝
+	Л≈╟К▐≥ М┘▄Л┼╓М┼╦
 	<form method="post" action="${root}/main" id="test">
 		<input type="hidden" name="act" value="searchProfile">
-		<!-- <label>╩Г©Кюз ╧Ьхё</label><input type="text" name="code" id="code"><br>
-		 -->
-		<button type="submit" value="search">╟к╩Жго╠Б</button>
+		<label>Л┌╛Л ╘Л·░ К╡┬М≤╦</label><input type="text" name="code" id="code"><br>
+		
+		<button type="submit" value="search">Й╡─Л┐┴М∙≤Й╦╟</button>
 		
 	</form>
 	<form method="post" action="${root}/main" id="test">
 		<input type="hidden" name="act" value="twitterTest">
-		<button type="submit" value="search">ф╝ю╖емев╫╨ф╝</button>
+		<button type="submit" value="search">М┼╦Л°└М└╟М┘▄Л┼╓М┼╦</button>
 		
 	</form>
 	<form method="post" action="${root}/main" id="test">
 		<input type="hidden" name="act" value="twitterCookieTest">
-		<button type="submit" value="search">ф╝ю╖емдМе╟ев╫╨ф╝</button>
+		<button type="submit" value="search">М┼╦Л°└М└╟Л©═М┌╓М┘▄Л┼╓М┼╦</button>
 		
 	</form>
 </body>

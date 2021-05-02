@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.tomcat.jni.Time;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,6 +36,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.sun.org.apache.xml.internal.serializer.utils.StringToIntTable;
 
+import dto.PlayerDto;
 import userinfo.UserInfo;
 
 
@@ -47,7 +52,6 @@ public class PlayerInfoImpl {
 	
 	private PlayerInfoImpl() throws IOException {
 		File f = new File(".");
-		System.out.println(f.getAbsolutePath());
 		System.setProperty("webdriver.chrome.driver", "WebContent/WEB-INF/chromedriver_win32/chromedriver.exe");
 		
 		driver = new ChromeDriver();
@@ -77,13 +81,11 @@ public class PlayerInfoImpl {
 			
 			String val;
 			if(!(val = st.nextToken()).equals("null")){
-				System.out.println(val);
 				SimpleDateFormat format =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 				expiry = format.parse(val);
 			}
 			Boolean isSecure = new Boolean(st.nextToken()).booleanValue();
 			Cookie cookie = new Cookie(name, value, domain, path, expiry, isSecure);
-			System.out.println(cookie);
 			driver.manage().addCookie(cookie);
 		}
 		br.close();
@@ -112,18 +114,15 @@ public class PlayerInfoImpl {
 			
 			String val;
 			if(!(val = st.nextToken()).equals("null")){
-				System.out.println(val);
 				SimpleDateFormat format =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 				expiry = format.parse(val);
 			}
 			Boolean isSecure = new Boolean(st.nextToken()).booleanValue();
 			Cookie cookie = new Cookie(name, value, domain, path, expiry, isSecure);
-			System.out.println(cookie);
 			driver.manage().addCookie(cookie);
 		}
 		br.close();
 		
-
 		driver.get("http://game.granbluefantasy.jp/#authentication");
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"mobage-login\"]")));
 		WebElement login = driver.findElement(By.xpath("//*[@id=\"mobage-login\"]"));
@@ -139,17 +138,49 @@ public class PlayerInfoImpl {
 			String nextTab = it.next();
 			if(!nextTab.equals(currentTab)) {
 				driver.switchTo().window(nextTab);
-				
-				
 				login = driver.findElement(By.xpath("//*[@id=\"notify-response-button\"]"));
 				((JavascriptExecutor)driver).executeScript("arguments[0].click();", login);
 				
 			}
 		}
 		driver.switchTo().window(currentTab);
+
+		Thread.sleep(500);
+		
+		
 	}
 	
-	
+	public void resourceTest(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException, ServletException {
+		PlayerDto playerDto=new PlayerDto();
+		
+		driver.get("http://game.granbluefantasy.jp/#profile/99999");
+
+		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]")));
+		WebElement id = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]"));
+		System.out.println(id.getText());
+		playerDto.setId(id.getText());
+		
+		WebElement name = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]/span"));
+		System.out.println(name.getText());
+		playerDto.setName(name.getText());
+		
+		WebElement ranks = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]"));
+		System.out.println(ranks.getText());
+		playerDto.setRank(ranks.getText());
+		
+		List<WebElement> summon = driver.findElements(By.className("img-fix-summon"));
+		System.out.println(summon.size());
+		for (int x = 0; x < 7; x++) {
+			for (int y = 0; y < 2; y++) {
+				System.out.println(summon.get(x*2+y).getAttribute("src"));
+				playerDto.setSummon(summon.get(x*2+y).getAttribute("src"), x, y);
+			}
+		}
+		
+		request.setAttribute("playerInfo", playerDto);
+		request.getRequestDispatcher("view/info.jsp").forward(request, response);
+		
+	}
 	
 	
 	public void twitterTest() throws InterruptedException, IOException {
@@ -189,7 +220,7 @@ public class PlayerInfoImpl {
 		
 		
 		
-//		gbfTest();
+		gbfTest();
 	}
 	
 	public void gbfTest() throws InterruptedException {
@@ -240,7 +271,6 @@ public class PlayerInfoImpl {
 		driver.switchTo().window(currentTab);
 		//로그인 성공!!
 		
-//		driver.get("http://game.granbluefantasy.jp/#mypage");
 		driver.get("https://www.mbga.jp/");
 		Thread.sleep(5000);
 		
@@ -266,37 +296,5 @@ public class PlayerInfoImpl {
 //		WebElement ranks = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]/span"));
 //		System.out.println(ranks);
 	}
-	
-	public void test() throws IOException  {
-		
-		//내 자신의 code를 얻는 테스트
-//		Document doc = Jsoup.connect("http://game.granbluefantasy.jp/#profile").get();
-		driver.get("http://game.granbluefantasy.jp/#profile");
-		
-		List<WebElement>elements = null;
-		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("txt-group1")));
-		
-		System.out.println(elements.get(0).getAttribute("class"));
-		
-//		Element id = doc.select(".txt-group1").first();
-		
-//		System.out.println(id.attr("class"));
-		
-//		Elements ranks= doc.getElementsByClass("prt-rank-value");
-//		Element r = doc.select("div.prt-rank-value").first();
-//		
-//		if(r!=null) {
-//			String rankString = r.text();
-//			System.out.println("rank : "+rankString);
-//			
-//		}else {
-//			System.out.println("trytry");
-//			
-//		}
-		
-		
-	}
-	
-	
 	
 }

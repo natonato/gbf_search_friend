@@ -27,7 +27,7 @@ public class MainServlet extends HttpServlet {
 	}
 
 
-	private void doService(HttpServletRequest request, HttpServletResponse response) {
+	private void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String act = request.getParameter("act");
 		System.out.println(act);
 		switch (act) {
@@ -46,13 +46,23 @@ public class MainServlet extends HttpServlet {
 		
 	}
 
-	private void twitterCookieTest(HttpServletRequest request, HttpServletResponse response) {
+	private void searchProfile(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		try {
+			PlayerInfoImpl.getInstance().resourceTest(request,response);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void twitterCookieTest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
 			PlayerInfoImpl.getInstance().twitterCookieTest();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 
 	private void twitterTest(HttpServletRequest request, HttpServletResponse response) {
@@ -64,20 +74,7 @@ public class MainServlet extends HttpServlet {
 		}
 	}
 
-	private void searchProfile(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		String code = request.getParameter("code");
-		System.out.println("input : "+ code);
-		try {
-//			String url = "http://game.granbluefantasy.jp/#profile/"+code;
-//			response.sendRedirect(url);
-			PlayerInfoImpl.getInstance().test();
-			
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 
 
 	
