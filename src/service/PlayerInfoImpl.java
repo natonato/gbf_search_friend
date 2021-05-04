@@ -79,7 +79,6 @@ public class PlayerInfoImpl {
 		}
 		br.close();
 		
-		
 		driver.get("https://twitter.com/");
 		
 		gbfCookieTest();
@@ -134,40 +133,33 @@ public class PlayerInfoImpl {
 		driver.switchTo().window(currentTab);
 
 		Thread.sleep(500);
-		
+
+		driver.get("http://game.granbluefantasy.jp/#profile");
 		
 	}
 	
 	public PlayerDto resourceTest(String profileId) throws InterruptedException, IOException, ServletException {
 		PlayerDto playerDto=new PlayerDto();
+		playerDto.setId(profileId);
 		
 		driver.get("http://game.granbluefantasy.jp/#profile/"+profileId);
 
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]")));
-		WebElement id = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]"));
-		System.out.println(id.getText());
-		playerDto.setId(id.getText());
 		
 		WebElement name = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]/span"));
-		System.out.println(name.getText());
 		playerDto.setName(name.getText());
 		
 		WebElement ranks = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]"));
-		System.out.println(ranks.getText());
 		playerDto.setRank(ranks.getText());
 		
 		List<WebElement> summon = driver.findElements(By.className("img-fix-summon"));
-		System.out.println(summon.size());
 		for (int x = 0; x < 7; x++) {
 			for (int y = 0; y < 2; y++) {
-				System.out.println(summon.get(x*2+y).getAttribute("src"));
 				playerDto.setSummon(summon.get(x*2+y).getAttribute("src"), x, y);
 			}
 		}
 		return playerDto;
-		
 	}
-	
 	
 	public void twitterTest() throws InterruptedException, IOException {
 		driver.get("https://twitter.com/");
@@ -186,7 +178,6 @@ public class PlayerInfoImpl {
 		WebElement login = driver.findElement(By.xpath("//*[@id=\"react-root\"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[3]/div"));
 		login.click();
 		Thread.sleep(500);
-		
 		
 		File file = new File("Twitter.data");
 		try {
