@@ -3,7 +3,6 @@ package service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,25 +15,16 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jni.Time;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.PointerInput.MouseButton;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.sun.org.apache.xml.internal.serializer.utils.StringToIntTable;
 
 import dto.PlayerDto;
 import userinfo.UserInfo;
@@ -51,7 +41,6 @@ public class PlayerInfoImpl {
 	
 	
 	private PlayerInfoImpl() throws IOException {
-		File f = new File(".");
 		System.setProperty("webdriver.chrome.driver", "WebContent/WEB-INF/chromedriver_win32/chromedriver.exe");
 		
 		driver = new ChromeDriver();
@@ -94,7 +83,6 @@ public class PlayerInfoImpl {
 		driver.get("https://twitter.com/");
 		
 		gbfCookieTest();
-//		gbfTest();
 	}
 	
 	public void gbfCookieTest() throws InterruptedException, IOException, ParseException {
@@ -150,10 +138,10 @@ public class PlayerInfoImpl {
 		
 	}
 	
-	public void resourceTest(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException, ServletException {
+	public PlayerDto resourceTest(String profileId) throws InterruptedException, IOException, ServletException {
 		PlayerDto playerDto=new PlayerDto();
 		
-		driver.get("http://game.granbluefantasy.jp/#profile/99999");
+		driver.get("http://game.granbluefantasy.jp/#profile/"+profileId);
 
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]")));
 		WebElement id = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]"));
@@ -176,9 +164,7 @@ public class PlayerInfoImpl {
 				playerDto.setSummon(summon.get(x*2+y).getAttribute("src"), x, y);
 			}
 		}
-		
-		request.setAttribute("playerInfo", playerDto);
-		request.getRequestDispatcher("view/info.jsp").forward(request, response);
+		return playerDto;
 		
 	}
 	
@@ -217,8 +203,6 @@ public class PlayerInfoImpl {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 		
 		gbfTest();
 	}
@@ -290,11 +274,6 @@ public class PlayerInfoImpl {
 			e.printStackTrace();
 		}
 		
-//		driver.get("http://game.granbluefantasy.jp/#profile");
-//
-//		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]/span")));
-//		WebElement ranks = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]/span"));
-//		System.out.println(ranks);
 	}
 	
 }

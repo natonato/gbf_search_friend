@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.PlayerDto;
 import service.PlayerInfoImpl;
 
 /**
@@ -46,13 +47,19 @@ public class MainServlet extends HttpServlet {
 		
 	}
 
-	private void searchProfile(HttpServletRequest request, HttpServletResponse response) {
+	private void searchProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String id = request.getParameter("code");
+		PlayerDto playerDto=null;
 		try {
-			PlayerInfoImpl.getInstance().resourceTest(request,response);
+			playerDto=PlayerInfoImpl.getInstance().resourceTest(id);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		request.setAttribute("playerInfo", playerDto);
+		request.getRequestDispatcher("view/info.jsp").forward(request, response);
+		
 	}
 
 	private void twitterCookieTest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
