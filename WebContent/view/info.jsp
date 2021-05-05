@@ -18,8 +18,14 @@ player name : ${playerInfo.rank } <br>
 		<c:forEach var="sum" items="${sum_element }">
 			summon = ${sum } <br>
 			<img alt="" src="${sum }"><br>
+			
 		</c:forEach>
 		<br>
+	</c:forEach>
+	<c:forEach var="sum_levels" items="${playerInfo.summonLevel }">
+		<c:forEach var="sum_level" items="${sum_levels }">
+			desc = ${sum_level }<br>
+		</c:forEach>
 	</c:forEach>
 </c:if>
 </body>

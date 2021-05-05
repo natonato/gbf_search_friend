@@ -4,10 +4,12 @@ public class PlayerDto {
 	private String id;
 	private String name;
 	private String rank;
-	private String[][] summon;
+	private String bgimg;
+	private String[][] summon=new String[7][2];;
+	private String[][] summonLevel=new String[7][2];;
 
 	public PlayerDto() {
-		summon=new String[7][2];
+		
 	}
 
 	public String getId() {
@@ -41,7 +43,23 @@ public class PlayerDto {
 	public void setSummon(String summon, int x, int y) {
 		this.summon[x][y] = summon;
 	}
+
 	
+	public String[][] getSummonLevel() {
+		return summonLevel;
+	}
+
+	public void setSummonLevel(String summonLevel, int x, int y) {
+		this.summonLevel[x][y] = summonLevel;
+	}
+
+	public String getBgimg() {
+		return bgimg;
+	}
+
+	public void setBgimg(String bgimg) {
+		this.bgimg = bgimg;
+	}
 	
 	
 	

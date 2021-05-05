@@ -139,24 +139,29 @@ public class PlayerInfoImpl {
 	
 	public PlayerDto resourceTest(String profileId) throws InterruptedException, IOException, ServletException {
 		if(profileId==null || profileId.equals(""))return null;
-
+		
 		PlayerDto playerDto=new PlayerDto();
 
 		playerDto.setId(profileId);
 		driver.get("http://game.granbluefantasy.jp/#profile/"+profileId);
-
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]")));
 		
 		WebElement name = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]/span"));
-		playerDto.setName(name.getText());
+		playerDto.setName(name.getAttribute("innerHTML"));
 		
 		WebElement ranks = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]"));
-		playerDto.setRank(ranks.getText());
+		playerDto.setRank(ranks.getAttribute("innerHTML"));
+		
+		WebElement bgimg = driver.findElement(By.className("img-pc"));
+		playerDto.setBgimg(bgimg.getAttribute("src"));
 		
 		List<WebElement> summon = driver.findElements(By.className("img-fix-summon"));
+		List<WebElement> summonLevel = driver.findElements(By.cssSelector(".prt-fix-spec div:first-child"));
+		System.out.println(summonLevel.size());
 		for (int x = 0; x < 7; x++) {
 			for (int y = 0; y < 2; y++) {
 				playerDto.setSummon(summon.get(x*2+y).getAttribute("src"), x, y);
+				playerDto.setSummonLevel(summonLevel.get(x*2+y).getAttribute("innerHTML"), x, y);
 			}
 		}
 		

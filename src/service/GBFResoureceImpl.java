@@ -1,5 +1,6 @@
 package service;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -62,7 +63,11 @@ public class GBFResoureceImpl {
 	
 	public void makeProfileImg(PlayerDto playerDto) throws IOException {
 		
-		BufferedImage baseImg = ImageIO.read(new File("res/base_img.jpg"));
+		System.out.println(playerDto.getBgimg());
+		BufferedImage baseImgPng = ImageIO.read(new URL(playerDto.getBgimg()));
+		BufferedImage baseImg = new BufferedImage(baseImgPng.getWidth(), baseImgPng.getHeight(), BufferedImage.TYPE_INT_RGB);
+		baseImg.createGraphics().drawImage(baseImgPng, 0, 0, Color.white, null);
+		
 		int width = baseImg.getWidth();
 		int height = baseImg.getHeight();
 		
@@ -70,13 +75,15 @@ public class GBFResoureceImpl {
 		
 //		getImg(playerDto.getSummon(), playerDto.getId(), graphics);
 		
-		Image image = null;
-		
+		BufferedImage image = null;
+		Image resizedImage = null;
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 2; j++) {
 				try {
 					image = ImageIO.read(new URL(playerDto.getSummon()[i][j]));
-					graphics.drawImage(image, (width/8)*(i+1), (height/4)*(j+1), null);
+					resizedImage = image.getScaledInstance((int)(image.getWidth()*0.6), (int)(image.getHeight()*0.6), Image.SCALE_SMOOTH);
+					
+					graphics.drawImage(resizedImage, (width/5)*(j*2+1), (height/9)*(i+1), null);
 					
 				}catch(Exception e) {
 					e.printStackTrace();
@@ -84,7 +91,7 @@ public class GBFResoureceImpl {
 			}
 		}
 
-		File file = new File("res/img"+playerDto.getId()+"/merged.jpg");
+		File file = new File("res/result/"+playerDto.getId()+"/merged.jpg");
 		if(!file.exists())file.mkdirs();
 		
 		ImageIO.write(baseImg, "jpg", file);

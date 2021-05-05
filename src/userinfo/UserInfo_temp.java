@@ -1,8 +1,8 @@
 package userinfo;
 
 public class UserInfo_temp {
-	private String twitterID="twitterID";;
-	private String twitterPW="twitterPW";;
+	private String twitterID="YourTwitterID";;
+	private String twitterPW="YourTwitterPW";;
 	
 	
 	
