@@ -36,21 +36,20 @@ public class PlayerInfoImpl {
 	private static WebDriver driver;
 	private static WebDriverWait wait;
 	
-	private static String twitterID = UserInfo.getInstance().getTwitterID();
-	private static String twitterPW = UserInfo.getInstance().getTwitterPW();
-	
 	
 	private PlayerInfoImpl() throws IOException {
 		System.setProperty("webdriver.chrome.driver", "WebContent/WEB-INF/chromedriver_win32/chromedriver.exe");
-		
 		driver = new ChromeDriver();
 		wait = new WebDriverWait(driver, 20);
 	}
-	
+
 	public static PlayerInfoImpl getInstance() throws IOException {
 		if(instance==null)instance=new PlayerInfoImpl();
 		return instance;
 	}
+	
+	private static String twitterID = UserInfo.getInstance().getTwitterID();
+	private static String twitterPW = UserInfo.getInstance().getTwitterPW();
 	
 	public void twitterCookieTest() throws InterruptedException, IOException, ParseException {
 
@@ -139,9 +138,11 @@ public class PlayerInfoImpl {
 	}
 	
 	public PlayerDto resourceTest(String profileId) throws InterruptedException, IOException, ServletException {
+		if(profileId==null || profileId.equals(""))return null;
+
 		PlayerDto playerDto=new PlayerDto();
+
 		playerDto.setId(profileId);
-		
 		driver.get("http://game.granbluefantasy.jp/#profile/"+profileId);
 
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]")));
@@ -158,27 +159,28 @@ public class PlayerInfoImpl {
 				playerDto.setSummon(summon.get(x*2+y).getAttribute("src"), x, y);
 			}
 		}
+		
+		GBFResoureceImpl.getInstance().makeProfileImg(playerDto);
 		return playerDto;
 	}
+	
 	
 	public void twitterTest() throws InterruptedException, IOException {
 		driver.get("https://twitter.com/");
 		//id
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"react-root\"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[3]/div")));
 		WebElement id = driver.findElement(By.xpath("//*[@id=\"react-root\"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[1]/div/label/div/div[2]/div/input"));
-		id.clear();
-		id.sendKeys(twitterID);
+		id.clear();	id.sendKeys(twitterID);
 		//pw
 		WebElement pw = driver.findElement(By.name("session[password]"));
-		pw.clear();
-		pw.sendKeys(twitterPW);
+		pw.clear();	pw.sendKeys(twitterPW);
 		
-		Thread.sleep(1000);
-		//login
-		WebElement login = driver.findElement(By.xpath("//*[@id=\"react-root\"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[3]/div"));
-		login.click();
 		Thread.sleep(500);
+		//click login
+		WebElement login = driver.findElement(By.xpath("//*[@id=\"react-root\"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[3]/div"));
+		login.click(); Thread.sleep(500);
 		
+		//save cache
 		File file = new File("Twitter.data");
 		try {
 			file.createNewFile();
@@ -221,7 +223,7 @@ public class PlayerInfoImpl {
 			if(!nextTab.equals(currentTab)) {
 				driver.switchTo().window(nextTab);
 				
-
+				//save cache
 				File file = new File("mobage.data");
 				try {
 					file.createNewFile();
@@ -249,6 +251,7 @@ public class PlayerInfoImpl {
 		driver.get("https://www.mbga.jp/");
 		Thread.sleep(5000);
 		
+		//save cache
 		File file = new File("mbga.data");
 		try {
 			file.createNewFile();
