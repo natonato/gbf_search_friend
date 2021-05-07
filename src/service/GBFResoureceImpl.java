@@ -63,7 +63,6 @@ public class GBFResoureceImpl {
 	
 	public void makeProfileImg(PlayerDto playerDto) throws IOException {
 		
-		System.out.println(playerDto.getBgimg());
 		BufferedImage baseImgPng = ImageIO.read(new URL(playerDto.getBgimg()));
 		BufferedImage baseImg = new BufferedImage(baseImgPng.getWidth(), baseImgPng.getHeight(), BufferedImage.TYPE_INT_RGB);
 		baseImg.createGraphics().drawImage(baseImgPng, 0, 0, Color.white, null);
@@ -72,8 +71,6 @@ public class GBFResoureceImpl {
 		int height = baseImg.getHeight();
 		
 		Graphics2D graphics = (Graphics2D)baseImg.getGraphics();
-		
-//		getImg(playerDto.getSummon(), playerDto.getId(), graphics);
 		
 		BufferedImage image = null;
 		Image resizedImage = null;
@@ -90,10 +87,8 @@ public class GBFResoureceImpl {
 				}
 			}
 		}
-
 		File file = new File("res/result/"+playerDto.getId()+"/merged.jpg");
 		if(!file.exists())file.mkdirs();
-		
 		ImageIO.write(baseImg, "jpg", file);
 		
 	}

@@ -5,8 +5,8 @@ public class PlayerDto {
 	private String name;
 	private String rank;
 	private String bgimg;
-	private String[][] summon=new String[7][2];;
-	private String[][] summonLevel=new String[7][2];;
+	private String[][] summon=new String[7][2];
+	private String[][] summonLevel=new String[7][2];
 
 	public PlayerDto() {
 		
