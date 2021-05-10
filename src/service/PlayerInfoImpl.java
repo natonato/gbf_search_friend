@@ -33,7 +33,7 @@ import userinfo.UserInfo;
 public class PlayerInfoImpl {
 	//singleton
 	private static PlayerInfoImpl instance;
-	private static WebDriver driver;
+	protected static WebDriver driver;
 	private static WebDriverWait wait;
 	
 	

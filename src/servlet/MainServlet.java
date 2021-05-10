@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dto.PlayerDto;
 import service.PlayerInfoImpl;
+import service.TwitterUploadImpl;
 
 /**
  * Servlet implementation class MainServlet
@@ -41,8 +42,39 @@ public class MainServlet extends HttpServlet {
 		case "twitterCookieTest":
 			twitterCookieTest(request,response);
 			break;
+		case "tweetTest":
+			tweetTest(request,response);
+			break;
+		case "token":
+			token(request,response);
+			break;
+		case "tweetUserTest":
+			tweetUserTest(request,response);
+			break;
 		default:
 			break;
+		}
+		
+	}
+
+	private void tweetUserTest(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		TwitterUploadImpl.getInstance().tweetTest();
+		
+	}
+
+	private void token(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		TwitterUploadImpl.getInstance().tweetGetAccessTokenTest(request.getParameter("token"));
+	}
+
+	private void tweetTest(HttpServletRequest request, HttpServletResponse response){
+		// TODO Auto-generated method stub
+		try {
+			TwitterUploadImpl.getInstance().tweetTokenTest();
+		}catch(Exception e) {
+			System.out.println("????");
+			e.printStackTrace();
 		}
 		
 	}

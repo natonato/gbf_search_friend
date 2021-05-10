@@ -29,5 +29,22 @@
 		<button type="submit" value="search">트위터쿠키테스트</button>
 		
 	</form>
+	<form method="post" action="${root}/main" id="test">
+		<input type="hidden" name="act" value="tweetTest">
+		<button type="submit" value="search">트윗테스트</button>
+		
+	</form>
+	<form method="post" action="${root}/main" id="test">
+		<input type="hidden" name="act" value="token">
+		<label>pin : </label><input type="text" name="token" id="token"><br>
+		
+		<button type="submit" value="search">트윗 토큰 얻기</button>
+		
+	</form>
+	<form method="post" action="${root}/main" id="test">
+		<input type="hidden" name="act" value="tweetUserTest">
+		<button type="submit" value="search">트윗계정테스트</button>
+		
+	</form>
 </body>
 </html>

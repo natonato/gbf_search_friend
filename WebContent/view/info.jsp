@@ -12,6 +12,7 @@
 There is no user
 </c:if>
 <c:if test="${!empty playerInfo}">
+player id : ${playerInfo.id} <br>
 player name : ${playerInfo.name } <br>
 player name : ${playerInfo.rank } <br>
 	<c:forEach var="sum_element" items="${playerInfo.summon }">
