@@ -2,11 +2,12 @@ package dto;
 
 public class PlayerDto {
 	private String id;
-	private String name;
-	private String rank;
+	private String player_name;
+	private String player_rank;
 	private String bgimg;
-	private String[][] summon=new String[7][2];
-	private String[][] summonLevel=new String[7][2];
+	private String[][] summon=new String[7][2];//img url
+	private int[][] summonLevel=new int[7][2];//lvl
+	private String[][] summonName=new String[7][2];//name
 
 	public PlayerDto() {
 		
@@ -21,19 +22,19 @@ public class PlayerDto {
 	}
 
 	public String getName() {
-		return name;
+		return player_name;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.player_name = name;
 	}
 
 	public String getRank() {
-		return rank;
+		return player_rank;
 	}
 
 	public void setRank(String rank) {
-		this.rank = rank;
+		this.player_rank = rank;
 	}
 
 	public String[][] getSummon() {
@@ -45,14 +46,22 @@ public class PlayerDto {
 	}
 
 	
-	public String[][] getSummonLevel() {
+	public int[][] getSummonLevel() {
 		return summonLevel;
 	}
 
-	public void setSummonLevel(String summonLevel, int x, int y) {
+	public void setSummonLevel(int summonLevel, int x, int y) {
 		this.summonLevel[x][y] = summonLevel;
 	}
 
+	public String[][] getSummonName() {
+		return summonName;
+	}
+
+	public void setSummonName(String summonName, int x, int y) {
+		this.summonName[x][y] = summonName;
+	}
+	
 	public String getBgimg() {
 		return bgimg;
 	}

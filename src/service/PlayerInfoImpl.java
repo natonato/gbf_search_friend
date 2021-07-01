@@ -158,10 +158,24 @@ public class PlayerInfoImpl {
 		List<WebElement> summon = driver.findElements(By.className("img-fix-summon"));
 		List<WebElement> summonLevel = driver.findElements(By.cssSelector(".prt-fix-spec div:first-child"));
 		System.out.println(summonLevel.size());
+		
+		StringTokenizer st;
+		
 		for (int x = 0; x < 7; x++) {
 			for (int y = 0; y < 2; y++) {
+				st = new StringTokenizer(summonLevel.get(x*2+y).getAttribute("innerHTML"));
+				String no = st.nextToken();//throw `lvl` text
+				
 				playerDto.setSummon(summon.get(x*2+y).getAttribute("src"), x, y);
-				playerDto.setSummonLevel(summonLevel.get(x*2+y).getAttribute("innerHTML"), x, y);
+				
+				if(no.equals("No")) {
+					playerDto.setSummonLevel(0, x, y);
+					playerDto.setSummonName(null, x, y);
+				}
+				else {
+					playerDto.setSummonLevel(Integer.parseInt(st.nextToken()), x, y);
+					playerDto.setSummonName(st.nextToken(), x, y);
+				}
 			}
 		}
 		
