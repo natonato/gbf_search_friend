@@ -7,3 +7,4 @@ build/classes/userinfo/UserInfo_temp.class
 build/classes/userinfo/TwitterInfo.class
 src/userinfo/TwitterInfo.java
 *.class
+*.class
