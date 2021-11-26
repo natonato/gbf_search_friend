@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+연동 테스트
+<form th:action="@{/searchProfile}" method="post">
+    <!--    <input type="hidden" name="act" value="searchProfile">-->
+    <label>사용자 ID</label><input type="text" name="code"><br>
+    <label>Your Comment</label><br>
+    <textarea name="message" cols="30" rows="3"></textarea>
+    <br>
+
+    <button type="submit">검색하기</button>
+
+</form>
+
+<form method="post" th:action="@{/twitterTest}">
+<!--    <input type="hidden" name="act" value="twitterTest">-->
+    <button type="submit" value="search">트위터테스트</button>
+
+</form>
+
+<form method="post" th:action="@{/twitterCookieTest}">
+<!--    <input type="hidden" name="act" value="twitterCookieTest">-->
+    <button type="submit" value="search">트위터쿠키테스트</button>
+
+</form>
+<form method="post" th:action="@{/tweetTest}">
+<!--    <input type="hidden" name="act" value="tweetTest">-->
+    <button type="submit" value="search">트윗테스트</button>
+
+</form>
+<form method="post" th:action="@{/token}">
+<!--    <input type="hidden" name="act" value="token">-->
+    <label>pin : </label><input type="text" name="token" id="token"><br>
+
+    <button type="submit" value="search">트윗 토큰 얻기</button>
+
+</form>
+<form method="post" th:action="@{/sendTweet}">
+<!--    <input type="hidden" name="act" value="tweetUserTest">-->
+    <button type="submit" value="search">트윗계정테스트</button>
+
+</form>
+</body>
+</html>

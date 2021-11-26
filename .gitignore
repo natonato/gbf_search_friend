@@ -1,10 +1,40 @@
-build/classes/userinfo/UserInfo.class
-src/userinfo/UserInfo.java
-src/userinfo/UserInfo_temp.java
-build/classes/userinfo/UserInfo_temp.class
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+*.properties
+res/
 *.data
-*.jpg
-build/classes/userinfo/TwitterInfo.class
-src/userinfo/TwitterInfo.java
-*.class
-*.class
