@@ -13,8 +13,10 @@ import com.granblue.gbf.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.granblue.gbf.service.TwitterUpload;
+
 @Service
-public class GBFResourceImpl {
+public class GBFResourceImpl implements GBFResource {
 	//singleton
 	private String[][] imgName= {
 			{"miscFst","miscSnd"},
@@ -23,16 +25,17 @@ public class GBFResourceImpl {
 			{"lightFst","lightSnd"},{"darkFst","darkSnd"}	
 	};
 
-	TwitterUploadImpl twitterUpload;
+	TwitterUpload twitterUpload;
 
 	@Autowired
-	public GBFResourceImpl(TwitterUploadImpl twitterUpload) {
+	public GBFResourceImpl(TwitterUpload twitterUpload) {
 		this.twitterUpload=twitterUpload;
 		// TODO Auto-generated constructor stub
 	}
 
 	
 	//get image from url
+	@Override
 	public void getImg(String[][] imgUrl, String id, Graphics2D graphics) {
 		BufferedImage image = null;
 		
@@ -47,9 +50,7 @@ public class GBFResourceImpl {
 					if(!file.exists()) {
 						file.mkdirs();
 					}
-					System.out.println(file.getAbsolutePath());
-					
-					
+
 					ImageIO.write(image, "jpg", file);
 					
 				}catch(Exception e) {
@@ -58,7 +59,8 @@ public class GBFResourceImpl {
 			}
 		}
 	}
-	
+
+	@Override
 	public void makeProfileImg(PlayerDto playerDto, String message, int imgType) throws IOException {
 		//img option
 		String[] imgName = new String[]{"pc_basic.jpg","mobile_basic.jpg"};

@@ -16,7 +16,7 @@ import twitter4j.auth.RequestToken;
 
 @Service
 @ComponentScan
-public class TwitterUploadImpl {
+public class TwitterUploadImpl implements TwitterUpload{
 
 	private final TwitterInfo twitterInfo;
 
@@ -39,8 +39,8 @@ public class TwitterUploadImpl {
 		
 	}
 
-	
-	public void tweetTokenTest() throws IOException {
+	@Override
+	public void tweetTokenTest() {
 		twitter = TwitterFactory.getSingleton();
 		
 		requestToken=null;
@@ -57,7 +57,8 @@ public class TwitterUploadImpl {
         
         
 	}
-	
+
+	@Override
 	public void tweetGetAccessTokenTest(String pin) {
         try {
 			finalAccessToken = twitter.getOAuthAccessToken(requestToken, pin);
@@ -66,6 +67,7 @@ public class TwitterUploadImpl {
 		}
 	}
 
+	@Override
 	public void sendTweetTest() {
 		twitter = TwitterFactory.getSingleton();
 		try {
@@ -82,6 +84,7 @@ public class TwitterUploadImpl {
 		
 	}
 
+	@Override
 	public void sendPlayerTweet(PlayerDto playerDto, String message, File image) {
 		twitter = TwitterFactory.getSingleton();
 		try {

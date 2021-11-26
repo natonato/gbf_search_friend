@@ -1,7 +1,7 @@
 package com.granblue.gbf.controller;
 
 import com.granblue.gbf.dto.PlayerDto;
-import com.granblue.gbf.service.PlayerInfoImpl;
+import com.granblue.gbf.service.PlayerInfo;
 import com.granblue.gbf.service.TwitterUploadImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,14 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class TestController {
+public class MainController {
 
-    private final PlayerInfoImpl playerInfo;
+    private final PlayerInfo playerInfo;
 
     private final TwitterUploadImpl twitterUpload;
 
     @Autowired
-    TestController(PlayerInfoImpl playerInfo, TwitterUploadImpl twitterUpload){
+    MainController(PlayerInfo playerInfo, TwitterUploadImpl twitterUpload){
         this.playerInfo = playerInfo;
         this.twitterUpload = twitterUpload;
     }

@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-import javax.servlet.ServletException;
-
 import com.granblue.gbf.config.UserInfo;
 import com.granblue.gbf.dto.PlayerDto;
 import org.openqa.selenium.By;
@@ -34,11 +32,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @ComponentScan
-public class PlayerInfoImpl {
+public class PlayerInfoImpl implements PlayerInfo{
 
 	private final UserInfo userinfo;
 
-	private final GBFResourceImpl gbfResource;
+	private final GBFResource gbfResource;
 
 	private String twitterID;
 	private String twitterPW;
@@ -48,7 +46,7 @@ public class PlayerInfoImpl {
 	WebDriverWait wait;
 	
 	@Autowired
-	public PlayerInfoImpl(UserInfo userinfo, GBFResourceImpl gbfResource) throws IOException {
+	public PlayerInfoImpl(UserInfo userinfo, GBFResource gbfResource) throws IOException {
 		this.userinfo = userinfo;
 		this.gbfResource = gbfResource;
 		twitterID = userinfo.getTwitterID();
@@ -60,7 +58,7 @@ public class PlayerInfoImpl {
 		wait = new WebDriverWait(driver, 20);
 	}
 
-	
+	@Override
 	public void twitterCookieTest() throws InterruptedException, IOException, ParseException {
 
 		driver.get("https://twitter.com/");
@@ -92,7 +90,8 @@ public class PlayerInfoImpl {
 		
 		gbfCookieTest();
 	}
-	
+
+	@Override
 	public void gbfCookieTest() throws InterruptedException, IOException, ParseException {
 		driver.get("https://connect.mobage.jp/");
 		
@@ -146,8 +145,9 @@ public class PlayerInfoImpl {
 		driver.get("http://game.granbluefantasy.jp/#profile");
 		
 	}
-	
-	public PlayerDto resourceTest(String profileId, String message, int imgType) throws InterruptedException, IOException, ServletException {
+
+	@Override
+	public PlayerDto resourceTest(String profileId, String message, int imgType) throws  IOException {
 		if(profileId==null || profileId.equals(""))return null;
 		
 		PlayerDto playerDto=new PlayerDto();
@@ -197,8 +197,9 @@ public class PlayerInfoImpl {
 		gbfResource.makeProfileImg(playerDto, message, imgType);
 		return playerDto;
 	}
-	
-	
+
+
+	@Override
 	public void twitterTest() throws InterruptedException, IOException {
 		driver.get("https://twitter.com/");
 		//id
@@ -233,7 +234,8 @@ public class PlayerInfoImpl {
 		
 		gbfTest();
 	}
-	
+
+	@Override
 	public void gbfTest() throws InterruptedException {
 		driver.get("https://connect.mobage.jp/login");
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"mobage-connect-analytics\"]/div[1]/ul/li[2]/a")));
