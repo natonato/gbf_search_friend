@@ -8,5 +8,5 @@ public interface TwitterUpload {
     public void tweetTokenTest();
     public void tweetGetAccessTokenTest(String pin);
     public void sendTweetTest();
-    public void sendPlayerTweet(PlayerDto playerDto, String message, File image);
+    public void sendPlayerTweet(PlayerDto playerDto, String message);
 }

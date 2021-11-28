@@ -153,11 +153,11 @@ public class GBFResourceImpl implements GBFResource {
 			}
 		}
 		//save
-		File file = new File("res/result/"+playerDto.getId()+"/merged_"+imgName[imgType]);
+		File file = new File("res/result/"+playerDto.getId()+"/merged.jpg");
 		if(!file.exists())file.mkdirs();
 		ImageIO.write(baseImg, "jpg", file);
 
-		twitterUpload.sendPlayerTweet(playerDto, message, file);
+		twitterUpload.sendPlayerTweet(playerDto, message);
 	}
 	
 }

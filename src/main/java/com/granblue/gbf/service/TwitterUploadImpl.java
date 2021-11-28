@@ -2,6 +2,7 @@ package com.granblue.gbf.service;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Random;
 
@@ -28,14 +29,14 @@ public class TwitterUploadImpl implements TwitterUpload{
 	public TwitterUploadImpl(TwitterInfo twitterInfo) {
 		this.twitterInfo = twitterInfo;
 
-		twitter = TwitterFactory.getSingleton();
-		twitter.setOAuthConsumer(twitterInfo.getAPIKey(),
-				twitterInfo.getAPISecretKey());
-
-		finalAccessToken=new AccessToken(twitterInfo.getAccessToken(),
-				twitterInfo.getAccessSecret());
-		
-		twitter.setOAuthAccessToken(finalAccessToken);
+//		twitter = TwitterFactory.getSingleton();
+//		twitter.setOAuthConsumer(twitterInfo.getAPIKey(),
+//				twitterInfo.getAPISecretKey());
+//
+//		finalAccessToken=new AccessToken(twitterInfo.getAccessToken(),
+//				twitterInfo.getAccessSecret());
+//
+//		twitter.setOAuthAccessToken(finalAccessToken);
 		
 	}
 
@@ -85,11 +86,12 @@ public class TwitterUploadImpl implements TwitterUpload{
 	}
 
 	@Override
-	public void sendPlayerTweet(PlayerDto playerDto, String message, File image) {
+	public void sendPlayerTweet(PlayerDto playerDto, String message) {
 		twitter = TwitterFactory.getSingleton();
 		try {
-			User user = twitter.verifyCredentials();
-			System.out.println(user.getScreenName());
+			File image = new File("res/result/"+playerDto.getId()+"/merged.jpg");
+			//User user = twitter.verifyCredentials();
+			//System.out.println(user.getScreenName());
 
 			String msg = "ID : "+playerDto.getId() +"\n"
 					+ Math.random();
@@ -99,11 +101,15 @@ public class TwitterUploadImpl implements TwitterUpload{
 
 			long[] mediaIds = new long[1];
 //			UploadedMedia media = twitter.uploadMedia(image);
-//			mediaIds[0] = media.getMediaId();
+			twitter.updateProfile("gbf_test","","","testtest");
 
+//			UploadedMedia media2 = twitter.uploadMedia("file", new FileInputStream(image));
+//			mediaIds[0] = media.getMediaId();
+//
 			StatusUpdate statusUpdate = new StatusUpdate(msg);
-//			statusUpdate.setMedia(image);
+			statusUpdate.setMedia("file", new FileInputStream(image));
 //			statusUpdate.setMediaIds(mediaIds);
+
 			Status status = twitter.updateStatus(statusUpdate);
 
 		}catch(Exception e) {
