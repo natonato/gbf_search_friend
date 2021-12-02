@@ -3,37 +3,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Result</title>
 </head>
 <body>
-<span th:text="${name}"></span>
-
-<div th:unless="${playerInfo}">
+<div th:unless="${playerID}">
     There is no user
 </div>
 
-<div th:if="${playerInfo}">
-    player id : <p th:text="${playerInfo.id}"></p>
-    player name : <p th:text="${playerInfo.name }"></p>
-    player name : <p th:text="${playerInfo.rank }"></p>
-    <div th:each="sum_element : ${playerInfo.summon }">
-        <div th:each="sum : ${sum_element }">
-            summon = <p th:text="${sum }"></p>
-            <img alt="" th:src="${sum }">
+<div th:if="${playerID}">
+    <img th:src="'data:image/jpeg;base64,'+${playerImg}">
+    <a download="Profile.jpg" th:href="'data:image/jpeg;base64,'+${playerImg}">다운로드!</a>
 
-        </div>
-        <br>
-    </div>
-    <div th:each="sum_levels : ${playerInfo.summonLevel }">
-        <div th:each="sum_level : ${sum_levels }">
-            lvl = <p th:text="${sum_level }"></p><br>
-        </div>
-    </div>
-    <div th:each="sum_names : ${playerInfo.summonName }">
-        <div  th:each="sum_name : ${sum_names }">
-            name = <p th:text="${sum_name }"></p><br>
-        </div>
-    </div>
+<!--    <a th:src="@{result/} + ${playerID}+ @{/merged.jpg}">이미지 다운로드</a>-->
+<!--    player id : <span th:text="${playerInfo.id}"></span>-->
+<!--    player name : <span th:text="${playerInfo.name }"></span>-->
+<!--    player rank : <span th:text="${playerInfo.rank }"></span>-->
+<!--    <div th:each="sum_element : ${playerInfo.summon }">-->
+<!--        <div th:each="sum : ${sum_element }">-->
+<!--            summon = <span th:text="${sum }"></span>-->
+<!--            <img alt="" th:src="${sum }">-->
+
+<!--        </div>-->
+<!--        <br>-->
+<!--    </div>-->
+
+<!--    <div th:each="sum_levels : ${playerInfo.summonLevel }">-->
+<!--        <div th:each="sum_level : ${sum_levels }">-->
+<!--            lvl = <p th:text="${sum_level }"></p><br>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div th:each="sum_names : ${playerInfo.summonName }">-->
+<!--        <div  th:each="sum_name : ${sum_names }">-->
+<!--            name = <p th:text="${sum_name }"></p><br>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 </body>
+<script>
+    function base64ToImage(base64){
+
+    }
+
+</script>
 </html>

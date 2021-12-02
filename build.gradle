@@ -46,9 +46,9 @@ dependencies {
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
 
     implementation group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.7'
+// https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation group: 'commons-io', name: 'commons-io', version: '2.4'
 
-    //twitter4j-v2 for twitter api v2
-//    implementation "jp.takke.twitter4j-v2:twitter4j-v2-support:1.0.0"
 }
 
 test {
