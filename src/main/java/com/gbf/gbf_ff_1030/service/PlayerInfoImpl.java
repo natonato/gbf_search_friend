@@ -1,34 +1,19 @@
-package com.granblue.gbf.service;
+package com.gbf.gbf_ff_1030.service;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.StringTokenizer;
-
-import com.granblue.gbf.config.UserInfo;
-import com.granblue.gbf.dto.PlayerDto;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.gbf.gbf_ff_1030.config.UserInfo;
+import com.gbf.gbf_ff_1030.dto.PlayerDto;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+
+import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @ComponentScan
@@ -51,7 +36,7 @@ public class PlayerInfoImpl implements PlayerInfo{
 		this.gbfResource = gbfResource;
 		twitterID = userinfo.getTwitterID();
 		twitterPW = userinfo.getTwitterPW();
-
+		System.out.println("ON!");
 		//setup selenium
 		System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver_win32/chromedriver.exe");
 		driver = new ChromeDriver();

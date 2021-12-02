@@ -1,24 +1,27 @@
-package com.granblue.gbf.controller;
+package com.gbf.gbf_ff_1030.controller;
 
-import com.granblue.gbf.dto.PlayerDto;
-import com.granblue.gbf.service.PlayerInfo;
-import com.granblue.gbf.service.TwitterUploadImpl;
+import com.gbf.gbf_ff_1030.dto.PlayerDto;
+import com.gbf.gbf_ff_1030.service.PlayerInfo;
+import com.gbf.gbf_ff_1030.service.TwitterUpload;
+import com.gbf.gbf_ff_1030.service.TwitterUploadImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
 
     private final PlayerInfo playerInfo;
 
-    private final TwitterUploadImpl twitterUpload;
+    private TwitterUpload twitterUpload;
 
     @Autowired
-    MainController(PlayerInfo playerInfo, TwitterUploadImpl twitterUpload){
+    MainController(PlayerInfo playerInfo, TwitterUpload twitterUpload){
         this.playerInfo = playerInfo;
-        this.twitterUpload = twitterUpload;
+        this.twitterUpload=twitterUpload;
     }
 
     @GetMapping("/")

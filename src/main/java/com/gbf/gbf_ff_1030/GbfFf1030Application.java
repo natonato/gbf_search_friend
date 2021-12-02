@@ -1,15 +1,13 @@
-package com.granblue.gbf;
+package com.gbf.gbf_ff_1030;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GranblueFfApplication {
+public class GbfFf1030Application {
 
     public static void main(String[] args) {
-
-        System.out.println("rudn!");
-        SpringApplication.run(GranblueFfApplication.class, args);
+        SpringApplication.run(GbfFf1030Application.class, args);
     }
 
 }

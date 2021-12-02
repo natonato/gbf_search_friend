@@ -1,8 +1,7 @@
-package com.granblue.gbf.config;
+package com.gbf.gbf_ff_1030.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Data

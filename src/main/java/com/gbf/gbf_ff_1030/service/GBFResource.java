@@ -1,6 +1,6 @@
-package com.granblue.gbf.service;
+package com.gbf.gbf_ff_1030.service;
 
-import com.granblue.gbf.dto.PlayerDto;
+import com.gbf.gbf_ff_1030.dto.PlayerDto;
 
 import java.awt.*;
 import java.io.IOException;

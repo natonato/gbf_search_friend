@@ -1,13 +1,12 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.0'
+    id 'org.springframework.boot' version '2.6.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'org.springframework.experimental.aot' version '0.11.0-RC1'
 }
 
-group = 'com.granblue'
+group = 'com.gbf'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 configurations {
     compileOnly {
@@ -16,7 +15,14 @@ configurations {
 }
 
 repositories {
-    maven { url 'https://repo.spring.io/milestone' }
+//    maven {
+//        url 'https://takke.github.io/maven'
+//        content {
+//            includeGroup "jp.takke.twitter4j-v2"
+//        }
+//    }
+    maven { url 'https://repo.spring.io/milestone'
+    }
     mavenCentral()
 }
 
@@ -31,24 +37,22 @@ dependencies {
 //    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
 
-    implementation group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.2'
-    implementation group: 'org.twitter4j', name: 'twitter4j-media-support', version: '4.0.2'
+    implementation group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.7'
 
-
+    //twitter4j-v2 for twitter api v2
+//    implementation "jp.takke.twitter4j-v2:twitter4j-v2-support:1.0.0"
 }
 
 test {
     useJUnitPlatform()
-}
-
-bootBuildImage {
-    builder = 'paketobuildpacks/builder:tiny'
-    environment = ['BP_NATIVE_IMAGE': 'true']
 }
 
 apply plugin: 'idea'

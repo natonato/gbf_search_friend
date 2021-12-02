@@ -1,4 +1,4 @@
-package com.granblue.gbf.dto;
+package com.gbf.gbf_ff_1030.dto;
 
 import lombok.Data;
 

@@ -1,19 +1,17 @@
-package com.granblue.gbf.service;
+package com.gbf.gbf_ff_1030.service;
 
+import com.gbf.gbf_ff_1030.config.TwitterInfo;
+import com.gbf.gbf_ff_1030.dto.PlayerDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.StringTokenizer;
-
-import javax.imageio.ImageIO;
-
-import com.granblue.gbf.dto.PlayerDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.granblue.gbf.service.TwitterUpload;
 
 @Service
 public class GBFResourceImpl implements GBFResource {
@@ -29,7 +27,8 @@ public class GBFResourceImpl implements GBFResource {
 
 	@Autowired
 	public GBFResourceImpl(TwitterUpload twitterUpload) {
-		this.twitterUpload=twitterUpload;
+//		this.twitterUpload=TwitterUploadImpl.getInstance();
+		this.twitterUpload = twitterUpload;
 		// TODO Auto-generated constructor stub
 	}
 
