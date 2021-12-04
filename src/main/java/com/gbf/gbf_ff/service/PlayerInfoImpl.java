@@ -1,13 +1,12 @@
-package com.gbf.gbf_ff_1030.service;
+package com.gbf.gbf_ff.service;
 
-import com.gbf.gbf_ff_1030.config.UserInfo;
-import com.gbf.gbf_ff_1030.dto.PlayerDto;
+import com.gbf.gbf_ff.config.UserInfo;
+import com.gbf.gbf_ff.dto.PlayerDto;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -16,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-@ComponentScan
+//@ComponentScan
 public class PlayerInfoImpl implements PlayerInfo{
 
 	private final UserInfo userinfo;
@@ -30,13 +29,18 @@ public class PlayerInfoImpl implements PlayerInfo{
 	WebDriver driver;
 	WebDriverWait wait;
 	
-	@Autowired
+
 	public PlayerInfoImpl(UserInfo userinfo, GBFResource gbfResource) throws IOException {
 		this.userinfo = userinfo;
 		this.gbfResource = gbfResource;
+
 		twitterID = userinfo.getTwitterID();
 		twitterPW = userinfo.getTwitterPW();
-		System.out.println("ON!");
+
+		init(); // move this to make it parallel
+	}
+
+	private void init(){
 		//setup selenium
 		System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver_win32/chromedriver.exe");
 		driver = new ChromeDriver();
@@ -132,7 +136,7 @@ public class PlayerInfoImpl implements PlayerInfo{
 	}
 
 	@Override
-	public PlayerDto resourceTest(String profileId, String message, int imgType) throws  IOException {
+	public PlayerDto resourceTest(String profileId) throws  IOException {
 		if(profileId==null || profileId.equals(""))return null;
 		
 		PlayerDto playerDto=new PlayerDto();
@@ -179,7 +183,7 @@ public class PlayerInfoImpl implements PlayerInfo{
 
 		playerDto.setFavorite(favorite.getAttribute("src"));
 
-		gbfResource.makeProfileImg(playerDto, message, imgType);
+//		gbfResource.makeProfileImg(playerDto, message, imgType);
 		return playerDto;
 	}
 

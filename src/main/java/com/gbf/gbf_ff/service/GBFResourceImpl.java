@@ -1,7 +1,6 @@
-package com.gbf.gbf_ff_1030.service;
+package com.gbf.gbf_ff.service;
 
-import com.gbf.gbf_ff_1030.config.TwitterInfo;
-import com.gbf.gbf_ff_1030.dto.PlayerDto;
+import com.gbf.gbf_ff.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +13,7 @@ import java.net.URL;
 import java.util.StringTokenizer;
 
 @Service
+//@ComponentScan
 public class GBFResourceImpl implements GBFResource {
 	//singleton
 	private String[][] imgName= {
@@ -23,12 +23,7 @@ public class GBFResourceImpl implements GBFResource {
 			{"lightFst","lightSnd"},{"darkFst","darkSnd"}	
 	};
 
-	TwitterUpload twitterUpload;
-
-	@Autowired
-	public GBFResourceImpl(TwitterUpload twitterUpload) {
-//		this.twitterUpload=TwitterUploadImpl.getInstance();
-		this.twitterUpload = twitterUpload;
+	public GBFResourceImpl() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -62,42 +57,54 @@ public class GBFResourceImpl implements GBFResource {
 	@Override
 	public void makeProfileImg(PlayerDto playerDto, String message, int imgType) throws IOException {
 		//img option
-		String[] imgName = new String[]{"pc_basic.jpg", "pc_relink.jpg"};
-		String[] mobileName = new String[]{""};
+		String[] imgName = new String[]{"pc_1.jpg", "pc_2.jpg","pc_3.jpg", "pc_4.jpg"};
+		String[] mobileName = new String[]{"mobile_1.jpg","mobile_2.jpg","mobile_3.jpg","mobile_4.jpg"};
 
 		String curBgImg = imgName[0]; //default
 		if(imgType<100)curBgImg=imgName[imgType];
-		else curBgImg=mobileName[imgType-100];//temp, will be change to mobile
+		else curBgImg=mobileName[imgType-100];//
 
 		//icon name
 		String[] iconName = new String[]{"fire","water","earth","wind","light","dark","normal"};
 
 		//summon start / summon distance / character / frame position
-		int sx=0,sy=0,dx=0,dy=0, charx=0,chary=0, framex=0,framey=0,playerx=0,playery=0,profilex=0,profiley=0;
+		int sx=0,sy=0,dx=0,dy=0, elementx=0, elementy=0,
+				charx=0,chary=0, framex=0,framey=0,playerx=0,playery=0,profilex=0,profiley=0,
+				sumnamex=0,sumnamey=0, iconx=0,icony=0;
 		if(imgType<100){
 			//pc, 1920*1080 size
-			sx=100; sy=600;
-			dx=250; dy=200;
-			charx=100; chary=0;
-			framex=25; framey=450;
-			playerx=1200; playery=190;
-			profilex=1060; profiley=100;
+			sx=100; sy=600; //start point of summon drawing
+			dx=250; dy=0; // distance between summon in each element
+			elementx=0; elementy=200; // distance between each element
+			charx=100; chary=0; // where to draw favorite char
+			framex=25; framey=450; // where to draw summon frame
+			profilex=1060; profiley=100; // where to draw profile info
+			playerx=profilex+140; playery=profiley+90; // for profile text
+			sumnamex=20;sumnamey=160; // relative position for summon name based on summon image
+			iconx=70;icony=100; // relative position for summon element icon(fire, water, etc) based on summon image
 		}
 		else{
-			//will be added later
-			//mobile, ?*? size
+			//mobile, 1080*1920 size
+			sx=350; sy=770;
+			dx=0; dy=150;
+			elementx=300; elementy=0;
+			charx=-100; chary=0;
+
+			framex=100;framey=690;
+
+			profilex=430; profiley=350;
+			playerx=profilex+140; playery=profiley+90;
+			sumnamex=20;sumnamey=140;
+
+			iconx=150; icony=30;
 		}
 
 		//Get bg img
-		BufferedImage baseImgPng = ImageIO.read(new File("src/main/resources/static/img/bgimg/"+curBgImg));
-		BufferedImage baseImg = new BufferedImage(baseImgPng.getWidth(), baseImgPng.getHeight(), BufferedImage.TYPE_INT_RGB);
-		baseImg.createGraphics().drawImage(baseImgPng, 0, 0, Color.white, null);
+		BufferedImage bufferedImage = ImageIO.read(new File("src/main/resources/static/img/bgimg/"+curBgImg));
+		BufferedImage baseImg = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+		baseImg.createGraphics().drawImage(bufferedImage, 0, 0, Color.white, null);
 
 		Graphics2D graphics = (Graphics2D)baseImg.getGraphics();
-
-		//Draw profile img
-		BufferedImage profileImg = ImageIO.read(new File("src/main/resources/static/img/icon/profile.png"));
-		graphics.drawImage(profileImg, profilex, profiley, null);
 
 		//Draw favorate character img
 		StringTokenizer st = new StringTokenizer(playerDto.getFavorite(), "/");
@@ -112,12 +119,17 @@ public class GBFResourceImpl implements GBFResource {
 		else {
 			favorate = "http://game-a.granbluefantasy.jp/assets_en/img/sp/assets/npc/zoom/" + favorate.substring(0, favorate.length() - 4) + ".png";
 		}
-		BufferedImage favorateImg = ImageIO.read(new URL(favorate));
-		graphics.drawImage(favorateImg, charx,chary, null);
+		bufferedImage = ImageIO.read(new URL(favorate));
+		graphics.drawImage(bufferedImage, charx,chary, null);
 
-		//Draw summon background
-		BufferedImage frameImg = ImageIO.read(new File("src/main/resources/static/img/icon/frame.png"));
-		graphics.drawImage(frameImg,framex,framey, null);
+		//Draw summon frame
+		if(imgType<100)bufferedImage = ImageIO.read(new File("src/main/resources/static/img/icon/frame.png"));
+		else bufferedImage = ImageIO.read(new File("src/main/resources/static/img/icon/frame_mobile.png"));
+		graphics.drawImage(bufferedImage,framex,framey, null);
+
+		//Draw profile img
+		bufferedImage = ImageIO.read(new File("src/main/resources/static/img/icon/profile.png"));
+		graphics.drawImage(bufferedImage, profilex, profiley, null);
 
 		//Set font, draw ID
 		graphics.setColor(new Color(255,255,255));
@@ -139,27 +151,27 @@ public class GBFResourceImpl implements GBFResource {
 		graphics.setFont(new Font("Open Sans", Font.PLAIN, 20));
 
 		//Draw Summon
-		BufferedImage image = null;
+//		BufferedImage bufferedImage = null;
 		for (int i = 0; i < 7; i++) {
 			//draw icon
-			image = ImageIO.read(new File("src/main/resources/static/img/icon/"+iconName[i]+".png"));
-			Image resizedImage = image.getScaledInstance(image.getWidth()*2, image.getHeight()*2,Image.SCALE_SMOOTH);
-			graphics.drawImage(resizedImage, sx+dx*i+70, sy-dy+100, null);
+			bufferedImage = ImageIO.read(new File("src/main/resources/static/img/icon/"+iconName[i]+".png"));
+			Image resizedImage = bufferedImage.getScaledInstance(bufferedImage.getWidth()*2, bufferedImage.getHeight()*2,Image.SCALE_SMOOTH);
+			graphics.drawImage(resizedImage, sx+dx*i-elementx+iconx, sy+dy*i-elementy+icony, null);
 
 			for (int j = 0; j < 2; j++) {
 				try {
 					int tempI = (i+6)%7;
 
 					//draw summon
-					image = ImageIO.read(new URL(playerDto.getSummon()[i][j]));
-					graphics.drawImage(image, sx+dx*tempI, sy+dy*j, null);
+					bufferedImage = ImageIO.read(new URL(playerDto.getSummon()[i][j]));
+					graphics.drawImage(bufferedImage, sx+dx*tempI+elementx*j, sy+dy*tempI+elementy*j, null);
 
 					//draw summmon lvl & name
 					String summonName = playerDto.getSummonName()[i][j];
 					if(summonName==null)summonName = "    No Summon";
 					else summonName = "Lvl " + playerDto.getSummonLevel()[i][j] +" "+playerDto.getSummonName()[i][j];
 
-					graphics.drawString(summonName, sx+dx*tempI+20, sy+dy*j+160);
+					graphics.drawString(summonName, sx+dx*tempI+elementx*j+sumnamex, sy+dy*tempI+elementy*j+sumnamey);
 				}catch(Exception e) {
 					e.printStackTrace();
 				}
@@ -172,7 +184,6 @@ public class GBFResourceImpl implements GBFResource {
 		if(!file.exists())file.mkdirs();
 		ImageIO.write(baseImg, "jpg", file);
 
-//		twitterUpload.sendPlayerTweet(playerDto, message);
 	}
 	
 }

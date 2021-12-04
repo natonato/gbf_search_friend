@@ -1,4 +1,4 @@
-package com.gbf.gbf_ff_1030.config;
+package com.gbf.gbf_ff.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

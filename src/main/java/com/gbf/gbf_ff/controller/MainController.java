@@ -1,16 +1,14 @@
-package com.gbf.gbf_ff_1030.controller;
+package com.gbf.gbf_ff.controller;
 
-import com.gbf.gbf_ff_1030.dto.PlayerDto;
-import com.gbf.gbf_ff_1030.service.PlayerInfo;
-import com.gbf.gbf_ff_1030.service.TwitterUpload;
+import com.gbf.gbf_ff.dto.PlayerDto;
+import com.gbf.gbf_ff.service.GBFResource;
+import com.gbf.gbf_ff.service.PlayerInfo;
+import com.gbf.gbf_ff.service.TwitterUpload;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.FileInputStream;
@@ -24,10 +22,14 @@ public class MainController {
 
     private TwitterUpload twitterUpload;
 
+    private GBFResource gbfResource;
+
     @Autowired
-    MainController(PlayerInfo playerInfo, TwitterUpload twitterUpload){
+    MainController(PlayerInfo playerInfo, TwitterUpload twitterUpload,
+                   GBFResource gbfResource){
         this.playerInfo = playerInfo;
         this.twitterUpload=twitterUpload;
+        this.gbfResource=gbfResource;
     }
 
     @GetMapping("/")
@@ -76,7 +78,8 @@ public class MainController {
                                     ModelAndView mav) {
         PlayerDto playerDto=null;
         try{
-            playerDto = playerInfo.resourceTest(code, message, bg);
+            playerDto = playerInfo.resourceTest(code);
+            gbfResource.makeProfileImg(playerDto,message,bg);
         }catch (Exception e){
             System.out.println("Error : searchProfile");
             e.printStackTrace();
@@ -121,15 +124,27 @@ public class MainController {
         return "index";
     }
 
+
+    @PostMapping("/sendTweet")
+    public String postSendTweet(@RequestParam String id){
+        try{
+            twitterUpload.sendPlayerTweet(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "index";
+    }
+
+
     @PostMapping("/token")
     public String postTokenTest(@RequestParam String token){
         twitterUpload.tweetGetAccessTokenTest(token);
         return "index";
     }
 
-    @PostMapping("/sendTweet")
-    public String postSendTweetTest(){
-        twitterUpload.sendTweetTest();
-        return "index";
-    }
+//    @PostMapping("/sendTweet")
+//    public String postSendTweetTest(){
+//        twitterUpload.sendTweetTest();
+//        return "index";
+//    }
 }

@@ -1,8 +1,7 @@
-package com.gbf.gbf_ff_1030.service;
+package com.gbf.gbf_ff.service;
 
-import com.gbf.gbf_ff_1030.dto.PlayerDto;
+import com.gbf.gbf_ff.dto.PlayerDto;
 
-import java.awt.*;
 import java.io.IOException;
 
 

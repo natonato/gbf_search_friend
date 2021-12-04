@@ -1,9 +1,8 @@
-package com.gbf.gbf_ff_1030.service;
+package com.gbf.gbf_ff.service;
 
-import com.gbf.gbf_ff_1030.config.TwitterInfo;
-import com.gbf.gbf_ff_1030.dto.PlayerDto;
+import com.gbf.gbf_ff.config.TwitterInfo;
+import com.gbf.gbf_ff.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
@@ -13,19 +12,19 @@ import java.io.File;
 
 
 @Service
-@ComponentScan
+//@ComponentScan
 public class TwitterUploadImpl implements TwitterUpload{
 
 	private TwitterInfo twitterInfo;
+	private PlayerInfo playerInfo;
 
 	private Twitter twitter;
 	private RequestToken requestToken=null;
 	private AccessToken finalAccessToken=null;
 
-	private static TwitterUploadImpl instance;
 
-	@Autowired
-	public TwitterUploadImpl(TwitterInfo twitterInfo) {
+	public TwitterUploadImpl(TwitterInfo twitterInfo, PlayerInfo playerInfo) {
+		this.playerInfo=playerInfo;
 		this.twitterInfo = twitterInfo;
 
 		twitter = TwitterFactory.getSingleton();
@@ -69,27 +68,29 @@ public class TwitterUploadImpl implements TwitterUpload{
 
 	@Override
 	public void sendTweetTest() {
-		twitter = TwitterFactory.getSingleton();
-		try {
-			User user = twitter.verifyCredentials();
-			System.out.println(user.getScreenName());
-			double rand = Math.random()*1000;
-			String msg = "this is test tweet from application"+rand;
-			Status status = twitter.updateStatus(msg);
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+//		twitter = TwitterFactory.getSingleton();
+//		try {
+//			User user = twitter.verifyCredentials();
+//			System.out.println(user.getScreenName());
+//			double rand = Math.random()*1000;
+//			String msg = "this is test tweet from application"+rand;
+//			Status status = twitter.updateStatus(msg);
+//
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		
 	}
 
 	@Override
-	public void sendPlayerTweet(PlayerDto playerDto, String message) {
+	public void sendPlayerTweet(String id) {
 		String[] summonElement = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
 		twitter = TwitterFactory.getSingleton();
 		try {
-			File image = new File("res/result/"+playerDto.getId()+"/merged.jpg");
+			PlayerDto playerDto = playerInfo.resourceTest(id);
+
+			File image = new File("src/main/resources/static/result/"+playerDto.getId()+"/merged.jpg");
 			User user = twitter.verifyCredentials();
 
 			StringBuffer msg = new StringBuffer("ID:"+playerDto.getId()+"\n"
@@ -100,7 +101,8 @@ public class TwitterUploadImpl implements TwitterUpload{
 				String sumName = playerDto.getSummonName()[idx][0];
 				msg.append(summonElement[idx]).append(":");
 				if(sumName!=null){
-					msg.append(playerDto.getSummonLevel()[idx][0])
+					msg.append("Lv")
+							.append(playerDto.getSummonLevel()[idx][0])
 							.append(" ")
 							.append(sumName)
 							.append("/");
@@ -110,7 +112,8 @@ public class TwitterUploadImpl implements TwitterUpload{
 				}
 				sumName = playerDto.getSummonName()[idx][1];
 				if(sumName!=null){
-					msg.append(playerDto.getSummonLevel()[idx][1])
+					msg.append("Lv")
+							.append(playerDto.getSummonLevel()[idx][1])
 							.append(" ")
 							.append(sumName)
 							.append("\n");
@@ -120,6 +123,8 @@ public class TwitterUploadImpl implements TwitterUpload{
 				}
 			}
 			System.out.println(msg.length());
+
+			if(msg.length()>278)msg.setLength(278);
 
 			StatusUpdate statusUpdate = new StatusUpdate(msg.toString());
 			statusUpdate.setMedia(image);

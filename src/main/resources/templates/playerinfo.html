@@ -11,9 +11,14 @@
 </div>
 
 <div th:if="${playerID}">
-    <img th:src="'data:image/jpeg;base64,'+${playerImg}">
+    <img th:src="'data:image/jpeg;base64,'+${playerImg}" height="600" >
+    <br>
     <a download="Profile.jpg" th:href="'data:image/jpeg;base64,'+${playerImg}">다운로드!</a>
-
+    <br>
+    <form method="post" th:action="@{/sendTweet}">
+        <input type="hidden" name="id" th:value="${playerID}">
+        <button type="submit" value="search">트위터로 전송하기</button>
+    </form>
 <!--    <a th:src="@{result/} + ${playerID}+ @{/merged.jpg}">이미지 다운로드</a>-->
 <!--    player id : <span th:text="${playerInfo.id}"></span>-->
 <!--    player name : <span th:text="${playerInfo.name }"></span>-->
