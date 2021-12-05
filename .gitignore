@@ -39,3 +39,4 @@ out/
 *.properties
 res/
 *.data
+src/main/resources/static/result/

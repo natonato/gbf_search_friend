@@ -57,18 +57,7 @@ public class MainController {
             mav.setViewName("redirect:/error");
             return mav;
         }
-
     }
-
-//    @GetMapping("/profileImg/{id}")
-//    public String getProfileImg(@PathVariable String id,
-//                                HttpServletResponse response){
-//        response.setContentType("image/jpeg"); // Or whatever format you wanna use
-//
-//        return "error";
-//    }
-
-
 
 
     @PostMapping("/searchProfile")
@@ -81,70 +70,10 @@ public class MainController {
             playerDto = playerInfo.resourceTest(code);
             gbfResource.makeProfileImg(playerDto,message,bg);
         }catch (Exception e){
-            System.out.println("Error : searchProfile");
             e.printStackTrace();
+            return "error";
         }
-//        mav.addObject("playerInfo", playerDto);
-//        mav.setViewName("playerInfo");
         return "redirect:/searchProfile/"+playerDto.getId();
     }
 
-
-
-    @PostMapping("/twitterTest")
-    public String postTwitterTest(){
-        try{
-            playerInfo.twitterTest();
-        }catch (Exception e){
-            System.out.println("Error : twitterTest");
-            e.printStackTrace();
-        }
-        return "index";
-    }
-
-    @PostMapping("/twitterCookieTest")
-    public String postTwitterCookieTest(){
-        try{
-            playerInfo.twitterCookieTest();
-        }catch (Exception e){
-            System.out.println("Error : twitterCookieTest");
-            e.printStackTrace();
-        }
-        return "redirect:/";
-    }
-
-    @PostMapping("/tweetTest")
-    public String postTweetTest(){
-        try{
-            twitterUpload.tweetTokenTest();
-        }catch (Exception e){
-            System.out.println("Error : twitterTest");
-            e.printStackTrace();
-        }
-        return "index";
-    }
-
-
-    @PostMapping("/sendTweet")
-    public String postSendTweet(@RequestParam String id){
-        try{
-            twitterUpload.sendPlayerTweet(id);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return "index";
-    }
-
-
-    @PostMapping("/token")
-    public String postTokenTest(@RequestParam String token){
-        twitterUpload.tweetGetAccessTokenTest(token);
-        return "index";
-    }
-
-//    @PostMapping("/sendTweet")
-//    public String postSendTweetTest(){
-//        twitterUpload.sendTweetTest();
-//        return "index";
-//    }
 }

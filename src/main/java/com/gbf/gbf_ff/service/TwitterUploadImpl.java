@@ -39,51 +39,6 @@ public class TwitterUploadImpl implements TwitterUpload{
 	}
 
 	@Override
-	public void tweetTokenTest() {
-		twitter = TwitterFactory.getSingleton();
-
-		requestToken=null;
-		try {
-			requestToken = twitter.getOAuthRequestToken();
-		}catch(TwitterException e) {
-			e.printStackTrace();
-		}
-		
-        System. out.println("1. TwitterClient.getRequestToken: " );
-        System. out.println("1.1 Token: " +requestToken.getToken() + " ");
-        System. out.println("1.2 TokenSecret: "+requestToken.getTokenSecret() + " ");
-        System. out.println("1.3 getAuthorizationURL: " + requestToken.getAuthorizationURL());
-        
-        
-	}
-
-	@Override
-	public void tweetGetAccessTokenTest(String pin) {
-        try {
-			finalAccessToken = twitter.getOAuthAccessToken(requestToken, pin);
-		}catch(TwitterException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void sendTweetTest() {
-//		twitter = TwitterFactory.getSingleton();
-//		try {
-//			User user = twitter.verifyCredentials();
-//			System.out.println(user.getScreenName());
-//			double rand = Math.random()*1000;
-//			String msg = "this is test tweet from application"+rand;
-//			Status status = twitter.updateStatus(msg);
-//
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//		}
-		
-		
-	}
-
-	@Override
 	public void sendPlayerTweet(String id) {
 		String[] summonElement = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
 		twitter = TwitterFactory.getSingleton();
