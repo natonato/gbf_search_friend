@@ -4,45 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Result</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+<iframe id="iframe1" name="iframe1" style="display:none"></iframe>
 <div th:unless="${playerID}">
     There is no user
 </div>
 
 <div th:if="${playerID}">
-    <img th:src="'data:image/jpeg;base64,'+${playerImg}">
-    <a download="Profile.jpg" th:href="'data:image/jpeg;base64,'+${playerImg}">다운로드!</a>
+    <img th:src="@{'/image/'+${playerID}+'/merged.jpg'}" height="600" >
+    <br>
+    <a download="Profile.jpg" th:href="@{'/image/'+${playerID}+'/merged.jpg'}"><button type="button">이미지 다운로드</button></a>
+    <br>
 
-<!--    <a th:src="@{result/} + ${playerID}+ @{/merged.jpg}">이미지 다운로드</a>-->
-<!--    player id : <span th:text="${playerInfo.id}"></span>-->
-<!--    player name : <span th:text="${playerInfo.name }"></span>-->
-<!--    player rank : <span th:text="${playerInfo.rank }"></span>-->
-<!--    <div th:each="sum_element : ${playerInfo.summon }">-->
-<!--        <div th:each="sum : ${sum_element }">-->
-<!--            summon = <span th:text="${sum }"></span>-->
-<!--            <img alt="" th:src="${sum }">-->
-
-<!--        </div>-->
-<!--        <br>-->
-<!--    </div>-->
-
-<!--    <div th:each="sum_levels : ${playerInfo.summonLevel }">-->
-<!--        <div th:each="sum_level : ${sum_levels }">-->
-<!--            lvl = <p th:text="${sum_level }"></p><br>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div th:each="sum_names : ${playerInfo.summonName }">-->
-<!--        <div  th:each="sum_name : ${sum_names }">-->
-<!--            name = <p th:text="${sum_name }"></p><br>-->
-<!--        </div>-->
-<!--    </div>-->
+    <button type="button" onclick="sendTweet()">트위터로 전송하기</button>
+    <br>
+    <button type="submit" onclick="goHome()">메인 화면으로</button>
+    <br>
 </div>
 </body>
-<script>
-    function base64ToImage(base64){
+<script th:inline="javascript">
+    function sendTweet(){
+        var params ={
+            id:[[${playerID}]]
+        }
+        $.ajax({
+            type:"POST",
+            url:'/sendTweet',
+            data: params,
+            success: function(res){
+                console.log("success:"+res);
+            },
+            error : function(res){
+                console.log("error:"+res);
+                //add sweeralert or something
+            }
 
+        });
     }
+
+    function goHome(){
+        location.href="/";
+    }
+
 
 </script>
 </html>

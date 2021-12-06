@@ -1,4 +1,4 @@
-package com.gbf.gbf_ff_1030;
+package com.gbf.gbf_ff;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

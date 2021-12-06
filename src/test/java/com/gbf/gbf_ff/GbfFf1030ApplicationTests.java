@@ -1,4 +1,4 @@
-package com.gbf.gbf_ff_1030;
+package com.gbf.gbf_ff;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

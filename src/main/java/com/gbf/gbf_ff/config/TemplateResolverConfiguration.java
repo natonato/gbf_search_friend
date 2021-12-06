@@ -1,4 +1,4 @@
-package com.gbf.gbf_ff_1030.config;
+package com.gbf.gbf_ff.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
