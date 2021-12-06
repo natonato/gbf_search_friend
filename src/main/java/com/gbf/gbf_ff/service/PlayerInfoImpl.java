@@ -6,6 +6,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -28,7 +29,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 	WebDriver driver;
 	WebDriverWait wait;
 
-
+	@Autowired
 	public PlayerInfoImpl(UserInfo userinfo, GBFResource gbfResource) throws Exception {
 		this.userinfo = userinfo;
 		this.gbfResource = gbfResource;
@@ -47,7 +48,6 @@ public class PlayerInfoImpl implements PlayerInfo {
 		driver = new ChromeDriver();
 		wait = new WebDriverWait(driver, 20);
 	}
-
 	private void initTwitter() throws Exception {
 		twitterCookieTest();
 		gbfCookieTest();
@@ -161,7 +161,6 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 		List<WebElement> summon = driver.findElements(By.className("img-fix-summon"));
 		List<WebElement> summonLevel = driver.findElements(By.cssSelector(".prt-fix-spec div:first-child"));
-		System.out.println(summonLevel.size());
 
 		for (int x = 0; x < 7; x++) {
 
@@ -184,7 +183,6 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 		playerDto.setFavorite(favorite.getAttribute("src"));
 
-//		gbfResource.makeProfileImg(playerDto, message, imgType);
 		return playerDto;
 	}
 }

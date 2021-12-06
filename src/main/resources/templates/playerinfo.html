@@ -13,13 +13,15 @@
 </div>
 
 <div th:if="${playerID}">
-    <img th:src="'data:image/jpeg;base64,'+${playerImg}" height="600" >
+    <img th:src="@{'/image/'+${playerID}+'/merged.jpg'}" height="600" >
     <br>
-    <a download="Profile.jpg" th:href="'data:image/jpeg;base64,'+${playerImg}"><button type="button">이미지 다운로드</button></a>
+    <a download="Profile.jpg" th:href="@{'/image/'+${playerID}+'/merged.jpg'}"><button type="button">이미지 다운로드</button></a>
     <br>
+
     <button type="button" onclick="sendTweet()">트위터로 전송하기</button>
     <br>
     <button type="submit" onclick="goHome()">메인 화면으로</button>
+    <br>
 </div>
 </body>
 <script th:inline="javascript">
@@ -45,6 +47,7 @@
     function goHome(){
         location.href="/";
     }
+
 
 </script>
 </html>

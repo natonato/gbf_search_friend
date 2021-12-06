@@ -2,6 +2,7 @@ package com.gbf.gbf_ff.service;
 
 import com.gbf.gbf_ff.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -15,7 +16,10 @@ import java.util.StringTokenizer;
 @Service
 //@ComponentScan
 public class GBFResourceImpl implements GBFResource {
-	//singleton
+
+	@Value("${image.location}")
+	private String imgSaveUrl;
+
 	private String[][] imgName= {
 			{"miscFst","miscSnd"},
 			{"fireFst","fireSnd"},{"waterFst","waterSnd"},
@@ -26,33 +30,6 @@ public class GBFResourceImpl implements GBFResource {
 	public GBFResourceImpl() {
 		// TODO Auto-generated constructor stub
 	}
-
-	
-	//get image from url
-//	@Override
-//	public void getImg(String[][] imgUrl, String id, Graphics2D graphics) {
-//		BufferedImage image = null;
-//
-//		for (int i = 0; i < imgUrl.length; i++) {
-//			for (int j = 0; j < imgUrl[0].length; j++) {
-//				try {
-//					URL url = new URL(imgUrl[i][j]);
-//
-//					image = ImageIO.read(url);
-//
-//					File file = new File("res/img"+id+"/"+imgName[i][j]+".jpg");
-//					if(!file.exists()) {
-//						file.mkdirs();
-//					}
-//
-//					ImageIO.write(image, "jpg", file);
-//
-//				}catch(Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//	}
 
 	@Override
 	public void makeProfileImg(PlayerDto playerDto, String message, int imgType) throws IOException {
@@ -179,7 +156,7 @@ public class GBFResourceImpl implements GBFResource {
 		}
 
 		//Save file
-		File file = new File("src/main/resources/static/result/"+playerDto.getId()+"/merged.jpg");
+		File file = new File(imgSaveUrl+playerDto.getId()+"/merged.jpg");
 
 		if(!file.exists())file.mkdirs();
 		ImageIO.write(baseImg, "jpg", file);

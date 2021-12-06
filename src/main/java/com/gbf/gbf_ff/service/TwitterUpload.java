@@ -3,6 +3,6 @@ package com.gbf.gbf_ff.service;
 
 public interface TwitterUpload {
 
-    public void sendPlayerTweet(String id);
+    public void sendPlayerTweet(String id)throws Exception;
 
 }

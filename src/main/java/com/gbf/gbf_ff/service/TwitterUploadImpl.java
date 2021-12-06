@@ -3,6 +3,7 @@ package com.gbf.gbf_ff.service;
 import com.gbf.gbf_ff.config.TwitterInfo;
 import com.gbf.gbf_ff.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
@@ -15,6 +16,10 @@ import java.io.File;
 //@ComponentScan
 public class TwitterUploadImpl implements TwitterUpload{
 
+
+	@Value("${image.location}")
+	private String imgSaveUrl;
+
 	private TwitterInfo twitterInfo;
 	private PlayerInfo playerInfo;
 
@@ -22,7 +27,7 @@ public class TwitterUploadImpl implements TwitterUpload{
 	private RequestToken requestToken=null;
 	private AccessToken finalAccessToken=null;
 
-
+	@Autowired
 	public TwitterUploadImpl(TwitterInfo twitterInfo, PlayerInfo playerInfo) {
 		this.playerInfo=playerInfo;
 		this.twitterInfo = twitterInfo;
@@ -39,13 +44,13 @@ public class TwitterUploadImpl implements TwitterUpload{
 	}
 
 	@Override
-	public void sendPlayerTweet(String id) {
+	public void sendPlayerTweet(String id) throws Exception {
 		String[] summonElement = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
 		twitter = TwitterFactory.getSingleton();
 		try {
 			PlayerDto playerDto = playerInfo.resourceTest(id);
 
-			File image = new File("src/main/resources/static/result/"+playerDto.getId()+"/merged.jpg");
+			File image = new File(imgSaveUrl+playerDto.getId()+"/merged.jpg");
 			User user = twitter.verifyCredentials();
 
 			StringBuffer msg = new StringBuffer("ID:"+playerDto.getId()+"\n"
@@ -77,7 +82,6 @@ public class TwitterUploadImpl implements TwitterUpload{
 					msg.append("No Summon\n");
 				}
 			}
-			System.out.println(msg.length());
 
 			if(msg.length()>278)msg.setLength(278);
 

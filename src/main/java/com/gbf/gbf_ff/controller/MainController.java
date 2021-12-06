@@ -45,14 +45,10 @@ public class MainController {
     @GetMapping(path="/searchProfile/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ModelAndView getSearchProfile(@PathVariable String id,
                                         ModelAndView mav){
-        try (InputStream inputStream = new FileInputStream("src/main/resources/static/result/"+id+"/merged.jpg")){
-            byte[] byteArray = IOUtils.toByteArray(inputStream);
-
+        try{
             mav.addObject("playerID",id);
-            mav.addObject("playerImg",Base64.getEncoder().encodeToString(byteArray));
             mav.setViewName("playerInfo");
             return mav;
-
         }catch (Exception e){
             mav.setViewName("redirect:/error");
             return mav;
