@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<iframe id="iframe1" name="iframe1" style="display:none"></iframe>
+<div th:unless="${playerID}">
+    There is no such user
+</div>
+
+<div th:if="${#strings.equals(isDuplicated, 'Yes')}">
+    중복됨!
+</div>
+
+<div th:if="${playerID}">
+    <img th:src="@{'/image/'+${playerID}+'/merged.jpg'}" height="600" >
+    <br>
+    <a download="Profile.jpg" th:href="@{'/image/'+${playerID}+'/merged.jpg'}"><button type="button">이미지 다운로드</button></a>
+    <br>
+
+    <button type="button" onclick="sendTweet()">트위터로 전송하기</button>
+    <br>
+    <button type="submit" onclick="goHome()">메인 화면으로</button>
+    <br>
+</div>
+
+</body>
+<script th:inline="javascript">
+    function sendTweet(){
+        var params ={
+            id:[[${playerID}]],
+            msg:[[${twitterMessage}]],
+        }
+        $.ajax({
+            type:"POST",
+            url:'/sendTweet',
+            data: params,
+            success: function(res){
+                console.log("success:"+res);
+            },
+            error : function(res){
+                console.log("error:"+res);
+                //add sweeralert or something
+            }
+
+        });
+    }
+
+    function goHome(){
+        location.href="/";
+    }
+
+
+</script>
+</html>
