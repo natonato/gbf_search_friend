@@ -1,5 +1,6 @@
 package com.gbf.gbf_ff.service;
 
+import com.gbf.gbf_ff.Exception.DuplicatedUserException;
 import com.gbf.gbf_ff.config.TwitterInfo;
 import com.gbf.gbf_ff.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,15 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.util.HashMap;
 
 
 @Service
 //@ComponentScan
 public class TwitterUploadImpl implements TwitterUpload{
 
+	private HashMap<String, String> saveDate;
 
 	@Value("${image.location}")
 	private String imgSaveUrl;
@@ -32,6 +36,8 @@ public class TwitterUploadImpl implements TwitterUpload{
 		this.playerInfo=playerInfo;
 		this.twitterInfo = twitterInfo;
 
+		saveDate = new HashMap<>();
+
 		twitter = TwitterFactory.getSingleton();
 		twitter.setOAuthConsumer(twitterInfo.getAPIKey(),
 				twitterInfo.getAPISecretKey());
@@ -44,48 +50,20 @@ public class TwitterUploadImpl implements TwitterUpload{
 	}
 
 	@Override
-	public void sendPlayerTweet(String id) throws Exception {
-		String[] summonElement = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
+	public void sendPlayerTweet(String id, String msg) throws Exception {
+
+		//remove duplicated message / once a day
+		String today = LocalDate.now().toString();
+		if(saveDate.containsKey(id) && today.equals(saveDate.get(id)))throw new DuplicatedUserException();
+		saveDate.put(id, today);
+
 		twitter = TwitterFactory.getSingleton();
 		try {
-			PlayerDto playerDto = playerInfo.resourceTest(id);
 
-			File image = new File(imgSaveUrl+playerDto.getId()+"/merged.jpg");
+			File image = new File(imgSaveUrl+id+"/merged.jpg");
 			User user = twitter.verifyCredentials();
 
-			StringBuffer msg = new StringBuffer("ID:"+playerDto.getId()+"\n"
-					+ "Name:"+playerDto.getName() +"\n");
-
-			for(int i=0;i<7; i++){
-				int idx = (i+1)%7;
-				String sumName = playerDto.getSummonName()[idx][0];
-				msg.append(summonElement[idx]).append(":");
-				if(sumName!=null){
-					msg.append("Lv")
-							.append(playerDto.getSummonLevel()[idx][0])
-							.append(" ")
-							.append(sumName)
-							.append("/");
-				}
-				else{
-					msg.append("No Summon/");
-				}
-				sumName = playerDto.getSummonName()[idx][1];
-				if(sumName!=null){
-					msg.append("Lv")
-							.append(playerDto.getSummonLevel()[idx][1])
-							.append(" ")
-							.append(sumName)
-							.append("\n");
-				}
-				else {
-					msg.append("No Summon\n");
-				}
-			}
-
-			if(msg.length()>278)msg.setLength(278);
-
-			StatusUpdate statusUpdate = new StatusUpdate(msg.toString());
+			StatusUpdate statusUpdate = new StatusUpdate(msg);
 			statusUpdate.setMedia(image);
 
 			Status status = twitter.updateStatus(statusUpdate);

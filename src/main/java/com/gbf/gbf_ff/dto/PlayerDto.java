@@ -12,6 +12,7 @@ public class PlayerDto {
     private int[][] summonLevel=new int[7][2];//lvl
     private String[][] summonName=new String[7][2];//name
     private String favorite;
+    private String profileMessage;
 
     public void setSummon(String summon, int x, int y) {
         this.summon[x][y] = summon;

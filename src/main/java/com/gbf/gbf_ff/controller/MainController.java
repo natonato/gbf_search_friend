@@ -1,5 +1,6 @@
 package com.gbf.gbf_ff.controller;
 
+import com.gbf.gbf_ff.Exception.DuplicatedUserException;
 import com.gbf.gbf_ff.dto.PlayerDto;
 import com.gbf.gbf_ff.service.GBFResource;
 import com.gbf.gbf_ff.service.PlayerInfo;
@@ -46,6 +47,9 @@ public class MainController {
     public ModelAndView getSearchProfile(@PathVariable String id,
                                         ModelAndView mav){
         try{
+            String[] userData = playerInfo.getTwitterMessage(id);
+            mav.addObject("twitterMessage", userData[0]);
+            mav.addObject("isDuplicated", userData[1]);
             mav.addObject("playerID",id);
             mav.setViewName("playerInfo");
             return mav;
@@ -59,17 +63,18 @@ public class MainController {
     @PostMapping("/searchProfile")
     public String postSearchProfile(@RequestParam String code,
                                     @RequestParam String message,
-                                    @RequestParam int bg,
-                                    ModelAndView mav) {
-        PlayerDto playerDto=null;
-        try{
+                                    @RequestParam int bg) {
+        PlayerDto playerDto = null;
+        try {
             playerDto = playerInfo.resourceTest(code);
-            gbfResource.makeProfileImg(playerDto,message,bg);
-        }catch (Exception e){
+            gbfResource.makeProfileImg(playerDto, message, bg);
+        } catch (DuplicatedUserException e) {
+            System.out.println("user duplicated!");
+        } catch (Exception e) {
             e.printStackTrace();
             return "error";
         }
-        return "redirect:/searchProfile/"+playerDto.getId();
+        return "redirect:/searchProfile/" + code;
     }
 
 }
