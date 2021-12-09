@@ -11350,9 +11350,9 @@ video.bg-video {
 }
 .masthead .masthead-content {
   position: relative;
-  max-width: 40rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  max-width: 45rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 .masthead .masthead-content h1, .masthead .masthead-content .h1 {
   font-size: 2.5rem;

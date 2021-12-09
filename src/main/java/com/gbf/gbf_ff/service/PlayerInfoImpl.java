@@ -60,6 +60,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 	}
 	private void initTwitter() throws Exception {
 		twitterCookieTest();
+		Thread.sleep(1000);
 		gbfCookieTest();
 	}
 
