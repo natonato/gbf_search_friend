@@ -155,7 +155,7 @@ h6, .h6 {
 
 p {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 abbr[title],
@@ -2501,13 +2501,13 @@ textarea.form-control-lg {
   filter: brightness(90%);
 }
 .form-check-input:focus {
-  border-color: #95aaaa;
+  border-color: #fd7e14;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(42, 85, 85, 0.25);
 }
 .form-check-input:checked {
-  background-color: #2a5555;
-  border-color: #2a5555;
+  background-color: #fd7e14;
+  border-color: #fd7e14;
 }
 .form-check-input:checked[type=checkbox] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
@@ -2516,8 +2516,8 @@ textarea.form-control-lg {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
 }
 .form-check-input[type=checkbox]:indeterminate {
-  background-color: #2a5555;
-  border-color: #2a5555;
+  background-color: #f2e7c3;
+  border-color: #f2e7c3;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
 }
 .form-check-input:disabled {
@@ -11319,16 +11319,6 @@ video.bg-video {
   z-index: 0;
 }
 
-@media (pointer: coarse) and (hover: none) {
-  body {
-    background: url("../assets/img/bg-mobile-fallback.jpg") #2a5555 no-repeat center center scroll;
-    background-size: cover;
-  }
-
-  body video {
-    display: none;
-  }
-}
 .masthead {
   position: relative;
   overflow: hidden;
@@ -11346,7 +11336,7 @@ video.bg-video {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 .masthead .masthead-content {
   position: relative;
@@ -11377,10 +11367,49 @@ video.bg-video {
   padding: calc(1rem + 2px);
 }
 
+.search-ui{
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-ui .masthead-content {
+  position: relative;
+  max-width: 45rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.search-ui .masthead-content h1, .search-ui .masthead-content .h1 {
+  font-size: 2.5rem;
+}
+.search-ui .masthead-content p {
+  font-size: 1.2rem;
+}
+.search-ui .masthead-content p strong {
+  font-weight: 700;
+}
+.search-ui .masthead-content .input-group-newsletter input {
+  height: auto;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1rem;
+}
+.search-ui .masthead-content .input-group-newsletter button {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: calc(1rem + 2px);
+}
+
+
 @media (min-width: 992px) {
   .masthead {
     height: 100%;
-    width: 75vw;
+    width: 55vw;
     min-height: 0;
     padding-bottom: 0;
   }
@@ -11400,12 +11429,46 @@ video.bg-video {
   .masthead .masthead-content p {
     font-size: 1.3rem;
   }
+
+  .search-ui{
+    position: absolute;
+    height: 100%;
+    top: 0;
+    width: 55vw;
+    min-height: 0;
+    padding-bottom: 0;
+    right: 0;
+  }
+  .search-ui .masthead-content {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .search-ui .masthead-content h1, .search-ui .masthead-content .h1 {
+    font-size: 3.5rem;
+  }
+  .search-ui .masthead-content p {
+    font-size: 1.3rem;
+  }
 }
 @media (min-width: 1200px) {
   .masthead {
-    width: 65vw;
+    width: 55vw;
   }
 }
+
+
+/*.search-ui .btn {*/
+/*  display: inline-flex;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  padding: 0;*/
+/*  height: 4rem;*/
+/*  width: 4rem;*/
+/*  border-radius: 100rem;*/
+/*}*/
+
 .social-icons {
   position: relative;
   z-index: 2;
@@ -11419,7 +11482,6 @@ video.bg-video {
   width: 4rem;
   border-radius: 100rem;
 }
-
 @media (min-width: 992px) {
   .social-icons {
     position: absolute;
@@ -11429,3 +11491,4 @@ video.bg-video {
     width: auto;
   }
 }
+

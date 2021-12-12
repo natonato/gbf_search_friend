@@ -193,7 +193,13 @@ public class PlayerInfoImpl implements PlayerInfo {
 					playerDto.setSummonName(null, x, y);
 				} else {
 					playerDto.setSummonLevel(Integer.parseInt(st.nextToken()), x, y);
-					playerDto.setSummonName(st.nextToken(), x, y);
+					StringBuffer sb = new StringBuffer();
+					while(st.hasMoreTokens()){
+						String next = st.nextToken();
+						if("Omega".equals(next))continue;
+						sb.append(next).append(" ");
+					}
+					playerDto.setSummonName(sb.toString(), x, y);
 				}
 			}
 		}

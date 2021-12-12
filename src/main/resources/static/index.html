@@ -1,119 +1,485 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Coming Soon - Start Bootstrap Theme</title>
-        <link rel="icon" type="image/x-icon" href="bootstrap/assets/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="bootstrap/css/styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Background Video-->
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Granblue Friend Finder</title>
+    <link rel="icon" type="image/x-icon" href="bootstrap/assets/favicon.ico"/>
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap"
+          rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="bootstrap/css/styles.css" rel="stylesheet"/>
+
+</head>
+<body>
+<!-- Background Video-->
 <!--        <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="bootstrap/assets/mp4/bg.mp4" type="video/mp4" /></video>-->
-        <div class="bg-image"
-             style="background-image: url(bootstrap/assets/img/background.jpg);
+<div class="bg-image"
+     style="background-image: url(bootstrap/assets/img/background.jpg);
             height: 100vh;background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
         ">
 
-        <!-- Masthead-->
-        <div class="masthead">
-            <div class="masthead-content text-white">
-                <div class="container-fluid px-4 px-lg-0">
-                    <h2 class="fst-italic lh-1 mb-4">Granblue Fantasy Profile Generator</h2>
-                    <p class="mb-5">Step 1. Enter your profile ID<br>
-                        Step 2. Enter message you want<br>
-                        Step 3. Choose background you want<br>
-                        Step 4. Click Generate! button
-                    </p>
+    <!-- Masthead-->
+    <div class="masthead">
+        <div class="masthead-content text-white">
+            <div class="container-fluid px-4 px-lg-0">
+                <h2 class="fst-italic lh-1 mb-4">Granblue Fantasy Profile Generator</h2>
+                <p class="mb-5">
+                    Step 1. Enter your profile ID<br>
+                    Step 2. Enter message you want<br>
+                    Step 3. Choose background you want<br>
+                    Step 4. Click Generate! button
+                </p>
 
-                    <form th:action="@{/searchProfile}" method="post">
-                        <!-- Email address input-->
-                        <div class="row input-group-newsletter">
-                            <div class="col"><input class="form-control" id="code" type="text" name="code" placeholder="Enter your profile ID" required pattern="[0-9]+" /></div>
-                        </div>
-                        <div class="row input-group-newsletter">
-                            <div class="col"><textarea class="form-control" name="message" cols="30" rows="5" placeholder="Enter message you want (Max : 3 Line)"></textarea></div>
+                <form th:action="@{/searchProfile}" method="post">
+                    <!-- Email address input-->
+                    <div class="row input-group-newsletter">
+                        <div class="col"><input class="form-control" id="code" type="text" name="code"
+                                                placeholder="Enter your profile ID" required pattern="[0-9]+"/></div>
+                    </div>
+                    <br>
 
-                        </div>
+                    <div class="row input-group-newsletter">
+                        <div class="col"><textarea class="form-control" name="message" cols="30" rows="5"
+                                                   placeholder="Enter message you want (Max : 3 Line)"></textarea></div>
 
-                        <div class="row">
-                            <div class="col text-center">
-                                <input class="form-check-input" type="radio" id="pc-bg0" name="bg" value="0" checked>
-                                <label class="form-check-label" for="pc-bg0">pctest1</label>
-                                <input class="form-check-input" type="radio" id="pc-bg1" name="bg" value="1">
-                                <label class="form-check-label" for="pc-bg1">pctest2</label>
-                                <input class="form-check-input" type="radio" id="pc-bg2" name="bg" value="2">
-                                <label class="form-check-label" for="pc-bg2">pctest3</label>
-                                <input class="form-check-input" type="radio" id="pc-bg3" name="bg" value="3">
-                                <label class="form-check-label" for="pc-bg3">pctest4</label>
-                            </div>
+                    </div>
+                    <br>
 
-                        </div>
-                        <div class="row">
-                            <div class="col text-center">
-                                <input class="form-check-input" type="radio" id="mobile-bg0" name="bg" value="100">
-                                <label class="form-check-label" for="mobile-bg0">mobile1</label>
-                                <input class="form-check-input" type="radio" id="mobile-bg1" name="bg" value="101">
-                                <label class="form-check-label" for="mobile-bg1">mobile2</label>
-                                <input class="form-check-input" type="radio" id="mobile-bg2" name="bg" value="102">
-                                <label class="form-check-label" for="mobile-bg2">mobile3</label>
-                                <input class="form-check-input" type="radio" id="mobile-bg3" name="bg" value="103">
-                                <label class="form-check-label" for="mobile-bg3">mobile4</label>
-                            </div>
-
+                    <div class="row">
+                        <div class="col text-center">
+                            <input class="form-check-input" type="radio" id="pc-bg0" name="bg" value="0" checked>
+                            <label class="form-check-label" for="pc-bg0">pctest1</label>
+                            <input class="form-check-input" type="radio" id="pc-bg1" name="bg" value="1">
+                            <label class="form-check-label" for="pc-bg1">pctest2</label>
+                            <input class="form-check-input" type="radio" id="pc-bg2" name="bg" value="2">
+                            <label class="form-check-label" for="pc-bg2">pctest3</label>
+                            <input class="form-check-input" type="radio" id="pc-bg3" name="bg" value="3">
+                            <label class="form-check-label" for="pc-bg3">pctest4</label>
                         </div>
 
-                        <div class="row input-group-newsletter">
-                            <div class="col text-center"><button class="btn btn-primary " id="submitButton" type="submit">Generate!</button></div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            <input class="form-check-input" type="radio" id="mobile-bg0" name="bg" value="100">
+                            <label class="form-check-label" for="mobile-bg0">mobile1</label>
+                            <input class="form-check-input" type="radio" id="mobile-bg1" name="bg" value="101">
+                            <label class="form-check-label" for="mobile-bg1">mobile2</label>
+                            <input class="form-check-input" type="radio" id="mobile-bg2" name="bg" value="102">
+                            <label class="form-check-label" for="mobile-bg2">mobile3</label>
+                            <input class="form-check-input" type="radio" id="mobile-bg3" name="bg" value="103">
+                            <label class="form-check-label" for="mobile-bg3">mobile4</label>
                         </div>
 
-                        <!-- Submit success message-->
-                        <!---->
-                        <!-- This is what your users will see when the form-->
-                        <!-- has successfully submitted-->
-                        <div class="d-none" id="submitSuccessMessage">
-                            <div class="text-center mb-3 mt-2">
-                                <div class="fw-bolder">Form submission successful!</div>
-                                To activate this form, sign up at
-                                <br />
-                                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                            </div>
+                    </div>
+                    <br>
+                    <div class="row input-group-newsletter">
+                        <div class="col text-center">
+                            <button class="btn btn-success " id="submitButton" type="submit">Generate!</button>
                         </div>
-                        <!-- Submit error message-->
-                        <!---->
-                        <!-- This is what your users will see when there is-->
-                        <!-- an error submitting the form-->
-                        <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3 mt-2">Error sending message!</div></div>
-                    </form>
+                    </div>
+
+                    <!-- Submit success message-->
+                    <!---->
+                    <!-- This is what your users will see when the form-->
+                    <!-- has successfully submitted-->
+                    <div class="d-none" id="submitSuccessMessage">
+                        <div class="text-center mb-3 mt-2">
+                            <div class="fw-bolder">Form submission successful!</div>
+                            To activate this form, sign up at
+                            <br/>
+                            <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                        </div>
+                    </div>
+                    <!-- Submit error message-->
+                    <!---->
+                    <!-- This is what your users will see when there is-->
+                    <!-- an error submitting the form-->
+                    <div class="d-none" id="submitErrorMessage">
+                        <div class="text-center text-danger mb-3 mt-2">Error sending message!</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-ui">
+        <div class="masthead-content text-white">
+            <div class="container-fluid px-4 px-lg-0">
+
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col">
+                        <h2 class="fst-italic lh-1 mb-4">Profile Search</h2>
+                    </div>
                 </div>
+
+                <!-- fire water -->
+                <div class="row">
+                    <div class="col-sm-1"></div>
+
+                    <div class="col-sm-5">
+                        <div class="row text-center">
+                            <p>Fire</p>
+                            <div class="col">
+                                <span>Lv </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="firelv200" name="fireLv"
+                                           value="200">
+                                    <label class="form-check-label" for="firelv200">200</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="firelv150" name="fireLv"
+                                           value="150">
+                                    <label class="form-check-label" for="firelv150">150</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="firelv100" name="fireLv"
+                                           value="100">
+                                    <label class="form-check-label" for="firelv100">100</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span>Name </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="firesummon1" name="fireName"
+                                           value="agni">
+                                    <label class="form-check-label" for="firesummon1">Agni</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="firesummon2" name="fireName"
+                                           value="colossus">
+                                    <label class="form-check-label" for="firesummon2">Colossus</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="firesummon3" name="fireName"
+                                           value="shiva">
+                                    <label class="form-check-label" for="firesummon3">Shiva</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-5">
+                        <div class="row text-center">
+                            <p>Water</p>
+                            <div class="col">
+                                <span>Lv </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="waterlv200" name="waterLv"
+                                           value="200">
+                                    <label class="form-check-label" for="waterlv200">200</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="waterlv150" name="waterLv"
+                                           value="150">
+                                    <label class="form-check-label" for="waterlv150">150</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="waterlv100" name="waterLv"
+                                           value="100">
+                                    <label class="form-check-label" for="waterlv100">100</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span>Name </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="watersummon1" name="waterName"
+                                           value="varuna">
+                                    <label class="form-check-label" for="watersummon1">Varuna</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="watersummon2" name="waterName"
+                                           value="leviathan">
+                                    <label class="form-check-label" for="watersummon2">Leviathan</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="watersummon3" name="waterName"
+                                           value="bonito">
+                                    <label class="form-check-label" for="watersummon3">Bonito</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- earth wind -->
+                <div class="row">
+                    <div class="col-sm-1"></div>
+
+                    <div class="col-sm-5">
+                        <div class="row text-center">
+                            <p>Earth</p>
+                            <div class="col">
+                                <span>Lv </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="earthlv200" name="earthLv"
+                                           value="200">
+                                    <label class="form-check-label" for="earthlv200">200</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="earthlv150" name="earthLv"
+                                           value="150">
+                                    <label class="form-check-label" for="earthlv150">150</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="earthlv100" name="earthLv"
+                                           value="100">
+                                    <label class="form-check-label" for="earthlv100">100</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span>Name </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="earthsummon1" name="earthName"
+                                           value="titan">
+                                    <label class="form-check-label" for="earthsummon1">Titan</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="earthsummon2" name="earthName"
+                                           value="yggdrasil">
+                                    <label class="form-check-label" for="earthsummon2">Yggdrasil</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="earthsummon3" name="earthName"
+                                           value="gorilla">
+                                    <label class="form-check-label" for="earthsummon3">Gorilla</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-5">
+                        <div class="row text-center">
+                            <p>Wind</p>
+                            <div class="col">
+                                <span>Lv </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="windlv200" name="windLv"
+                                           value="200">
+                                    <label class="form-check-label" for="windlv200">200</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="windlv150" name="windLv"
+                                           value="150">
+                                    <label class="form-check-label" for="windlv150">150</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="windlv100" name="windLv"
+                                           value="100">
+                                    <label class="form-check-label" for="windlv100">100</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span>Name </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="windsummon1" name="windName"
+                                           value="zephyrus">
+                                    <label class="form-check-label" for="windsummon1">Zephyrus</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="windsummon2" name="windName"
+                                           value="tiamat">
+                                    <label class="form-check-label" for="windsummon2">Tiamat</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="windsummon3" name="windName"
+                                           value="grimnir">
+                                    <label class="form-check-label" for="windsummon3">Grimnir</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- light dark -->
+                <div class="row">
+                    <div class="col-sm-1"></div>
+
+                    <div class="col-sm-5">
+                        <div class="row text-center">
+                            <p>Light</p>
+                            <div class="col">
+                                <span>Lv </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="lightlv200" name="lightLv"
+                                           value="200">
+                                    <label class="form-check-label" for="lightlv200">200</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="lightlv150" name="lightLv"
+                                           value="150">
+                                    <label class="form-check-label" for="lightlv150">150</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="lightlv100" name="lightLv"
+                                           value="100">
+                                    <label class="form-check-label" for="lightlv100">100</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span>Name </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="lightsummon1" name="lightName"
+                                           value="zeus">
+                                    <label class="form-check-label" for="lightsummon1">Zeus</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="lightsummon2" name="lightName"
+                                           value="luminiera">
+                                    <label class="form-check-label" for="lightsummon2">Luminiera</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="lightsummon3" name="lightName"
+                                           value="lucifer">
+                                    <label class="form-check-label" for="lightsummon3">Lucifer</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-5">
+                        <div class="row text-center">
+                            <p>Dark</p>
+                            <div class="col">
+                                <span>Lv </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="darklv200" name="darkLv"
+                                           value="200">
+                                    <label class="form-check-label" for="darklv200">200</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="darklv150" name="darkLv"
+                                           value="150">
+                                    <label class="form-check-label" for="darklv150">150</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="darklv100" name="darkLv"
+                                           value="100">
+                                    <label class="form-check-label" for="darklv100">100</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span>Name </span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="darksummon1" name="darkName"
+                                           value="hades">
+                                    <label class="form-check-label" for="darksummon1">Hades</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="darksummon2" name="darkName"
+                                           value="celeste">
+                                    <label class="form-check-label" for="darksummon2">Celeste</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="darksummon3" name="darkName"
+                                           value="bahamut">
+                                    <label class="form-check-label" for="darksummon3">Bahamut</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- free -->
+                <div class="row">
+                    <div class="col-sm-1"></div>
+
+                    <div class="col-sm-10">
+                        <div class="row text-center">
+                            <p>Free</p>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col">
+                                <span>Lv </span>
+                                <input class="form-check-input" type="radio" id="freelv200" name="freeLv"
+                                       value="200">
+                                <label class="form-check-label" for="freelv200">200</label>
+
+                                <input class="form-check-input" type="radio" id="freelv150" name="freeLv"
+                                       value="150">
+                                <label class="form-check-label" for="freelv150">150</label>
+
+                                <input class="form-check-input" type="radio" id="freelv100" name="freeLv"
+                                       value="100">
+                                <label class="form-check-label" for="freelv100">100</label>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col">
+                                <span>Name </span>
+                                <input class="form-check-input" type="radio" id="freesummon1" name="freeName"
+                                       value="kaguya">
+                                <label class="form-check-label" for="freesummon1">Kaguya</label>
+
+                                <input class="form-check-input" type="radio" id="freesummon2" name="freeName"
+                                       value="huanglong">
+                                <label class="form-check-label" for="freesummon2">Huanglong</label>
+
+                                <input class="form-check-input" type="radio" id="freesummon3" name="freeName"
+                                       value="qilin">
+                                <label class="form-check-label" for="freesummon3">Qilin</label>
+
+                                <input class="form-check-input" type="radio" id="freesummon4" name="freeName"
+                                       value="belial">
+                                <label class="form-check-label" for="freesummon4">Belial</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row input-group-newsletter text-center">
+                    <div class="col">
+                        <button class="btn btn-success " type="button" onclick="search()">Search!</button>
+                        <button class="btn btn-danger " type="button" onclick="reset()">Reset!</button>
+                    </div>
+                </div>
+
             </div>
         </div>
-        <!-- Social Icons-->
-        <!-- For more icon options, visit https://fontawesome.com/icons?d=gallery&p=2&s=brands-->
-        <div class="social-icons">
-            <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
-                <a class="btn btn-dark m-3" href="#!"><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-dark m-3" href="#!"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-dark m-3" href="#!"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
+    </div>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="bootstrap/js/scripts.js"></script>
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<script>
+    function search() {
+        var url = "https://twitter.com/search?src=typed_query&f=top&q=from%3A%40gbf_friends%20"
+        let elements = ["fire", "water", "earth", "wind", "light", "dark", "free"];
 
-        </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="bootstrap/js/scripts.js"></script>
-    </body>
+        var query = ""
+        elements.forEach(element => {
+            var summonLv = $("input[name=" + element + "Lv]:checked").val();
+            var summonName = $("input[name=" + element + "Name]:checked").val();
+            if (summonLv && summonName) query += '%22Lv' + summonLv + '%20' + summonName + '%22%20';
+        });
+        url += query;
+        var win = window.open(url, '_blank');
+        win.focus();
+    }
+
+    function reset(){
+        let elements = ["fire", "water", "earth", "wind", "light", "dark", "free"];
+        elements.forEach(element => {
+            $("input[name=" + element + "Lv]:checked").prop('checked',false);
+            $("input[name=" + element + "Name]:checked").prop('checked',false);
+        });
+    }
+</script>
+</body>
 </html>
