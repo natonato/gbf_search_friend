@@ -199,6 +199,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 						if("Omega".equals(next))continue;
 						sb.append(next).append(" ");
 					}
+					sb.setLength(sb.length()-1);
 					playerDto.setSummonName(sb.toString(), x, y);
 				}
 			}
@@ -220,8 +221,8 @@ public class PlayerInfoImpl implements PlayerInfo {
 	private String createProfileString(PlayerDto playerDto){
 
 		String[] summonElement = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
-		StringBuffer msg = new StringBuffer("ID:"+playerDto.getId()+"\n"
-				+ "Name:"+playerDto.getName() +"\n");
+		StringBuffer msg = new StringBuffer("ID:"+playerDto.getId()+"\n");
+//				+ "Name:"+playerDto.getName() +"\n");
 
 		for(int i=0;i<7; i++){
 			int idx = (i+1)%7;
@@ -250,7 +251,10 @@ public class PlayerInfoImpl implements PlayerInfo {
 			}
 		}
 
-		if(msg.length()>278)msg.setLength(278);
+		if(msg.length()>279){
+			msg.setLength(278);
+			msg.append("..");
+		}
 
 		return msg.toString();
 	}

@@ -72,7 +72,7 @@ public class MainController {
             System.out.println("user duplicated!");
         } catch (Exception e) {
             e.printStackTrace();
-            return "error";
+            return "redirect:/error";
         }
         return "redirect:/searchProfile/" + code;
     }
