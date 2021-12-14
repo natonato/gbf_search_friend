@@ -45,9 +45,9 @@ public class PlayerInfoImpl implements PlayerInfo {
 		twitterID = userinfo.getTwitterID();
 		twitterPW = userinfo.getTwitterPW();
 
-		initChromeDriver(); // move this to make it parallel
-
+		initChromeDriver();
 	}
+
 
 	private void initChromeDriver() throws Exception{
 		//setup selenium
@@ -58,14 +58,15 @@ public class PlayerInfoImpl implements PlayerInfo {
 		Thread.sleep(1000);
 		initTwitter();
 	}
+
 	private void initTwitter() throws Exception {
-		twitterCookieTest();
+		twitterCookieTest(driver,wait);
 		Thread.sleep(1000);
-		gbfCookieTest();
+		gbfCookieTest(driver,wait);
 	}
 
 	@Override
-	public void twitterCookieTest() throws InterruptedException, IOException, ParseException {
+	public void twitterCookieTest(WebDriver driver,WebDriverWait wait) throws InterruptedException, IOException, ParseException {
 
 		driver.get("https://twitter.com/");
 
@@ -92,12 +93,12 @@ public class PlayerInfoImpl implements PlayerInfo {
 		}
 		br.close();
 
-		driver.get("https://twitter.com/");
+//		driver.get("https://twitter.com/");
 
 	}
 
 	@Override
-	public void gbfCookieTest() throws InterruptedException, IOException, ParseException {
+	public void gbfCookieTest(WebDriver driver,WebDriverWait wait) throws InterruptedException, IOException, ParseException {
 		driver.get("https://connect.mobage.jp/");
 
 		File file = new File("src/main/resources/static/cookie/mobage.data");
@@ -147,13 +148,14 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 		Thread.sleep(500);
 
-		driver.get("http://game.granbluefantasy.jp/#profile");
+//		driver.get("http://game.granbluefantasy.jp/#profile");
 
 	}
 
 	@Override
-	public PlayerDto resourceTest(String profileId) throws Exception {
+	public synchronized PlayerDto resourceTest(String profileId) throws Exception {
 		if (profileId == null || profileId.equals("")) return null;
+
 
 		//remove duplicated message / once a day
 		String today = LocalDate.now().toString();
@@ -161,6 +163,14 @@ public class PlayerInfoImpl implements PlayerInfo {
 			saveDate.put(profileId, new String[]{today, "Yes"});
 			throw new DuplicatedUserException();
 		}
+
+//		//parallel
+//		WebDriver driver = new ChromeDriver();
+//		WebDriverWait wait = new WebDriverWait(driver, 20);
+//		Thread.sleep(1000);
+//		initTwitter(driver,wait); // move this to make it parallel
+//		Thread.sleep(1000);
+//		System.out.println("Test Start : "+ profileId);
 
 		PlayerDto playerDto = new PlayerDto();
 
