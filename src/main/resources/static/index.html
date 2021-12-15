@@ -85,7 +85,8 @@
                     <div class="row input-group-newsletter">
                         <div class="col text-center">
                             <button class="btn btn-success " id="submitButton" type="submit">Generate!</button>
-                            <button class="btn btn-success " id="client" type="button" onclick="clientTest()">Client!</button>
+                            <button class="btn btn-success " id="client" type="button" onclick="clientTest()">Client!
+                            </button>
                         </div>
                     </div>
 
@@ -477,20 +478,20 @@
         win.focus();
     }
 
-    function reset(){
+    function reset() {
         let elements = ["fire", "water", "earth", "wind", "light", "dark", "free"];
         elements.forEach(element => {
-            $("input[name=" + element + "Lv]:checked").prop('checked',false);
-            $("input[name=" + element + "Name]:checked").prop('checked',false);
+            $("input[name=" + element + "Lv]:checked").prop('checked', false);
+            $("input[name=" + element + "Name]:checked").prop('checked', false);
         });
     }
 
-    function clientTest(){
+    function clientTest() {
         var xhr = new XMLHttpRequest();
         var userId = $('#code').val();
         console.log(userId);
         var time = new Date().getTime();
-        var targetURL = 'http://game.granbluefantasy.jp/profile/content/index/'+userId+'?_='+time+'&t='+(time+700)+'&uid='+userId;
+        var targetURL = 'http://game.granbluefantasy.jp/profile/content/index/' + userId + '?_=' + time + '&t=' + (time + 700) + '&uid=' + userId;
 
         xhr.open('GET', targetURL, true);
         xhr.setRequestHeader('Accept', 'application/json');
@@ -499,19 +500,30 @@
         xhr.setRequestHeader('Accept', 'q=0.01');
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.setRequestHeader('X-VERSION', '1639051134');
-        xhr.responseType='json';
+        xhr.responseType = 'json';
         xhr.send(null);
 
         $.ajax({
-           url : targetURL,
-           type : 'GET',
-           success: function(data){
-               console.log(data);
-           },
-           error : function (data){
-               console.log("error");
-               console.log(data);
-           }
+            url: targetURL,
+            type: 'GET',
+            contentType: 'application/json',
+            dataType:"json",
+            success: function (data) {
+                console.log("success");
+                console.log(data);
+            },
+            error: function (data) {
+                console.log("error");
+                console.log(data);
+            },
+            beforeSend: function (xhr){
+                xhr.setRequestHeader('Accept', 'application/json');
+                xhr.setRequestHeader('Accept', 'text/javascript');
+                xhr.setRequestHeader('Accept', '*/*');
+                xhr.setRequestHeader('Accept', 'q=0.01');
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.setRequestHeader('X-VERSION', '1639051134');
+            }
         });
 
     }

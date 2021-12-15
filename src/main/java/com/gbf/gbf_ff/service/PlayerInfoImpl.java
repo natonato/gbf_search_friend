@@ -153,7 +153,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 	}
 
 	@Override
-	public synchronized PlayerDto resourceTest(String profileId) throws Exception {
+	public PlayerDto resourceTest(String profileId) throws Exception {
 		if (profileId == null || profileId.equals("")) return null;
 
 
@@ -175,69 +175,77 @@ public class PlayerInfoImpl implements PlayerInfo {
 		PlayerDto playerDto = new PlayerDto();
 
 		playerDto.setId(profileId);
-		driver.get("http://game.granbluefantasy.jp/#profile/" + profileId);
-		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]")));
+		List<WebElement> summon;
+		List<WebElement> summonLevel;
+		StringTokenizer st;
 
-		WebElement name = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]/span"));
-		playerDto.setName(name.getAttribute("innerHTML"));
+		synchronized(this) {
+			driver.get("http://game.granbluefantasy.jp/#profile/" + profileId);
+			wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]")));
 
-		WebElement ranks = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]"));
-		StringTokenizer st = new StringTokenizer(ranks.getAttribute("innerHTML"));
-		String rank = "";
-		while (st.hasMoreTokens()) rank = st.nextToken();
-		playerDto.setRank(rank);
+			WebElement name = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]/span"));
+			playerDto.setName(name.getAttribute("innerHTML"));
 
-		List<WebElement> summon = driver.findElements(By.className("img-fix-summon"));
-		List<WebElement> summonLevel = driver.findElements(By.cssSelector(".prt-fix-spec div:first-child"));
+			WebElement ranks = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]"));
+			st = new StringTokenizer(ranks.getAttribute("innerHTML"));
+			String rank = "";
+			while (st.hasMoreTokens()) rank = st.nextToken();
+			playerDto.setRank(rank);
 
-		for (int x = 0; x < 7; x++) {
+			summon = driver.findElements(By.className("img-fix-summon"));
+			summonLevel = driver.findElements(By.cssSelector(".prt-fix-spec div:first-child"));
 
-			for (int y = 0; y < 2; y++) {
-				st = new StringTokenizer(summonLevel.get(x * 2 + y).getAttribute("innerHTML"));
-				String no = st.nextToken();//throw `lvl` text
 
-				playerDto.setSummon(summon.get(x * 2 + y).getAttribute("src"), x, y);
+			for (int x = 0; x < 7; x++) {
 
-				if (no.equals("No")) {
-					playerDto.setSummonLevel(0, x, y);
-					playerDto.setSummonName(null, x, y);
-				} else {
-					playerDto.setSummonLevel(Integer.parseInt(st.nextToken()), x, y);
-					StringBuffer sb = new StringBuffer();
-					while(st.hasMoreTokens()){
-						String next = st.nextToken();
-						if("Omega".equals(next))continue;
-						sb.append(next).append(" ");
+				for (int y = 0; y < 2; y++) {
+					st = new StringTokenizer(summonLevel.get(x * 2 + y).getAttribute("innerHTML"));
+					String no = st.nextToken();//throw `lvl` text
+
+					playerDto.setSummon(summon.get(x * 2 + y).getAttribute("src"), x, y);
+
+					if (no.equals("No")) {
+						playerDto.setSummonLevel(0, x, y);
+						playerDto.setSummonName(null, x, y);
+					} else {
+						playerDto.setSummonLevel(Integer.parseInt(st.nextToken()), x, y);
+						StringBuffer sb = new StringBuffer();
+						while (st.hasMoreTokens()) {
+							String next = st.nextToken();
+							if ("Omega".equals(next)) continue;
+							sb.append(next).append(" ");
+						}
+						sb.setLength(sb.length() - 1);
+						playerDto.setSummonName(sb.toString(), x, y);
 					}
-					sb.setLength(sb.length()-1);
-					playerDto.setSummonName(sb.toString(), x, y);
 				}
 			}
+			WebElement favorite = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[4]/div[7]/div[2]/div[1]/img"));
+
+			playerDto.setFavorite(favorite.getAttribute("src"));
+
+			//create twitter string / save it
+			String profileMessage = createProfileString(playerDto);
+			twitterMessage.put(profileId, profileMessage);
+			playerDto.setProfileMessage(profileMessage);
+
+			saveDate.put(profileId, new String[]{today, "No"});
+
+			return playerDto;
 		}
-		WebElement favorite = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[4]/div[7]/div[2]/div[1]/img"));
-
-		playerDto.setFavorite(favorite.getAttribute("src"));
-
-		//create twitter string / save it
-		String profileMessage = createProfileString(playerDto);
-		twitterMessage.put(profileId, profileMessage);
-		playerDto.setProfileMessage(profileMessage);
-
-		saveDate.put(profileId, new String[]{today, "No"});
-
-		return playerDto;
 	}
 
 	private String createProfileString(PlayerDto playerDto){
 
-		String[] summonElement = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
-		StringBuffer msg = new StringBuffer("ID:"+playerDto.getId()+"\n");
+		String[] summonElement = new String[]{"⚪","🔴","🔵","🟤","🟢","🟡","🟣"};
+		String[] summonElementEmoji = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
+		StringBuffer msg = new StringBuffer("🆔 "+playerDto.getId()+"\n");
 //				+ "Name:"+playerDto.getName() +"\n");
 
 		for(int i=0;i<7; i++){
 			int idx = (i+1)%7;
 			String sumName = playerDto.getSummonName()[idx][0];
-			msg.append(summonElement[idx]).append(":");
+			msg.append(summonElement[idx]).append(" ");
 			if(sumName!=null){
 				msg.append("Lv")
 						.append(playerDto.getSummonLevel()[idx][0])
