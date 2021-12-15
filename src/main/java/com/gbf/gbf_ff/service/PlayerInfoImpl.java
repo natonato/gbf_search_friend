@@ -45,9 +45,9 @@ public class PlayerInfoImpl implements PlayerInfo {
 		twitterID = userinfo.getTwitterID();
 		twitterPW = userinfo.getTwitterPW();
 
-		initChromeDriver(); // move this to make it parallel
-
+		initChromeDriver();
 	}
+
 
 	private void initChromeDriver() throws Exception{
 		//setup selenium
@@ -58,13 +58,15 @@ public class PlayerInfoImpl implements PlayerInfo {
 		Thread.sleep(1000);
 		initTwitter();
 	}
+
 	private void initTwitter() throws Exception {
-		twitterCookieTest();
-		gbfCookieTest();
+		twitterCookieTest(driver,wait);
+		Thread.sleep(1000);
+		gbfCookieTest(driver,wait);
 	}
 
 	@Override
-	public void twitterCookieTest() throws InterruptedException, IOException, ParseException {
+	public void twitterCookieTest(WebDriver driver,WebDriverWait wait) throws InterruptedException, IOException, ParseException {
 
 		driver.get("https://twitter.com/");
 
@@ -91,12 +93,12 @@ public class PlayerInfoImpl implements PlayerInfo {
 		}
 		br.close();
 
-		driver.get("https://twitter.com/");
+//		driver.get("https://twitter.com/");
 
 	}
 
 	@Override
-	public void gbfCookieTest() throws InterruptedException, IOException, ParseException {
+	public void gbfCookieTest(WebDriver driver,WebDriverWait wait) throws InterruptedException, IOException, ParseException {
 		driver.get("https://connect.mobage.jp/");
 
 		File file = new File("src/main/resources/static/cookie/mobage.data");
@@ -146,13 +148,14 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 		Thread.sleep(500);
 
-		driver.get("http://game.granbluefantasy.jp/#profile");
+//		driver.get("http://game.granbluefantasy.jp/#profile");
 
 	}
 
 	@Override
 	public PlayerDto resourceTest(String profileId) throws Exception {
 		if (profileId == null || profileId.equals("")) return null;
+
 
 		//remove duplicated message / once a day
 		String today = LocalDate.now().toString();
@@ -161,65 +164,88 @@ public class PlayerInfoImpl implements PlayerInfo {
 			throw new DuplicatedUserException();
 		}
 
+//		//parallel
+//		WebDriver driver = new ChromeDriver();
+//		WebDriverWait wait = new WebDriverWait(driver, 20);
+//		Thread.sleep(1000);
+//		initTwitter(driver,wait); // move this to make it parallel
+//		Thread.sleep(1000);
+//		System.out.println("Test Start : "+ profileId);
+
 		PlayerDto playerDto = new PlayerDto();
 
 		playerDto.setId(profileId);
-		driver.get("http://game.granbluefantasy.jp/#profile/" + profileId);
-		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]")));
+		List<WebElement> summon;
+		List<WebElement> summonLevel;
+		StringTokenizer st;
 
-		WebElement name = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]/span"));
-		playerDto.setName(name.getAttribute("innerHTML"));
+		synchronized(this) {
+			driver.get("http://game.granbluefantasy.jp/#profile/" + profileId);
+			wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[3]")));
 
-		WebElement ranks = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]"));
-		StringTokenizer st = new StringTokenizer(ranks.getAttribute("innerHTML"));
-		String rank = "";
-		while (st.hasMoreTokens()) rank = st.nextToken();
-		playerDto.setRank(rank);
+			WebElement name = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]/span"));
+			playerDto.setName(name.getAttribute("innerHTML"));
 
-		List<WebElement> summon = driver.findElements(By.className("img-fix-summon"));
-		List<WebElement> summonLevel = driver.findElements(By.cssSelector(".prt-fix-spec div:first-child"));
+			WebElement ranks = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[1]/div[1]/div[2]"));
+			st = new StringTokenizer(ranks.getAttribute("innerHTML"));
+			String rank = "";
+			while (st.hasMoreTokens()) rank = st.nextToken();
+			playerDto.setRank(rank);
 
-		for (int x = 0; x < 7; x++) {
+			summon = driver.findElements(By.className("img-fix-summon"));
+			summonLevel = driver.findElements(By.cssSelector(".prt-fix-spec div:first-child"));
 
-			for (int y = 0; y < 2; y++) {
-				st = new StringTokenizer(summonLevel.get(x * 2 + y).getAttribute("innerHTML"));
-				String no = st.nextToken();//throw `lvl` text
 
-				playerDto.setSummon(summon.get(x * 2 + y).getAttribute("src"), x, y);
+			for (int x = 0; x < 7; x++) {
 
-				if (no.equals("No")) {
-					playerDto.setSummonLevel(0, x, y);
-					playerDto.setSummonName(null, x, y);
-				} else {
-					playerDto.setSummonLevel(Integer.parseInt(st.nextToken()), x, y);
-					playerDto.setSummonName(st.nextToken(), x, y);
+				for (int y = 0; y < 2; y++) {
+					st = new StringTokenizer(summonLevel.get(x * 2 + y).getAttribute("innerHTML"));
+					String no = st.nextToken();//throw `lvl` text
+
+					playerDto.setSummon(summon.get(x * 2 + y).getAttribute("src"), x, y);
+
+					if (no.equals("No")) {
+						playerDto.setSummonLevel(0, x, y);
+						playerDto.setSummonName(null, x, y);
+					} else {
+						playerDto.setSummonLevel(Integer.parseInt(st.nextToken()), x, y);
+						StringBuffer sb = new StringBuffer();
+						while (st.hasMoreTokens()) {
+							String next = st.nextToken();
+							if ("Omega".equals(next)) continue;
+							sb.append(next).append(" ");
+						}
+						sb.setLength(sb.length() - 1);
+						playerDto.setSummonName(sb.toString(), x, y);
+					}
 				}
 			}
+			WebElement favorite = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[4]/div[7]/div[2]/div[1]/img"));
+
+			playerDto.setFavorite(favorite.getAttribute("src"));
+
+			//create twitter string / save it
+			String profileMessage = createProfileString(playerDto);
+			twitterMessage.put(profileId, profileMessage);
+			playerDto.setProfileMessage(profileMessage);
+
+			saveDate.put(profileId, new String[]{today, "No"});
+
+			return playerDto;
 		}
-		WebElement favorite = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[3]/div[2]/div[4]/div[7]/div[2]/div[1]/img"));
-
-		playerDto.setFavorite(favorite.getAttribute("src"));
-
-		//create twitter string / save it
-		String profileMessage = createProfileString(playerDto);
-		twitterMessage.put(profileId, profileMessage);
-		playerDto.setProfileMessage(profileMessage);
-
-		saveDate.put(profileId, new String[]{today, "No"});
-
-		return playerDto;
 	}
 
 	private String createProfileString(PlayerDto playerDto){
 
-		String[] summonElement = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
-		StringBuffer msg = new StringBuffer("ID:"+playerDto.getId()+"\n"
-				+ "Name:"+playerDto.getName() +"\n");
+		String[] summonElement = new String[]{"⚪","🔴","🔵","🟤","🟢","🟡","🟣"};
+		String[] summonElementEmoji = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
+		StringBuffer msg = new StringBuffer("🆔 "+playerDto.getId()+"\n");
+//				+ "Name:"+playerDto.getName() +"\n");
 
 		for(int i=0;i<7; i++){
 			int idx = (i+1)%7;
 			String sumName = playerDto.getSummonName()[idx][0];
-			msg.append(summonElement[idx]).append(":");
+			msg.append(summonElement[idx]).append(" ");
 			if(sumName!=null){
 				msg.append("Lv")
 						.append(playerDto.getSummonLevel()[idx][0])
@@ -243,7 +269,10 @@ public class PlayerInfoImpl implements PlayerInfo {
 			}
 		}
 
-		if(msg.length()>278)msg.setLength(278);
+		if(msg.length()>279){
+			msg.setLength(278);
+			msg.append("..");
+		}
 
 		return msg.toString();
 	}
