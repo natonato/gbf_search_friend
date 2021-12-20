@@ -21,9 +21,9 @@ public class MainController {
 
     private final PlayerInfo playerInfo;
 
-    private TwitterUpload twitterUpload;
+    private final TwitterUpload twitterUpload;
 
-    private GBFResource gbfResource;
+    private final GBFResource gbfResource;
 
     @Autowired
     MainController(PlayerInfo playerInfo, TwitterUpload twitterUpload,
@@ -38,10 +38,6 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/error")
-    public String getError(){
-        return "error";
-    }
 
     @GetMapping(path="/searchProfile/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ModelAndView getSearchProfile(@PathVariable String id,

@@ -156,7 +156,6 @@ public class PlayerInfoImpl implements PlayerInfo {
 	public PlayerDto resourceTest(String profileId) throws Exception {
 		if (profileId == null || profileId.equals("")) return null;
 
-
 		//remove duplicated message / once a day
 		String today = LocalDate.now().toString();
 		if(saveDate.containsKey(profileId) && today.equals(saveDate.get(profileId)[0])){
