@@ -8386,6 +8386,7 @@ textarea.form-control-lg {
 .text-white {
     --bs-text-opacity: 1;
     color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
+    text-shadow: rgba(0, 0, 0, 0.5) 1px 0 10px;
 }
 
 .text-body {
@@ -11933,8 +11934,8 @@ body:before {
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: #2a5555;
-    opacity: 0.7;
+    background-color: #000000;
+    opacity: 0.3;
     z-index: 1;
 }
 

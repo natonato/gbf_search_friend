@@ -24,17 +24,17 @@
 <!-- Background Video-->
 <div class="bg-image"
      style="background-image: url(/bootstrap/assets/img/background.jpg);
-            height: 100vh;background-position: center;
+            min-height: 100vh;background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-        ">
 
+        ">
     <!-- Masthead-->
-    <div class="masthead">
+    <div class="masthead" style="height: 100vh;">
         <div class="masthead-content text-white">
             <div class="container-fluid px-4 px-lg-0">
-                <h2 class="fst-italic lh-1 mb-4">Granblue Fantasy Profile Generator</h2>
-                <p class="mb-5">
+                <h2 class="fst-italic lh-1 mb-3">Granblue Fantasy Profile Generator</h2>
+                <p class="mb-2">
                     Step 1. Enter your profile ID<br>
                     Step 2. Enter message you want<br>
                     Step 3. Choose background you want<br>
@@ -42,37 +42,36 @@
                 </p>
 
                 <form th:action="@{/searchProfile}" method="post">
-                    <!-- Email address input-->
-                    <div class="row input-group-newsletter">
+                    <div class="row input-group-newsletter mb-2">
                         <div class="col"><input class="form-control" id="code" type="text" name="code"
                                                 placeholder="Enter your profile ID" required pattern="[0-9]+"/></div>
                     </div>
-                    <br>
-
-                    <div class="row input-group-newsletter">
+                    <div class="row input-group-newsletter mb-2">
                         <div class="col"><textarea class="form-control" name="message" cols="30" rows="5"
                                                    placeholder="Enter message you want (Max : 3 Line)"></textarea></div>
 
                     </div>
-                    <br>
+                    <div class="row text-center mb-2">
+                        <p style="font-size:15px;"> Choose background you want<br>(1920*1080 / 1080*1920)</p>
+                    </div>
 
                     <div class="row">
                         <div class="col text-center">
-                            <label>
+                            <label style="width:24%;">
                                 <input class="form-check-input img-radio" type="radio" id="pc-bg0" name="bg" value="0" checked>
-                                <img src="/bootstrap/assets/img/pc_1.jpg">
+                                <img src="/bootstrap/assets/img/pc_1.jpg" style="width: 100%;">
                             </label>
-                            <label>
+                            <label style="width:24%;">
                                 <input class="form-check-input img-radio" type="radio" id="pc-bg1" name="bg" value="1">
-                                <img src="/bootstrap/assets/img/pc_2.jpg">
+                                <img src="/bootstrap/assets/img/pc_2.jpg" style="width: 100%;">
                             </label>
-                            <label>
+                            <label style="width:24%;">
                                 <input class="form-check-input img-radio" type="radio" id="pc-bg2" name="bg" value="2">
-                                <img src="/bootstrap/assets/img/pc_3.jpg">
+                                <img src="/bootstrap/assets/img/pc_3.jpg" style="width: 100%;">
                             </label>
-                            <label>
+                            <label style="width:24%;">
                                 <input class="form-check-input img-radio" type="radio" id="pc-bg3" name="bg" value="3">
-                                <img src="/bootstrap/assets/img/pc_4.jpg">
+                                <img src="/bootstrap/assets/img/pc_4.jpg" style="width: 100%;">
                             </label>
 <!--                            <input class="form-check-input" type="radio" id="pc-bg0" name="bg" value="0" checked>-->
 <!--                            <label class="form-check-label" for="pc-bg0">pctest1</label>-->
@@ -87,19 +86,19 @@
                     </div>
                     <div class="row">
                         <div class="col text-center">
-                            <label>
+                            <label style="width:24%;">
                                 <input class="form-check-input img-radio" type="radio" id="mobile-bg0" name="bg" value="100">
                                 <img src="/bootstrap/assets/img/mobile_1.jpg">
                             </label>
-                            <label>
+                            <label style="width:24%;">
                                 <input class="form-check-input img-radio" type="radio" id="mobile-bg1" name="bg" value="101">
                                 <img src="/bootstrap/assets/img/mobile_2.jpg">
                             </label>
-                            <label>
+                            <label style="width:24%;">
                                 <input class="form-check-input img-radio" type="radio" id="mobile-bg2" name="bg" value="102">
                                 <img src="/bootstrap/assets/img/mobile_3.jpg">
                             </label>
-                            <label>
+                            <label style="width:24%;">
                                 <input class="form-check-input img-radio" type="radio" id="mobile-bg3" name="bg" value="103">
                                 <img src="/bootstrap/assets/img/mobile_4.jpg">
                             </label>
@@ -114,12 +113,9 @@
                         </div>
 
                     </div>
-                    <br>
                     <div class="row input-group-newsletter">
                         <div class="col text-center">
                             <button class="btn btn-success " id="submitButton" type="submit">Generate!</button>
-                            <button class="btn btn-success " id="client" type="button" onclick="clientTest()">Client!
-                            </button>
                         </div>
                     </div>
 
@@ -167,38 +163,38 @@
                             <p>Fire</p>
                             <div class="col">
                                 <span>Lv </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="firelv200" name="fireLv"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="firelv200" name="fireLv"
                                            value="200">
-                                    <label class="form-check-label" for="firelv200">200</label>
+                                    <label class="" for="firelv200">200</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="firelv150" name="fireLv"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="firelv150" name="fireLv"
                                            value="150">
-                                    <label class="form-check-label" for="firelv150">150</label>
+                                    <label class="" for="firelv150">150</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="firelv100" name="fireLv"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="firelv100" name="fireLv"
                                            value="100">
-                                    <label class="form-check-label" for="firelv100">100</label>
+                                    <label class="" for="firelv100">100</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <span>Name </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="firesummon1" name="fireName"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="firesummon1" name="fireName"
                                            value="agni">
-                                    <label class="form-check-label" for="firesummon1">Agni</label>
+                                    <label class="" for="firesummon1">Agni</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="firesummon2" name="fireName"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="firesummon2" name="fireName"
                                            value="colossus">
-                                    <label class="form-check-label" for="firesummon2">Colossus</label>
+                                    <label class="" for="firesummon2">Colossus</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="firesummon3" name="fireName"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="firesummon3" name="fireName"
                                            value="shiva">
-                                    <label class="form-check-label" for="firesummon3">Shiva</label>
+                                    <label class="" for="firesummon3">Shiva</label>
                                 </div>
                             </div>
                         </div>
@@ -209,38 +205,38 @@
                             <p>Water</p>
                             <div class="col">
                                 <span>Lv </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="waterlv200" name="waterLv"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="waterlv200" name="waterLv"
                                            value="200">
-                                    <label class="form-check-label" for="waterlv200">200</label>
+                                    <label class="" for="waterlv200">200</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="waterlv150" name="waterLv"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="waterlv150" name="waterLv"
                                            value="150">
-                                    <label class="form-check-label" for="waterlv150">150</label>
+                                    <label class="" for="waterlv150">150</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="waterlv100" name="waterLv"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="waterlv100" name="waterLv"
                                            value="100">
-                                    <label class="form-check-label" for="waterlv100">100</label>
+                                    <label class="" for="waterlv100">100</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <span>Name </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="watersummon1" name="waterName"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="watersummon1" name="waterName"
                                            value="varuna">
-                                    <label class="form-check-label" for="watersummon1">Varuna</label>
+                                    <label class="" for="watersummon1">Varuna</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="watersummon2" name="waterName"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="watersummon2" name="waterName"
                                            value="leviathan">
-                                    <label class="form-check-label" for="watersummon2">Leviathan</label>
+                                    <label class="" for="watersummon2">Leviathan</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="watersummon3" name="waterName"
+                                <div class="">
+                                    <input class=" text-radio" type="radio" id="watersummon3" name="waterName"
                                            value="bonito">
-                                    <label class="form-check-label" for="watersummon3">Bonito</label>
+                                    <label class="" for="watersummon3">Bonito</label>
                                 </div>
                             </div>
                         </div>
@@ -256,38 +252,38 @@
                             <p>Earth</p>
                             <div class="col">
                                 <span>Lv </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="earthlv200" name="earthLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="earthlv200" name="earthLv"
                                            value="200">
-                                    <label class="form-check-label" for="earthlv200">200</label>
+                                    <label class="" for="earthlv200">200</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="earthlv150" name="earthLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="earthlv150" name="earthLv"
                                            value="150">
-                                    <label class="form-check-label" for="earthlv150">150</label>
+                                    <label class="" for="earthlv150">150</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="earthlv100" name="earthLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="earthlv100" name="earthLv"
                                            value="100">
-                                    <label class="form-check-label" for="earthlv100">100</label>
+                                    <label class="" for="earthlv100">100</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <span>Name </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="earthsummon1" name="earthName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="earthsummon1" name="earthName"
                                            value="titan">
-                                    <label class="form-check-label" for="earthsummon1">Titan</label>
+                                    <label class="" for="earthsummon1">Titan</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="earthsummon2" name="earthName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="earthsummon2" name="earthName"
                                            value="yggdrasil">
-                                    <label class="form-check-label" for="earthsummon2">Yggdrasil</label>
+                                    <label class="" for="earthsummon2">Yggdrasil</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="earthsummon3" name="earthName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="earthsummon3" name="earthName"
                                            value="gorilla">
-                                    <label class="form-check-label" for="earthsummon3">Gorilla</label>
+                                    <label class="" for="earthsummon3">Gorilla</label>
                                 </div>
                             </div>
                         </div>
@@ -298,38 +294,38 @@
                             <p>Wind</p>
                             <div class="col">
                                 <span>Lv </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="windlv200" name="windLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="windlv200" name="windLv"
                                            value="200">
-                                    <label class="form-check-label" for="windlv200">200</label>
+                                    <label class="" for="windlv200">200</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="windlv150" name="windLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="windlv150" name="windLv"
                                            value="150">
-                                    <label class="form-check-label" for="windlv150">150</label>
+                                    <label class="" for="windlv150">150</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="windlv100" name="windLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="windlv100" name="windLv"
                                            value="100">
-                                    <label class="form-check-label" for="windlv100">100</label>
+                                    <label class="" for="windlv100">100</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <span>Name </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="windsummon1" name="windName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="windsummon1" name="windName"
                                            value="zephyrus">
-                                    <label class="form-check-label" for="windsummon1">Zephyrus</label>
+                                    <label class="" for="windsummon1">Zephyrus</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="windsummon2" name="windName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="windsummon2" name="windName"
                                            value="tiamat">
-                                    <label class="form-check-label" for="windsummon2">Tiamat</label>
+                                    <label class="" for="windsummon2">Tiamat</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="windsummon3" name="windName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="windsummon3" name="windName"
                                            value="grimnir">
-                                    <label class="form-check-label" for="windsummon3">Grimnir</label>
+                                    <label class="" for="windsummon3">Grimnir</label>
                                 </div>
                             </div>
                         </div>
@@ -345,38 +341,38 @@
                             <p>Light</p>
                             <div class="col">
                                 <span>Lv </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="lightlv200" name="lightLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="lightlv200" name="lightLv"
                                            value="200">
-                                    <label class="form-check-label" for="lightlv200">200</label>
+                                    <label class="" for="lightlv200">200</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="lightlv150" name="lightLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="lightlv150" name="lightLv"
                                            value="150">
-                                    <label class="form-check-label" for="lightlv150">150</label>
+                                    <label class="" for="lightlv150">150</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="lightlv100" name="lightLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="lightlv100" name="lightLv"
                                            value="100">
-                                    <label class="form-check-label" for="lightlv100">100</label>
+                                    <label class="" for="lightlv100">100</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <span>Name </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="lightsummon1" name="lightName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="lightsummon1" name="lightName"
                                            value="zeus">
-                                    <label class="form-check-label" for="lightsummon1">Zeus</label>
+                                    <label class="" for="lightsummon1">Zeus</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="lightsummon2" name="lightName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="lightsummon2" name="lightName"
                                            value="luminiera">
-                                    <label class="form-check-label" for="lightsummon2">Luminiera</label>
+                                    <label class="" for="lightsummon2">Luminiera</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="lightsummon3" name="lightName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="lightsummon3" name="lightName"
                                            value="lucifer">
-                                    <label class="form-check-label" for="lightsummon3">Lucifer</label>
+                                    <label class="" for="lightsummon3">Lucifer</label>
                                 </div>
                             </div>
                         </div>
@@ -387,38 +383,38 @@
                             <p>Dark</p>
                             <div class="col">
                                 <span>Lv </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="darklv200" name="darkLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="darklv200" name="darkLv"
                                            value="200">
-                                    <label class="form-check-label" for="darklv200">200</label>
+                                    <label class="" for="darklv200">200</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="darklv150" name="darkLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="darklv150" name="darkLv"
                                            value="150">
-                                    <label class="form-check-label" for="darklv150">150</label>
+                                    <label class="" for="darklv150">150</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="darklv100" name="darkLv"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="darklv100" name="darkLv"
                                            value="100">
-                                    <label class="form-check-label" for="darklv100">100</label>
+                                    <label class="" for="darklv100">100</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <span>Name </span>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="darksummon1" name="darkName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="darksummon1" name="darkName"
                                            value="hades">
-                                    <label class="form-check-label" for="darksummon1">Hades</label>
+                                    <label class="" for="darksummon1">Hades</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="darksummon2" name="darkName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="darksummon2" name="darkName"
                                            value="celeste">
-                                    <label class="form-check-label" for="darksummon2">Celeste</label>
+                                    <label class="" for="darksummon2">Celeste</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="darksummon3" name="darkName"
+                                <div class="">
+                                    <input class="text-radio" type="radio" id="darksummon3" name="darkName"
                                            value="bahamut">
-                                    <label class="form-check-label" for="darksummon3">Bahamut</label>
+                                    <label class="" for="darksummon3">Bahamut</label>
                                 </div>
                             </div>
                         </div>
@@ -476,7 +472,9 @@
                     </div>
 
                 </div>
+
                 <br>
+
                 <div class="row input-group-newsletter text-center">
                     <div class="col">
                         <button class="btn btn-primary " type="button" onclick="search()">Search!</button>
@@ -488,6 +486,38 @@
         </div>
     </div>
 </div>
+
+<!-- Footer -->
+<footer class="bg-dark text-center text-white" style="position: relative;z-index: 2">
+    <!-- Grid container -->
+    <div class="container p-4" style="z-index: 2">
+
+        <!-- Section: Social media -->
+        <section class="mb-4">
+            <!-- Twitter -->
+            <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee" href="https://twitter.com/gbf_friends" role="button" target="_blank"><i class="fab fa-twitter"></i></a>
+            <!-- Github -->
+            <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="https://github.com/natonato/gbf_search_friend" role="button" target="_blank"><i class="fab fa-github"></i></a>
+        </section>
+        <!-- Section: Social media -->
+
+        <!-- Section: Text -->
+        <section class="mb-4">
+            <p>
+                Granblue Fantasy Profile Generater / Profile Finder Created by @natonato.<br>
+                I do not own the rights to images and resources related to Granblue Fantasy.<br>
+                All rights reserved to Cygames, Inc.
+            </p>
+        </section>
+        <!-- Section: Text -->
+
+    </div>
+    <!-- Grid container -->
+
+
+</footer>
+<!-- Footer -->
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
@@ -517,48 +547,6 @@
             $("input[name=" + element + "Lv]:checked").prop('checked', false);
             $("input[name=" + element + "Name]:checked").prop('checked', false);
         });
-    }
-
-    function clientTest() {
-        var xhr = new XMLHttpRequest();
-        var userId = $('#code').val();
-        console.log(userId);
-        var time = new Date().getTime();
-        var targetURL = 'http://game.granbluefantasy.jp/profile/content/index/' + userId + '?_=' + time + '&t=' + (time + 700) + '&uid=' + userId;
-
-        xhr.open('GET', targetURL, true);
-        xhr.setRequestHeader('Accept', 'application/json');
-        xhr.setRequestHeader('Accept', 'text/javascript');
-        xhr.setRequestHeader('Accept', '*/*');
-        xhr.setRequestHeader('Accept', 'q=0.01');
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.setRequestHeader('X-VERSION', '1639051134');
-        xhr.responseType = 'json';
-        xhr.send(null);
-
-        $.ajax({
-            url: targetURL,
-            type: 'GET',
-            contentType: 'application/json',
-            dataType:"json",
-            success: function (data) {
-                console.log("success");
-                console.log(data);
-            },
-            error: function (data) {
-                console.log("error");
-                console.log(data);
-            },
-            beforeSend: function (xhr){
-                xhr.setRequestHeader('Accept', 'application/json');
-                xhr.setRequestHeader('Accept', 'text/javascript');
-                xhr.setRequestHeader('Accept', '*/*');
-                xhr.setRequestHeader('Accept', 'q=0.01');
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                xhr.setRequestHeader('X-VERSION', '1639051134');
-            }
-        });
-
     }
 </script>
 </body>

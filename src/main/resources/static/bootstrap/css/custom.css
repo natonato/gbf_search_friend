@@ -1,9 +1,30 @@
+.img-radio + img {
+    border: 3px solid transparent !important;
+    border-radius: 10%;
 
-.form-check-input:checked + img {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.img-radio:checked + img {
     border: 3px solid orange !important;
     border-radius: 10%;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
+
+
 
 .img-radio{
     display : none;
+}
+.text-radio{
+    display : none;
+}
+
+.text-radio:checked + label {
+    color: orange;
 }
