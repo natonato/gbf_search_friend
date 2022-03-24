@@ -64,6 +64,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 	private void initChromeDriver() throws Exception{
 		//setup selenium
 		String chromeBin = System.getenv("CHROMEDRIVER_PATH");
+		System.out.println(chromeBin);
 		if(chromeBin!=null){
 			System.setProperty("webdriver.chrome.driver", "/app/.chromedriver/bin/chromedriver");
 		}
@@ -75,6 +76,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 		chromeOptions.addArguments("disable-gpu");
 
 		String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
+		System.out.println(binaryLoc);
 		if(binaryLoc!=null){
 			chromeOptions.setBinary(binaryLoc);
 		}
