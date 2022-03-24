@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/gbf_search_friend-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=8000 -jar target/gbf_search_friend-0.0.1-SNAPSHOT.jar
