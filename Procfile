@@ -1,1 +1,1 @@
-web: java -Dserver.port=8000 $JAVA_OPTS -jar build/libs/*.jar
+web: java -Dserver.port=8000 $JAVA_OPTS -jar build/libs/gbf_ff_1030-0.0.1-SNAPSHOT.jar
