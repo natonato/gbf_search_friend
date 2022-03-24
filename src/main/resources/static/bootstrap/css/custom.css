@@ -27,4 +27,10 @@
 
 .text-radio:checked + label {
     color: orange;
+    text-shadow:1px 0px 0px;
+}
+
+.elementTitle {
+    color:blue;
+    text-shadow:1px 0px 0px;
 }

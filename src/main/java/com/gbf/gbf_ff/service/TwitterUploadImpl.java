@@ -24,26 +24,26 @@ public class TwitterUploadImpl implements TwitterUpload{
 	@Value("${image.location}")
 	private String imgSaveUrl;
 
-	private TwitterInfo twitterInfo;
-	private PlayerInfo playerInfo;
+	private final TwitterInfo twitterInfo;
+//	private PlayerInfo playerInfo;
 
 	private Twitter twitter;
 	private RequestToken requestToken=null;
 	private AccessToken finalAccessToken=null;
 
 	@Autowired
-	public TwitterUploadImpl(TwitterInfo twitterInfo, PlayerInfo playerInfo) {
-		this.playerInfo=playerInfo;
+	public TwitterUploadImpl(TwitterInfo twitterInfo) {
+//		this.playerInfo=playerInfo;
 		this.twitterInfo = twitterInfo;
 
 		saveDate = new HashMap<>();
 
 		twitter = TwitterFactory.getSingleton();
-		twitter.setOAuthConsumer(twitterInfo.getAPIKey(),
-				twitterInfo.getAPISecretKey());
+		twitter.setOAuthConsumer(this.twitterInfo.getAPIKey(),
+				this.twitterInfo.getAPISecretKey());
 
-		finalAccessToken=new AccessToken(twitterInfo.getAccessToken(),
-				twitterInfo.getAccessSecret());
+		finalAccessToken=new AccessToken(this.twitterInfo.getAccessToken(),
+				this.twitterInfo.getAccessSecret());
 
 		twitter.setOAuthAccessToken(finalAccessToken);
 		

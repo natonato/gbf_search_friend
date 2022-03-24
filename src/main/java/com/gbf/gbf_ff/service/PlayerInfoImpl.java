@@ -3,18 +3,29 @@ package com.gbf.gbf_ff.service;
 import com.gbf.gbf_ff.Exception.DuplicatedUserException;
 import com.gbf.gbf_ff.config.UserInfo;
 import com.gbf.gbf_ff.dto.PlayerDto;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.zip.GZIPInputStream;
 
 @Service
 //@ComponentScan
@@ -30,6 +41,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 	private String twitterID;
 	private String twitterPW;
 
+	private String gbfToken;
 	//singleton
 	WebDriver driver;
 	WebDriverWait wait;
@@ -51,8 +63,20 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 	private void initChromeDriver() throws Exception{
 		//setup selenium
+		String chromeBin = System.getenv("CHROMEDRIVER_PATH");
+		if(chromeBin!=null){
+			System.setProperty("webdriver.chrome.driver", "/app/.chromedriver/bin/chromedriver");
+		}
 		System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver_win32/chromedriver.exe");
-		driver = new ChromeDriver();
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.addArguments("headless");
+		chromeOptions.addArguments("disable-gpu");
+
+		String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
+		if(binaryLoc!=null){
+			driver =
+		}
+		driver = new ChromeDriver(chromeOptions);
 		wait = new WebDriverWait(driver, 20);
 
 		Thread.sleep(1000);
@@ -60,11 +84,16 @@ public class PlayerInfoImpl implements PlayerInfo {
 	}
 
 	private void initTwitter() throws Exception {
+
 		twitterCookieTest(driver,wait);
 		Thread.sleep(1000);
 		gbfCookieTest(driver,wait);
-	}
 
+	}
+	@Override
+	public void makeProfileImg(PlayerDto playerDto, String message, int bg) throws Exception{
+		gbfResource.makeProfileImg(playerDto,message,bg);
+	}
 	@Override
 	public void twitterCookieTest(WebDriver driver,WebDriverWait wait) throws InterruptedException, IOException, ParseException {
 
@@ -162,14 +191,6 @@ public class PlayerInfoImpl implements PlayerInfo {
 			saveDate.put(profileId, new String[]{today, "Yes"});
 			throw new DuplicatedUserException();
 		}
-
-//		//parallel
-//		WebDriver driver = new ChromeDriver();
-//		WebDriverWait wait = new WebDriverWait(driver, 20);
-//		Thread.sleep(1000);
-//		initTwitter(driver,wait); // move this to make it parallel
-//		Thread.sleep(1000);
-//		System.out.println("Test Start : "+ profileId);
 
 		PlayerDto playerDto = new PlayerDto();
 

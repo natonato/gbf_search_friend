@@ -23,14 +23,14 @@ public class MainController {
 
     private final TwitterUpload twitterUpload;
 
-    private final GBFResource gbfResource;
+//    private final GBFResource gbfResource;
 
     @Autowired
-    MainController(PlayerInfo playerInfo, TwitterUpload twitterUpload,
-                   GBFResource gbfResource){
-        this.playerInfo = playerInfo;
+    MainController(PlayerInfo playerInfo, TwitterUpload twitterUpload
+                   ){
         this.twitterUpload=twitterUpload;
-        this.gbfResource=gbfResource;
+//        this.gbfResource=gbfResource;
+        this.playerInfo = playerInfo;
     }
 
     @GetMapping("/")
@@ -63,7 +63,7 @@ public class MainController {
         PlayerDto playerDto = null;
         try {
             playerDto = playerInfo.resourceTest(code);
-            gbfResource.makeProfileImg(playerDto, message, bg);
+            playerInfo.makeProfileImg(playerDto, message, bg);
         } catch (DuplicatedUserException e) {
             System.out.println("user duplicated!");
         } catch (Exception e) {

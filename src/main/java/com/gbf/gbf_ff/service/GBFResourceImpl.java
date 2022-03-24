@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.StringTokenizer;
 
@@ -31,8 +30,11 @@ public class GBFResourceImpl implements GBFResource {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
+
 	@Override
-	public void makeProfileImg(PlayerDto playerDto, String message, int imgType) throws IOException {
+	public void makeProfileImg(PlayerDto playerDto, String message, int imgType) throws Exception {
 		//img option
 		String[] imgName = new String[]{"pc_1.jpg", "pc_2.jpg","pc_3.jpg", "pc_4.jpg"};
 		String[] mobileName = new String[]{"mobile_1.jpg","mobile_2.jpg","mobile_3.jpg","mobile_4.jpg"};
