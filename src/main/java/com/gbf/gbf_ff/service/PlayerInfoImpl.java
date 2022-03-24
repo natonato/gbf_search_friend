@@ -67,14 +67,16 @@ public class PlayerInfoImpl implements PlayerInfo {
 		if(chromeBin!=null){
 			System.setProperty("webdriver.chrome.driver", "/app/.chromedriver/bin/chromedriver");
 		}
-		System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver_win32/chromedriver.exe");
+		else {
+			System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver_win32/chromedriver.exe");
+		}
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.addArguments("headless");
 		chromeOptions.addArguments("disable-gpu");
 
 		String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
 		if(binaryLoc!=null){
-			driver =
+			chromeOptions.setBinary(binaryLoc);
 		}
 		driver = new ChromeDriver(chromeOptions);
 		wait = new WebDriverWait(driver, 20);
