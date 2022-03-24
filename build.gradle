@@ -59,7 +59,3 @@ test {
 }
 
 apply plugin: 'idea'
-
-jar{
-    enable =false
-}
