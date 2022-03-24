@@ -1,1 +1,1 @@
-web: java -Dserver.port=8000 $JAVA_OPTS -jar target/*.jar
+web: java -Dserver.port=8000 $JAVA_OPTS -jar build/libs/*.jar
