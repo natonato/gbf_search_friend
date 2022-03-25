@@ -84,8 +84,9 @@ public class PlayerInfoImpl implements PlayerInfo {
 			}
 			ChromeOptions chromeOptions = new ChromeOptions();
 			chromeOptions.addArguments("headless");
-//			chromeOptions.addArguments("disable-gpu");
+			chromeOptions.addArguments("disable-gpu");
 			chromeOptions.addArguments("no-sandbox");
+			chromeOptions.addArguments("remote-debugging-port=9222");
 
 			String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
 			if(binaryLoc!=null){
@@ -97,8 +98,8 @@ public class PlayerInfoImpl implements PlayerInfo {
 			Thread.sleep(1000);
 			initTwitter();
 		} catch (UnhandledAlertException e){
-			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-			alert.accept();
+			Thread.sleep(2000);
+			driver.switchTo().alert().accept();
 			initTwitter();
 		}
 	}
