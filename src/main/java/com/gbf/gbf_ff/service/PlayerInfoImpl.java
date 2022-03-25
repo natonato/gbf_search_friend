@@ -3,6 +3,7 @@ package com.gbf.gbf_ff.service;
 import com.gbf.gbf_ff.Exception.DuplicatedUserException;
 import com.gbf.gbf_ff.config.UserInfo;
 import com.gbf.gbf_ff.dto.PlayerDto;
+import jdk.internal.util.xml.impl.Input;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
@@ -14,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -40,6 +42,12 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 	private String twitterID;
 	private String twitterPW;
+
+	@Value("TwitterData")
+	private String twitterData;
+
+	@Value("MobageData")
+	private String mobageData;
 
 	private String gbfToken;
 	//singleton
@@ -104,8 +112,9 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 		driver.get("https://twitter.com/");
 
-		File file = new File("src/main/resources/static/cookie/Twitter.data");
-		BufferedReader br = new BufferedReader(new FileReader(file));
+//		File file = new File("src/main/resources/static/cookie/Twitter.data");
+		InputStream is = new ByteArrayInputStream(twitterData.getBytes());
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 		String readLine;
 		while ((readLine = br.readLine()) != null) {
@@ -135,8 +144,11 @@ public class PlayerInfoImpl implements PlayerInfo {
 	public void gbfCookieTest(WebDriver driver,WebDriverWait wait) throws InterruptedException, IOException, ParseException {
 		driver.get("https://connect.mobage.jp/");
 
-		File file = new File("src/main/resources/static/cookie/mobage.data");
-		BufferedReader br = new BufferedReader(new FileReader(file));
+//		File file = new File("src/main/resources/static/cookie/mobage.data");
+//		BufferedReader br = new BufferedReader(new FileReader(file));
+
+		InputStream is = new ByteArrayInputStream(mobageData.getBytes());
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 		String readLine;
 		while ((readLine = br.readLine()) != null) {
