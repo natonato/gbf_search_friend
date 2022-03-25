@@ -43,10 +43,10 @@ public class PlayerInfoImpl implements PlayerInfo {
 	private String twitterID;
 	private String twitterPW;
 
-	@Value("TwitterData")
+	@Value("${TwitterData}")
 	private String twitterData;
 
-	@Value("MobageData")
+	@Value("${MobageData}")
 	private String mobageData;
 
 	private String gbfToken;
