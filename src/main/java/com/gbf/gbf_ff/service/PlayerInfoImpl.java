@@ -121,6 +121,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 		String readLine;
 		while (dataStringToken.hasMoreTokens()) {
 			readLine = dataStringToken.nextToken();
+			System.out.println("||||TwitterData||||"+readLine);
 			StringTokenizer st = new StringTokenizer(readLine, ";");
 			String name = st.nextToken();
 			String value = st.nextToken();
@@ -157,6 +158,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 		String readLine;
 		while (dataStringToken.hasMoreTokens()) {
 			readLine = dataStringToken.nextToken();
+			System.out.println("||||GBFData||||"+readLine);
 			StringTokenizer st = new StringTokenizer(readLine, ";");
 			String name = st.nextToken();
 			String value = st.nextToken();
