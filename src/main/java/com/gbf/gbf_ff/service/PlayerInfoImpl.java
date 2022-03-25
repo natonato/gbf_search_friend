@@ -74,6 +74,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.addArguments("headless");
 		chromeOptions.addArguments("disable-gpu");
+		chromeOptions.addArguments("no-sandbox");
 
 		String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
 		System.out.println(binaryLoc);
