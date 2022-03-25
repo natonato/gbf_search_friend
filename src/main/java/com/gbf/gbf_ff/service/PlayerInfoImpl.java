@@ -62,39 +62,44 @@ public class PlayerInfoImpl implements PlayerInfo {
 		this.mobageData=mobageData;
 		this.twitterData=twitterData;
 
-		saveDate = new HashMap<>();
-		twitterMessage = new HashMap<>();
+			saveDate = new HashMap<>();
+			twitterMessage = new HashMap<>();
 
-		twitterID = userinfo.getTwitterID();
-		twitterPW = userinfo.getTwitterPW();
+			twitterID = userinfo.getTwitterID();
+			twitterPW = userinfo.getTwitterPW();
 
-		initChromeDriver();
+			initChromeDriver();
 	}
 
 
 	private void initChromeDriver() throws Exception{
-		//setup selenium
-		String chromeBin = System.getenv("CHROMEDRIVER_PATH");
-		if(chromeBin!=null){
-			System.setProperty("webdriver.chrome.driver", "/app/.chromedriver/bin/chromedriver");
-		}
-		else {
-			System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver_win32/chromedriver.exe");
-		}
-		ChromeOptions chromeOptions = new ChromeOptions();
-		chromeOptions.addArguments("headless");
-		chromeOptions.addArguments("disable-gpu");
-		chromeOptions.addArguments("no-sandbox");
+		try{
+			//setup selenium
+			String chromeBin = System.getenv("CHROMEDRIVER_PATH");
+			if(chromeBin!=null){
+				System.setProperty("webdriver.chrome.driver", "/app/.chromedriver/bin/chromedriver");
+			}
+			else {
+				System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver_win32/chromedriver.exe");
+			}
+			ChromeOptions chromeOptions = new ChromeOptions();
+			chromeOptions.addArguments("headless");
+			chromeOptions.addArguments("disable-gpu");
+			chromeOptions.addArguments("no-sandbox");
 
-		String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
-		if(binaryLoc!=null){
-			chromeOptions.setBinary(binaryLoc);
-		}
-		driver = new ChromeDriver(chromeOptions);
-		wait = new WebDriverWait(driver, 20);
+			String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
+			if(binaryLoc!=null){
+				chromeOptions.setBinary(binaryLoc);
+			}
+			driver = new ChromeDriver(chromeOptions);
+			wait = new WebDriverWait(driver, 20);
 
-		Thread.sleep(1000);
-		initTwitter();
+			Thread.sleep(1000);
+			initTwitter();
+		} catch (UnhandledAlertException e){
+			driver.switchTo().alert().accept();
+			initChromeDriver();
+		}
 	}
 
 	private void initTwitter() throws Exception {
