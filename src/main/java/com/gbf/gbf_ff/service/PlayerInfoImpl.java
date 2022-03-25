@@ -86,6 +86,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 			chromeOptions.addArguments("headless");
 			chromeOptions.addArguments("disable-gpu");
 			chromeOptions.addArguments("no-sandbox");
+			chromeOptions.addArguments("disable-dev-shm-usage");
 			chromeOptions.addArguments("remote-debugging-port=9222");
 
 			String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
