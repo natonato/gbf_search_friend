@@ -98,7 +98,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 			initTwitter();
 		} catch (UnhandledAlertException e){
 			driver.switchTo().alert().accept();
-			initChromeDriver();
+			initTwitter();
 		}
 	}
 
