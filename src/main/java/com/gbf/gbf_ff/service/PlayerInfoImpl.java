@@ -83,7 +83,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 				System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver_win32/chromedriver.exe");
 			}
 			ChromeOptions chromeOptions = new ChromeOptions();
-//			chromeOptions.addArguments("headless");
+			chromeOptions.addArguments("headless");
 //			chromeOptions.addArguments("disable-gpu");
 			chromeOptions.addArguments("no-sandbox");
 
