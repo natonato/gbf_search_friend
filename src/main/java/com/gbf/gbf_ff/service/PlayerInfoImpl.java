@@ -3,7 +3,6 @@ package com.gbf.gbf_ff.service;
 import com.gbf.gbf_ff.Exception.DuplicatedUserException;
 import com.gbf.gbf_ff.config.UserInfo;
 import com.gbf.gbf_ff.dto.PlayerDto;
-import jdk.internal.util.xml.impl.Input;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
@@ -43,11 +42,11 @@ public class PlayerInfoImpl implements PlayerInfo {
 	private String twitterID;
 	private String twitterPW;
 
-	@Value("${TwitterData}")
+
 	private String twitterData;
 
-	@Value("${MobageData}")
-	private String mobageData;
+
+	private final String mobageData;
 
 	private String gbfToken;
 	//singleton
@@ -55,9 +54,13 @@ public class PlayerInfoImpl implements PlayerInfo {
 	WebDriverWait wait;
 
 	@Autowired
-	public PlayerInfoImpl(UserInfo userinfo, GBFResource gbfResource) throws Exception {
+	public PlayerInfoImpl(UserInfo userinfo, GBFResource gbfResource,
+						  @Value("${MobageData}") String mobageData,
+						  @Value("${TwitterData}") String twitterData) throws Exception {
 		this.userinfo = userinfo;
 		this.gbfResource = gbfResource;
+		this.mobageData=mobageData;
+		this.twitterData=twitterData;
 
 		saveDate = new HashMap<>();
 		twitterMessage = new HashMap<>();
@@ -72,7 +75,6 @@ public class PlayerInfoImpl implements PlayerInfo {
 	private void initChromeDriver() throws Exception{
 		//setup selenium
 		String chromeBin = System.getenv("CHROMEDRIVER_PATH");
-		System.out.println(chromeBin);
 		if(chromeBin!=null){
 			System.setProperty("webdriver.chrome.driver", "/app/.chromedriver/bin/chromedriver");
 		}
@@ -85,7 +87,6 @@ public class PlayerInfoImpl implements PlayerInfo {
 		chromeOptions.addArguments("no-sandbox");
 
 		String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
-		System.out.println(binaryLoc);
 		if(binaryLoc!=null){
 			chromeOptions.setBinary(binaryLoc);
 		}
@@ -113,11 +114,13 @@ public class PlayerInfoImpl implements PlayerInfo {
 		driver.get("https://twitter.com/");
 
 //		File file = new File("src/main/resources/static/cookie/Twitter.data");
-		InputStream is = new ByteArrayInputStream(twitterData.getBytes());
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		StringTokenizer dataStringToken = new StringTokenizer(twitterData, "\n");
+//		InputStream is = new ByteArrayInputStream(twitterData.getBytes());
+//		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 		String readLine;
-		while ((readLine = br.readLine()) != null) {
+		while (dataStringToken.hasMoreTokens()) {
+			readLine = dataStringToken.nextToken();
 			StringTokenizer st = new StringTokenizer(readLine, ";");
 			String name = st.nextToken();
 			String value = st.nextToken();
@@ -134,7 +137,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 			Cookie cookie = new Cookie(name, value, domain, path, expiry, isSecure);
 			driver.manage().addCookie(cookie);
 		}
-		br.close();
+//		br.close();
 
 //		driver.get("https://twitter.com/");
 
@@ -147,11 +150,13 @@ public class PlayerInfoImpl implements PlayerInfo {
 //		File file = new File("src/main/resources/static/cookie/mobage.data");
 //		BufferedReader br = new BufferedReader(new FileReader(file));
 
-		InputStream is = new ByteArrayInputStream(mobageData.getBytes());
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		StringTokenizer dataStringToken = new StringTokenizer(mobageData, "\n");
+//		InputStream is = new ByteArrayInputStream(mobageData.getBytes());
+//		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 		String readLine;
-		while ((readLine = br.readLine()) != null) {
+		while (dataStringToken.hasMoreTokens()) {
+			readLine = dataStringToken.nextToken();
 			StringTokenizer st = new StringTokenizer(readLine, ";");
 			String name = st.nextToken();
 			String value = st.nextToken();
@@ -168,7 +173,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 			Cookie cookie = new Cookie(name, value, domain, path, expiry, isSecure);
 			driver.manage().addCookie(cookie);
 		}
-		br.close();
+//		br.close();
 
 		driver.get("http://game.granbluefantasy.jp/#authentication");
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"mobage-login\"]")));
