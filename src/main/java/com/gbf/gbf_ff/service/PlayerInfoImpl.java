@@ -97,7 +97,8 @@ public class PlayerInfoImpl implements PlayerInfo {
 			Thread.sleep(1000);
 			initTwitter();
 		} catch (UnhandledAlertException e){
-			driver.switchTo().alert().accept();
+			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+			alert.accept();
 			initTwitter();
 		}
 	}
