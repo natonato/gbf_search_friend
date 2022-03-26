@@ -169,7 +169,6 @@ public class GBFResourceImpl implements GBFResource {
 
 		String base64Image = Base64.getEncoder().encodeToString(baos.toByteArray());
 
-		System.out.println(base64Image);
 		return base64Image;
 
 //		ImageIO.write(baseImg, "jpg", file);
