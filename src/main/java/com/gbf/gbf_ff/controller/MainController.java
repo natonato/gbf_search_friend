@@ -44,9 +44,11 @@ public class MainController {
                                         ModelAndView mav){
         try{
             String[] userData = playerInfo.getTwitterMessage(id);
+            String image = playerInfo.getImageData(id);
             mav.addObject("twitterMessage", userData[0]);
             mav.addObject("isDuplicated", userData[1]);
             mav.addObject("playerID",id);
+            mav.addObject("image",image);
             mav.setViewName("playerInfo");
             return mav;
         }catch (Exception e){

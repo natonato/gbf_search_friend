@@ -41,10 +41,17 @@
             <div th:if="${playerID}">
                 <div class="row" style="min-height: 10vh"></div>
 
-                <img th:src="@{'/image/'+${playerID}+'/merged.jpg'}" height="600">
+                <img th:src="'data:image/;base64,'+${image}" height="600">
+<!--                <img th:src="@{'/image/'+${playerID}+'/merged.jpg'}" height="600">-->
                 <br><br>
                 <div class="d-grid gap-2 col-4 mx-auto">
-                    <a download="Profile.jpg" th:href="@{'/image/'+${playerID}+'/merged.jpg'}">
+<!--                    <a download="Profile.jpg" th:href="@{'/image/'+${playerID}+'/merged.jpg'}">-->
+<!--                        <div class="d-grid mx-auto">-->
+<!--                            <button class="btn btn-danger " type="button">Download</button>-->
+<!--                        </div>-->
+<!--                    </a>-->
+
+                    <a download="Profile.jpg" th:href="'data:image/;base64,'+${image}">
                         <div class="d-grid mx-auto">
                             <button class="btn btn-danger " type="button">Download</button>
                         </div>
@@ -52,7 +59,7 @@
 <!--                    <button class="btn btn-success " type="button" onclick="sendTweet()">Send to Twitter(@gbf_friends)-->
 <!--                    </button>-->
                     <button class="btn btn-success copy" type="button" onclick="copy()">Copy Info</button>
-                    <button class="btn btn-success twitter-share-button" type="button" onclick="tweet()">Send to Twitter</button>
+                    <button class="btn btn-warning twitter-share-button" type="button" onclick="tweet()">Send to Twitter</button>
                     <button class="btn btn-primary " type="button" onclick="goHome()">Return To Main Page</button>
                 </div>
             </div>
@@ -122,12 +129,16 @@
 
 </script>
 <script th:inline="javascript">
-    // var canvas = document.createElement('canvas');
-    // //캔버스 크기 설정
-    // canvas.width = 500; //가로 100px
-    // canvas.height = 500; //세로 100px
-    // var context = canvas.getContext("2d");
-    // context.globalCompositeOperation = "source-over";
+    var image = "/img/bgimg/pc_1.jpg";
+    fetch(image).then(response=>{
+        if(!response.ok){
+            throw Error("no image!");
+        }
+        return response
+    }).then(response=>response.blob())
+    .then(blob=>{
+        console.log(URL.createObjectURL(blob))
+    })
 </script>
 </body>
 </html>

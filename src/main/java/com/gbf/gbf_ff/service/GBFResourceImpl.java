@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.util.Base64;
 import java.util.StringTokenizer;
 
 @Service
@@ -34,7 +35,7 @@ public class GBFResourceImpl implements GBFResource {
 
 
 	@Override
-	public void makeProfileImg(PlayerDto playerDto, String message, int imgType) throws Exception {
+	public String makeProfileImg(PlayerDto playerDto, String message, int imgType) throws Exception {
 		//img option
 		String[] imgName = new String[]{"pc_1.jpg", "pc_2.jpg","pc_3.jpg", "pc_4.jpg"};
 		String[] mobileName = new String[]{"mobile_1.jpg","mobile_2.jpg","mobile_3.jpg","mobile_4.jpg"};
@@ -158,12 +159,20 @@ public class GBFResourceImpl implements GBFResource {
 		}
 
 		//Save file
-		File file = new File(imgSaveUrl+playerDto.getId()+"/merged.jpg");
-		if(!file.exists())file.mkdirs();
-		System.out.println(file.getPath());
-		System.out.println(baseImg);
+//		File file = new File(imgSaveUrl+playerDto.getId()+"/merged.jpg");
+//		if(!file.exists())file.mkdirs();
 
-		ImageIO.write(baseImg, "jpg", file);
+//		System.out.println(file.getPath());
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(baseImg, "jpg", baos);
+
+		String base64Image = Base64.getEncoder().encodeToString(baos.toByteArray());
+
+		System.out.println(base64Image);
+		return base64Image;
+
+//		ImageIO.write(baseImg, "jpg", file);
 
 	}
 	

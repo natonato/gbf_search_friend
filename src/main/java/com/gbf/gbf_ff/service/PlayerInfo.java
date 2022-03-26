@@ -15,6 +15,7 @@ public interface PlayerInfo {
     public void gbfCookieTest(WebDriver driver,WebDriverWait wait) throws InterruptedException, IOException, ParseException;
     public PlayerDto resourceTest(String profileId) throws  Exception;
     public String[] getTwitterMessage(String code);
+    public String getImageData(String code);
 
     public void makeProfileImg(PlayerDto playerDto, String message, int bg) throws Exception;
 }

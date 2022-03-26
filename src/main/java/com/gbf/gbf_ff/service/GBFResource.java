@@ -8,5 +8,5 @@ import java.io.IOException;
 
 public interface GBFResource {
 //    public void getImg(String[][] imgUrl, String id, Graphics2D graphics);
-    public void makeProfileImg(PlayerDto playerDto, String message, int imgType) throws Exception;
+    public String makeProfileImg(PlayerDto playerDto, String message, int imgType) throws Exception;
 }

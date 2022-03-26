@@ -34,6 +34,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 	private HashMap<String, String[]> saveDate;
 	private HashMap<String, String> twitterMessage;
+	private HashMap<String, String> imageData;
 
 	private final UserInfo userinfo;
 
@@ -64,7 +65,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 			saveDate = new HashMap<>();
 			twitterMessage = new HashMap<>();
-
+		imageData = new HashMap<>();
 			twitterID = userinfo.getTwitterID();
 			twitterPW = userinfo.getTwitterPW();
 
@@ -113,7 +114,8 @@ public class PlayerInfoImpl implements PlayerInfo {
 	}
 	@Override
 	public void makeProfileImg(PlayerDto playerDto, String message, int bg) throws Exception{
-		gbfResource.makeProfileImg(playerDto,message,bg);
+		String base64Image = gbfResource.makeProfileImg(playerDto,message,bg);
+		imageData.put(playerDto.getId(), base64Image);
 	}
 	@Override
 	public void twitterCookieTest(WebDriver driver,WebDriverWait wait) throws InterruptedException, IOException, ParseException {
@@ -295,13 +297,10 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 		for(int i=0;i<7; i++){
 			int idx = (i+1)%7;
-//			msg.append(summonElement[idx]).append(" ");
-
-
+			msg.append(summonElement[idx]).append(" ");
 			String sumName = playerDto.getSummonName()[idx][0];
 			String sumUncap = getUncapString(playerDto.getSummonLevel()[idx][0]);
 			if(sumName!=null){
-				msg.append(summonElement[idx]).append(" ");
 				msg
 						.append(sumUncap)
 						.append(" ")
@@ -310,10 +309,10 @@ public class PlayerInfoImpl implements PlayerInfo {
 			else{
 				msg.append("Empty\n");
 			}
+			msg.append(summonElement[idx]).append(" ");
 			sumName = playerDto.getSummonName()[idx][1];
 			sumUncap = getUncapString(playerDto.getSummonLevel()[idx][1]);
 			if(sumName!=null){
-				msg.append(summonElement[idx]).append(" ");
 				msg
 						.append(sumUncap)
 						.append(" ")
@@ -336,6 +335,11 @@ public class PlayerInfoImpl implements PlayerInfo {
 	@Override
 	public String[] getTwitterMessage(String code){
 		return new String[] {twitterMessage.get(code), saveDate.get(code)[1]};
+	}
+
+	@Override
+	public String getImageData(String code){
+		return imageData.get(code);
 	}
 
 	private String getUncapString(int lvl){
