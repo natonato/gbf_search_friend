@@ -411,6 +411,7 @@
             var summonLv = $("input[name=" + element + "Uncap]:checked").val();
             var summonName = $("input[name=" + element + "Name]:checked").val();
             if (summonLv && summonName) query += '%22' + summonLv + '%20' + summonName + '%22%20';
+            else if(summonName) query += '%22' + summonName + '%22%20';
         });
         url += query;
         var win = window.open(url, '_blank');
@@ -420,7 +421,7 @@
     function reset() {
         let elements = ["fire", "water", "earth", "wind", "light", "dark", "free"];
         elements.forEach(element => {
-            $("input[name=" + element + "Lv]:checked").prop('checked', false);
+            $("input[name=" + element + "Uncap]:checked").prop('checked', false);
             $("input[name=" + element + "Name]:checked").prop('checked', false);
         });
     }
