@@ -130,7 +130,6 @@ public class PlayerInfoImpl implements PlayerInfo {
 		String readLine;
 		while (dataStringToken.hasMoreTokens()) {
 			readLine = dataStringToken.nextToken();
-			System.out.println("||||TwitterData||||"+readLine);
 			StringTokenizer st = new StringTokenizer(readLine, ";");
 			String name = st.nextToken();
 			String value = st.nextToken();
@@ -167,7 +166,6 @@ public class PlayerInfoImpl implements PlayerInfo {
 		String readLine;
 		while (dataStringToken.hasMoreTokens()) {
 			readLine = dataStringToken.nextToken();
-			System.out.println("||||GBFData||||"+readLine);
 			StringTokenizer st = new StringTokenizer(readLine, ";");
 			String name = st.nextToken();
 			String value = st.nextToken();
@@ -220,10 +218,10 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 		//remove duplicated message / once a day
 		String today = LocalDate.now().toString();
-		if(saveDate.containsKey(profileId) && today.equals(saveDate.get(profileId)[0])){
-			saveDate.put(profileId, new String[]{today, "Yes"});
-			throw new DuplicatedUserException();
-		}
+//		if(saveDate.containsKey(profileId) && today.equals(saveDate.get(profileId)[0])){
+//			saveDate.put(profileId, new String[]{today, "Yes"});
+//			throw new DuplicatedUserException();
+//		}
 
 		PlayerDto playerDto = new PlayerDto();
 
@@ -282,7 +280,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 			twitterMessage.put(profileId, profileMessage);
 			playerDto.setProfileMessage(profileMessage);
 
-			saveDate.put(profileId, new String[]{today, "No"});
+//			saveDate.put(profileId, new String[]{today, "No"});
 
 			return playerDto;
 		}
@@ -334,7 +332,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 	@Override
 	public String[] getTwitterMessage(String code){
-		return new String[] {twitterMessage.get(code), saveDate.get(code)[1]};
+		return new String[] {twitterMessage.get(code)};
 	}
 
 	@Override

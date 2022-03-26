@@ -41,7 +41,7 @@
             <div th:if="${playerID}">
                 <div class="row" style="min-height: 10vh"></div>
 
-                <img th:src="'data:image/;base64,'+${image}" height="600">
+                <img th:src="'data:image/JPEG;base64,'+${image}" height="600">
 <!--                <img th:src="@{'/image/'+${playerID}+'/merged.jpg'}" height="600">-->
                 <br><br>
                 <div class="d-grid gap-2 col-4 mx-auto">
@@ -51,7 +51,7 @@
 <!--                        </div>-->
 <!--                    </a>-->
 
-                    <a download="Profile.jpg" th:href="'data:image/;base64,'+${image}">
+                    <a download="Profile.jpg" th:href="'data:image/JPEG;base64,'+${image}">
                         <div class="d-grid mx-auto">
                             <button class="btn btn-danger " type="button">Download</button>
                         </div>
@@ -75,6 +75,7 @@
 
 
 <script th:inline="javascript">
+
     function copy() {
 
         var infoData =[[${twitterMessage}]];
@@ -94,51 +95,10 @@
         win.focus();
     }
 
-    function sendTweet() {
-        var params = {
-            id: [[${playerID}]],
-            msg: [[${twitterMessage}]],
-        };
-        $.ajax({
-            type: "POST",
-            url: '/sendTweet',
-            data: params,
-            success: function (res) {
-                if("Duplicated" == res){
-                    console.log("Duplicated");
-                }
-                else if("Success" == res){
-                    console.log("Success");
-                }
-            },
-            error: function (res) {
-                console.log("error:" + res);
-                //add sweeralert or something
-            }
-
-        });
-    };
-
     function goHome() {
         location.href = "/";
     };
 
-    $(document).ready(function () {
-        var isDuplicated = [[${isDuplicated}]];
-    });
-
-</script>
-<script th:inline="javascript">
-    var image = "/img/bgimg/pc_1.jpg";
-    fetch(image).then(response=>{
-        if(!response.ok){
-            throw Error("no image!");
-        }
-        return response
-    }).then(response=>response.blob())
-    .then(blob=>{
-        console.log(URL.createObjectURL(blob))
-    })
 </script>
 </body>
 </html>
