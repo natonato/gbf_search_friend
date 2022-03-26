@@ -122,8 +122,8 @@ public class GBFResourceImpl implements GBFResource {
 		graphics.drawString("Rank "+playerDto.getRank(), playerx+250, playery-10);
 		int textCnt=0;
 		for(String text : message.split("\n")){
-			graphics.drawString(text, playerx-50, playery+=50);
 			if(textCnt++ == 3)break;
+			graphics.drawString(text, playerx-50, playery+=50);
 		}
 
 		//Set font
