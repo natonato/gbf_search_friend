@@ -41,3 +41,4 @@ out/
 res/
 *.data
 src/main/resources/static/result/
+src/main/resources/static/chromedriver_win32/chromedriver.exe

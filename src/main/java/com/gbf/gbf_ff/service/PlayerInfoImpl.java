@@ -291,7 +291,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 		String[] summonElement = new String[]{"⚪","🔴","🔵","🟤","🟢","🟡","🟣"};
 		String[] summonElementEmoji = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
 		StringBuffer msg = new StringBuffer("🆔 "+playerDto.getId()+"\n"
-				+ "Name:"+playerDto.getName() +"\n");
+				+ "😄 "+playerDto.getName() +"\n");
 
 		for(int i=0;i<7; i++){
 			int idx = (i+1)%7;
