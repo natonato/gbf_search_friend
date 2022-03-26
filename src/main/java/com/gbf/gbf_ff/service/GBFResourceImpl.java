@@ -161,7 +161,7 @@ public class GBFResourceImpl implements GBFResource {
 		File file = new File(imgSaveUrl+playerDto.getId()+"/merged.jpg");
 		if(!file.exists())file.mkdirs();
 		System.out.println(file.getPath());
-		
+
 		ImageIO.write(baseImg, "jpg", file);
 
 	}

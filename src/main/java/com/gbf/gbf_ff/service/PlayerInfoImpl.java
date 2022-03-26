@@ -290,40 +290,45 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 		String[] summonElement = new String[]{"⚪","🔴","🔵","🟤","🟢","🟡","🟣"};
 		String[] summonElementEmoji = new String[]{"Free","Fire","Water","Earth","Wind","Light","Dark"};
-		StringBuffer msg = new StringBuffer("🆔 "+playerDto.getId()+"\n");
-//				+ "Name:"+playerDto.getName() +"\n");
+		StringBuffer msg = new StringBuffer("🆔 "+playerDto.getId()+"\n"
+				+ "Name:"+playerDto.getName() +"\n");
 
 		for(int i=0;i<7; i++){
 			int idx = (i+1)%7;
+//			msg.append(summonElement[idx]).append(" ");
+
+
 			String sumName = playerDto.getSummonName()[idx][0];
-			msg.append(summonElement[idx]).append(" ");
+			String sumUncap = getUncapString(playerDto.getSummonLevel()[idx][0]);
 			if(sumName!=null){
-				msg.append("Lv")
-						.append(playerDto.getSummonLevel()[idx][0])
+				msg.append(summonElement[idx]).append(" ");
+				msg
+						.append(sumUncap)
 						.append(" ")
-						.append(sumName)
-						.append("/");
+						.append(getNameString(sumName)).append("\n");
 			}
 			else{
-				msg.append("No Summon/");
+				msg.append("Empty\n");
 			}
 			sumName = playerDto.getSummonName()[idx][1];
+			sumUncap = getUncapString(playerDto.getSummonLevel()[idx][1]);
 			if(sumName!=null){
-				msg.append("Lv")
-						.append(playerDto.getSummonLevel()[idx][1])
+				msg.append(summonElement[idx]).append(" ");
+				msg
+						.append(sumUncap)
 						.append(" ")
-						.append(sumName)
+						.append(getNameString(sumName))
 						.append("\n");
 			}
 			else {
-				msg.append("No Summon\n");
+				msg.append("Empty\n");
 			}
 		}
 
-		if(msg.length()>279){
-			msg.setLength(278);
-			msg.append("..");
-		}
+//		if(msg.length()>279){
+//			msg.setLength(278);
+//			msg.append("..");
+//		}
 
 		return msg.toString();
 	}
@@ -332,4 +337,40 @@ public class PlayerInfoImpl implements PlayerInfo {
 	public String[] getTwitterMessage(String code){
 		return new String[] {twitterMessage.get(code), saveDate.get(code)[1]};
 	}
+
+	private String getUncapString(int lvl){
+		String sumUncap ="";
+
+		if(lvl<=40){
+			sumUncap="⭐0";
+		}
+		else if(lvl<=60){
+			sumUncap="⭐1";
+		}
+		else if(lvl<=80){
+			sumUncap="⭐2";
+		}
+		else if(lvl<=100){
+			sumUncap="⭐3";
+		}
+		else if(lvl<=150){
+			sumUncap="⭐4";
+		}
+		else if(lvl<=200){
+			sumUncap="⭐5";
+		}
+		return sumUncap;
+	}
+
+	private String getNameString(String name){
+		String sumName="";
+		if(name.length()>=10){
+			sumName = name.substring(0, 8)+"..";
+		}
+		else{
+			sumName =name+"";
+		}
+		return sumName;
+	}
+
 }
