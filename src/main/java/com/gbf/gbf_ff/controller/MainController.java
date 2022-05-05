@@ -2,33 +2,24 @@ package com.gbf.gbf_ff.controller;
 
 import com.gbf.gbf_ff.Exception.DuplicatedUserException;
 import com.gbf.gbf_ff.dto.PlayerDto;
-import com.gbf.gbf_ff.service.GBFResource;
 import com.gbf.gbf_ff.service.PlayerInfo;
-import com.gbf.gbf_ff.service.TwitterUpload;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Base64;
-
 @Controller
 public class MainController {
 
     private final PlayerInfo playerInfo;
 
-    private final TwitterUpload twitterUpload;
 
 //    private final GBFResource gbfResource;
 
     @Autowired
-    MainController(PlayerInfo playerInfo, TwitterUpload twitterUpload
+    MainController(PlayerInfo playerInfo
                    ){
-        this.twitterUpload=twitterUpload;
 //        this.gbfResource=gbfResource;
         this.playerInfo = playerInfo;
     }

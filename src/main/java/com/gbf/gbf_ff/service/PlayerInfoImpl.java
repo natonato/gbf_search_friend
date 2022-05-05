@@ -77,18 +77,18 @@ public class PlayerInfoImpl implements PlayerInfo {
 		try{
 			//setup selenium
 			String chromeBin = System.getenv("CHROMEDRIVER_PATH");
+			ChromeOptions chromeOptions = new ChromeOptions();
 			if(chromeBin!=null){
 				System.setProperty("webdriver.chrome.driver", "/app/.chromedriver/bin/chromedriver");
+				chromeOptions.addArguments("headless");
+				chromeOptions.addArguments("disable-gpu");
+				chromeOptions.addArguments("no-sandbox");
+				chromeOptions.addArguments("disable-dev-shm-usage");
+				chromeOptions.addArguments("remote-debugging-port=9222");
 			}
 			else {
 				System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver_win32/chromedriver.exe");
 			}
-			ChromeOptions chromeOptions = new ChromeOptions();
-			chromeOptions.addArguments("headless");
-			chromeOptions.addArguments("disable-gpu");
-			chromeOptions.addArguments("no-sandbox");
-			chromeOptions.addArguments("disable-dev-shm-usage");
-			chromeOptions.addArguments("remote-debugging-port=9222");
 
 			String binaryLoc=System.getenv("GOOGLE_CHROME_BIN");
 			if(binaryLoc!=null){
@@ -122,15 +122,12 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 		driver.get("https://twitter.com/");
 
-//		File file = new File("src/main/resources/static/cookie/Twitter.data");
 		StringTokenizer dataStringToken = new StringTokenizer(twitterData, "\n");
 //		InputStream is = new ByteArrayInputStream(twitterData.getBytes());
-//		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
 		String readLine;
 		while (dataStringToken.hasMoreTokens()) {
 			readLine = dataStringToken.nextToken();
-			StringTokenizer st = new StringTokenizer(readLine, ";");
+			StringTokenizer st = new StringTokenizer(readLine);
 			String name = st.nextToken();
 			String value = st.nextToken();
 			String domain = st.nextToken();
@@ -139,7 +136,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 
 			String val;
 			if (!(val = st.nextToken()).equals("null")) {
-				SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
 				expiry = format.parse(val);
 			}
 			Boolean isSecure = new Boolean(st.nextToken()).booleanValue();
@@ -148,7 +145,7 @@ public class PlayerInfoImpl implements PlayerInfo {
 		}
 //		br.close();
 
-//		driver.get("https://twitter.com/");
+		driver.get("https://twitter.com/");
 
 	}
 
@@ -199,6 +196,13 @@ public class PlayerInfoImpl implements PlayerInfo {
 			String nextTab = it.next();
 			if (!nextTab.equals(currentTab)) {
 				driver.switchTo().window(nextTab);
+
+				Thread.sleep(5000);
+				login = driver.findElement(By.className("btn-twitter"));
+				((JavascriptExecutor) driver).executeScript("arguments[0].click();", login);
+
+				Thread.sleep(5000);
+
 				login = driver.findElement(By.xpath("//*[@id=\"notify-response-button\"]"));
 				((JavascriptExecutor) driver).executeScript("arguments[0].click();", login);
 
