@@ -24,3 +24,13 @@
 - ~~Add alert / redirect page for success/fail function~~
 - ~~Add footer~~
 - Move image build func to frontend
+
+# This is Dead Project
+
+- Twitter linked login is no longer possible
+- Twitter API has been changed to pay
+- You can use the code freely
+
+# Video Example
+
+[![Video Label](http://img.youtube.com/vi/_TN5CcPqxkE/0.jpg)](https://www.youtube.com/watch?v=_TN5CcPqxkE&ab_channel=HGLee)
