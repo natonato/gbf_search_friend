@@ -1,4 +1,4 @@
-[WebSite](https://gbf-search-friend.herokuapp.com/)
+The project is dead. Thank you for Exxn Mxxk's change in Twitter API policy.
 
 # Readme
 
